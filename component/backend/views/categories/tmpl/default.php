@@ -34,7 +34,10 @@ JHtml::_('behavior.tooltip');
 			<th>
 				<?php echo JHTML::_('grid.sort', 'COM_DOCIMPORT_CATEGORIES_FIELD_TITLE', 'title', $this->lists->order_Dir, $this->lists->order) ?>
 			</th>
-			<th width="15%">
+			<th width="8%">
+				<?php echo JText::_('COM_DOCIMPORT_CATEGORIES_FIELD_STATUS'); ?>
+			</th>
+			<th width="10%">
 				<?php echo JHTML::_('grid.sort', 'COM_DOCIMPORT_CATEGORIES_FIELD_SLUG', 'slug', $this->lists->order_Dir, $this->lists->order) ?>
 			</th>
 			<th width="8%">
@@ -102,6 +105,14 @@ JHtml::_('behavior.tooltip');
 						<strong><?php echo $this->escape($item->title) ?></strong>
 					</a>
 				</span>
+			</td>
+			<td align="center">
+				<img src="<?php echo JURI::base() ?>../media/com_docimport/images/cat_<?php echo $item->status ?>.png" width="16" height="16" title="<?php echo JText::_('COM_DOCIMPORT_CATEGORIES_STATUS_'.$item->status) ?>" />
+				&nbsp;
+				<button onclick="window.location='<?php echo JURI::base() ?>index.php?option=com_docimport&view=categories&task=rebuild&id=<?php echo $item->docimport_category_id ?>';return false;">
+					<img src="<?php echo JURI::base() ?>../media/com_docimport/images/cat_rebuild.png" width="16" height="16" title="<?php echo JText::_('COM_DOCIMPORT_CATEGORIES_REBUILD') ?>" />
+				</button>
+				
 			</td>
 			<td>
 				<?php echo $this->escape($item->slug) ?>

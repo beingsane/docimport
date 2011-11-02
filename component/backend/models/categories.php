@@ -40,4 +40,33 @@ class DocimportModelCategories extends FOFModel
 		
 		return $query;
 	}
+	
+	public function onProcessList(&$resultArray)
+	{
+		jimport('joomla.filesystem.folder');
+		if(!empty($resultArray)) foreach($resultArray as $key => $item) {
+			$resultArray[$key]->status = 'missing';
+			
+			$folder = JPATH_ROOT.'/media/com_docimport/'.$item->slug;
+			if(!JFolder::exists($folder)) {
+				$resultArray[$key]->status = 'missing';
+				continue;
+			}
+			
+			$xmlfiles = JFolder::files($folder, '\.xml$', false, true);
+			if(empty($xmlfiles)) continue;
+			
+			$timestamp = 0;
+			foreach($xmlfiles as $filename) {
+				$my_timestamp = @filemtime($filename);
+				if($my_timestamp > $timestamp) $timestamp = $my_timestamp;
+			}
+			
+			if($timestamp != $item->last_timestamp) {
+				$resultArray[$key]->status = 'modified';
+			} else {
+				$resultArray[$key]->status = 'unmodified';
+			}
+		}
+	}
 }

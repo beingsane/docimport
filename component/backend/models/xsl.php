@@ -216,7 +216,6 @@ class DocimportModelXsl extends FOFModel
 		}
 		
 		// Third pass: update existing articles
-		// Second pass: add articles which are not already there
 		if(!empty($slugs) && !empty($articles)) foreach($articles as $article) {
 			if(in_array($article->slug, $slugs)) {
 				// Do we have to update?
