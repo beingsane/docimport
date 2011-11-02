@@ -34,5 +34,7 @@ CREATE TABLE IF NOT EXISTS `#__docimport_categories` (
   `modified_by` int(11) NOT NULL DEFAULT '0',
   `locked_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `locked_by` int(11) NOT NULL DEFAULT '0',
+  `language` varchar(255) NOT NULL DEFAULT '*',
+  `access` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`docimport_category_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

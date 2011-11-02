@@ -15,15 +15,15 @@ $editor =& JFactory::getEditor();
 ?>
 <form action="index.php" method="post" name="adminForm">
 	<input type="hidden" name="option" value="com_docimport" />
-	<input type="hidden" name="view" value="category" />
+	<input type="hidden" name="view" value="article" />
 	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="docimport_category_id" value="<?php echo $this->item->docimport_category_id ?>" />
+	<input type="hidden" name="docimport_article_id" value="<?php echo $this->item->docimport_article_id ?>" />
 	<input type="hidden" name="<?php echo JUtility::getToken();?>" value="1" />
 	
-	<fieldset id="categories-basic">
-		<legend><?php echo JText::_('COM_DOCIMPORT_CATEGORY_BASIC_TITLE'); ?></legend>
+	<fieldset id="article-basic">
+		<legend><?php echo JText::_('COM_DOCIMPORT_ARTICLES_BASIC_TITLE'); ?></legend>
 		
-		<label for="title_field" class="main title"><?php echo JText::_('COM_DOCIMPORT_CATEGORIES_FIELD_TITLE'); ?></label>
+		<label for="title_field" class="main title"><?php echo JText::_('COM_DOCIMPORT_ARTICLES_FIELD_TITLE'); ?></label>
 		<input type="text" size="40" id="title_field" name="title" class="title" value="<?php echo $this->escape($this->item->title) ?>" />
 		<div class="docimport-clear"></div>
 		
@@ -31,18 +31,8 @@ $editor =& JFactory::getEditor();
 		<input type="text" size="30" id="slug_field" name="slug" value="<?php echo $this->escape($this->item->slug) ?>" />
 		<div class="docimport-clear"></div>
 		
-		<label for="process_plugins" class="main"><?php echo JText::_('COM_DOCIMPORT_CATEGORIES_FIELD_PROCESS_PLUGINS'); ?></label>
-		<span class="docimport-booleangroup">
-			<?php echo JHTML::_('select.booleanlist', 'process_plugins', null, $this->item->process_plugins); ?>
-		</span>
-		<div class="docimport-clear"></div>
-		
-		<label for="language" class="main"><?php echo JText::_('COM_DOCIMPORT_COMMON_FIELD_LANGUAGE'); ?></label>
-		<?php echo DocimportHelperSelect::languages($this->item->language, 'language') ?>
-		<div class="docimport-clear"></div>
-		
-		<label for="access" class="main"><?php echo JText::_('COM_DOCIMPORT_COMMON_FIELD_ACCESS'); ?></label>
-		<?php echo JHTML::_('list.accesslevel', $this->item); ?>
+		<label for="category" class="main"><?php echo JText::_('COM_DOCIMPORT_ARTICLES_FIELD_CATEGORY'); ?></label>
+		<?php echo DocimportHelperSelect::categories($this->item->docimport_category_id, 'category') ?>
 		<div class="docimport-clear"></div>
 		
 		<label for="enabled" class="main" class="mainlabel">
@@ -56,11 +46,12 @@ $editor =& JFactory::getEditor();
 			<?php echo JHTML::_('select.booleanlist', 'enabled', null, $this->item->enabled); ?>
 		</span>
 		<div class="akeebasubs-clear"></div>
+		
 	</fieldset>
 	
-	<fieldset id="categories-description">
-		<legend><?php echo JText::_('COM_DOCIMPORT_CATEGORIES_FIELD_DESCRIPTION');?></legend>
+	<fieldset id="article-description">
+		<legend><?php echo JText::_('COM_DOCIMPORT_ARTICLES_FIELD_FULLTEXT');?></legend>
 		
-		<?php echo $editor->display( 'description',  $this->item->description, '450', '210', '50', '10', false ) ; ?>
+		<?php echo $editor->display( 'fulltext',  $this->item->fulltext, '80%', '500', '50', '10', false ) ; ?>
 	</fieldset>
 </form>

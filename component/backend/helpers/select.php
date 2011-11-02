@@ -63,7 +63,7 @@ class DocimportHelperSelect
 		return self::genericlist($options, $id, $attribs, $selected, $id);
 	}
 
-	public static function categories($name = 'category', $selected = null, $attribs = array())
+	public static function categories($selected = null, $name = 'category', $attribs = array())
 	{
 		$model = FOFModel::getTmpInstance('Categories','DocimportModel');
 		$items = $model->limit(0)->limitstart(0)->getItemList();
@@ -77,7 +77,7 @@ class DocimportHelperSelect
 
 		array_unshift($options, JHTML::_('select.option',0,'- '.JText::_('COM_DOCIMPORT_CATEGORY').' -'));
 
-		return self::genericlist($options, $id, $attribs, $selected, $id);
+		return self::genericlist($options, $name, $attribs, $selected, $name);
 	}
 
 }
