@@ -39,7 +39,7 @@ class DocimportModelArticles extends FOFModel
 		
 		$language = $this->getState('language',null,'array');
 		if(empty($language)) $language = $this->getState('language',null,'string');
-		if(!empty($language)) {
+		if(!empty($language) && (is_array($language) ? (!empty($language[0])) : true) ) {
 			if(is_array($language)) {
 				$langs = array();
 				foreach($language as $l) {
