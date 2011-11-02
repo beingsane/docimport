@@ -154,10 +154,11 @@ class DocimportModelXsl extends FOFModel
 				$db->nameQuote('last_timestamp'),
 				$db->nameQuote('enabled')
 			))
-			->where($db->nameQuote('docimport_category_id').' = '.$db->nameQuote($category_id))
+			->where($db->nameQuote('docimport_category_id').' = '.$db->quote($category_id))
 		;
 		$db->setQuery($query);
 		$articles = $db->loadObjectList('slug');
+		if(empty($articles)) $articles=array();
 		
 		// Get a list of existing files
 		$files = JFolder::files($dir_output, '\.html$');
