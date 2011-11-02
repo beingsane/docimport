@@ -43,6 +43,10 @@ class DocimportModelXsl extends FOFModel
 			if(!$result) {
 				$this->setError(JText::sprintf('COM_DOCIMPORT_XSL_ERROR_CANTCREATEFOLDER', $category->slug.'/output'));
 				return false;
+			} else {
+				jimport('joomla.filesystem.file');
+				$content = "order deny, allow\ndeny from all\allow from none\n";
+				JFile::write($dir_output.'/.htaccess', $content);
 			}
 		}
 		
