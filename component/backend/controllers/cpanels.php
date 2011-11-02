@@ -14,4 +14,12 @@ class DocimportControllerCpanels extends FOFController
 		$task = 'browse';
 		parent::execute($task);
 	}
+	
+	public function onBeforeBrowse()
+	{
+		FOFModel::getTmpInstance('Xsl','DocimportModel')
+			->scanCategories();
+		
+		return true;
+	}
 }
