@@ -31,11 +31,22 @@ class DocimportModelCategories extends FOFModel
 			);
 		}
 		
-		$language = $this->getState('language',null,'string');
+		$language = $this->getState('language',null,'array');
+		if(empty($language)) $language = $this->getState('language',null,'string');
 		if(!empty($language)) {
-			$query->where(
-				$db->nameQuote('language').' = '.$db->quote($language)
-			);
+			if(is_array($language)) {
+				$langs = array();
+				foreach($language as $l) {
+					$langs[] = $db->quote($l);
+				}
+				$query->where(
+					$db->nameQuote('language').' IN ('.implode(',',$langs).')'
+				);
+			} else {
+				$query->where(
+					$db->nameQuote('language').' = '.$db->quote($language)
+				);
+			}
 		}
 		
 		return $query;
