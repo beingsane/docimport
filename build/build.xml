@@ -2,15 +2,15 @@
 <project name="DocImport" description="DocImport for Joomla!" default="all" >
 	<property file="./build.properties" />
 	<!-- Default properties, set only if not already assigned in the build.properties file -->
-	<property name="dirs.root" value=".." />
+	<property name="dirs.root" value="../" />
 	<property name="dirs.component" value="../component" />
 	<property name="dirs.release" value="../release" />
-	<property name="version" value="svn" />
+	<property name="version" value="git" />
 
 	<property name="dirs.bin.release" value="../release" />
 
 	<taskdef name="zipme" classname="phingext.ZipmeTask" />
-	<taskdef name="svnversion" classname="phingext.SvnVersionTask" />
+	<taskdef name="gitversion" classname="phingext.GitVersionTask" />
 
 	<!--
 	====================================================================================================
@@ -19,7 +19,15 @@
 	-->
 	
 	<fileset dir="${dirs.component}" id="component">
-		<include name="**" />
+		<include name="backend**" />
+		<include name="frontend**" />
+		<include name="media/admonition**" />
+		<include name="media/css**" />
+		<include name="media/images**" />
+		<include name="media/js**" />
+		<include name="translations**" />
+		
+		<include name="*.xml" />
 	</fileset>
 
 	<!--
@@ -29,15 +37,14 @@
 	-->
 	
 	<target name="all" description="Makes everything"
-		depends="svn">
+		depends="git">
 	</target>
 
-	<target name="svn" description="Makes only packages, not the documentation"
+	<target name="git" description="Makes only packages, not the documentation"
 		depends="new-release,setup-properties,component-package">
 	</target>
 
 	<target name="new-release" description="Recreate the release directory">
-		<!-- Recreate the release directory -->
 		<delete dir="${dirs.release}" quiet="yes" includeemptydirs="true" />
 		<mkdir dir="${dirs.release}" />
 	</target>
@@ -50,10 +57,10 @@
 
 		<!-- Initialize the version if it's not set -->
 		<if>
-			<equals arg1="${version}" arg2="svn" />
+			<equals arg1="${version}" arg2="git" />
 			<then>
-				<svnversion workingcopy="${dirs.root}" propertyname="svn.lastrevision" />
-				<property name="version" value="svn${svn.lastrevision}" override="true" />
+				<gitversion workingcopy="${dirs.root}" propertyname="git.lastrevision" />
+				<property name="version" value="rev${git.lastrevision}" override="true" />
 			</then>
 		</if>
 	</target>
@@ -83,12 +90,26 @@
 
 	</target>
 	
-	<target name="plg_jpremote" description="Builds the plg_jpremote plugin">
-		<zipme basedir="${dirs.plugins}/jpremote" destfile="${dirs.release}/plg_jpremote-${version}.zip" includeemptydirs="true">
-			<fileset dir="${dirs.plugins}/jpremote">
-				<include name="**" />
-			</fileset>
-		</zipme>
+	<target name="ftpdeploy" depends="git">
+		<gitversion workingcopy="${dirs.root}" propertyname="git.lastrevision" />
+		<echo>Uploading release</echo>
+		<ftpdeploy
+			host="${ftp.host}"
+			port="${ftp.port}"
+			username="${ftp.username}"
+			password="${ftp.password}"
+			dir="${ftp.dir}/docimport/${git.lastrevision}"
+			mode="${ftp.mode}"
+			passive="true"
+			level="debug">
+			<fileset dir="${dirs.root}">
+				<include name="CHANGELOG"/>
+			</fileset>			
+			<fileset dir="${dirs.release}">
+				<include name="com_docimport-*.zip"/>
+			</fileset>			
+		</ftpdeploy>
+		<echo>All done. Have a cup of coffee and relax :)</echo>
 	</target>
 	
 </project>

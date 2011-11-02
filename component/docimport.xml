@@ -2,14 +2,14 @@
 <!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/component-install.dtd">
 <install type="component" method="upgrade" version="1.5.0">
 	<name>DocImport</name>
-	<creationDate>##DATE##</creationDate>
+	<creationDate>2011-11-02</creationDate>
 	<author>Nicholas K. Dionysopoulos</author>
 	<authorEmail>nicholas@akeebabackup.com</authorEmail>
 	<authorUrl>http://www.akeebabackup.com</authorUrl>
 	<copyright>Copyright (c)2006-2010 Nicholas K. Dionysopoulos</copyright>
 	<license>GNU/GPL v3 or later</license>
-	<version>##VERSION##</version>
-	<description>DocImport v.##VERSION##</description>
+	<version>revB899606</version>
+	<description>DocImport v.revB899606</description>
 
 	<!-- Public front end files -->
 	<files folder="frontend">

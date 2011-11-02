@@ -3,3 +3,4 @@ release/
 nbproject/
 old-component/
 /xsltest/
+build/build.properties
