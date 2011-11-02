@@ -28,6 +28,8 @@
 		<include name="translations**" />
 		
 		<include name="*.xml" />
+		<include name="LICENSE.txt" />
+		<include name="README.php" />
 	</fileset>
 
 	<!--
