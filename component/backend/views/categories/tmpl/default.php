@@ -5,7 +5,8 @@
  *  @license GNU General Public License version 3, or later
  */
 
-defined('JEXEC') or die();
+defined('_JEXEC') or die();
 
 FOFTemplateUtils::addCSS('media://com_docimport/css/backend.css');
+JHtml::_('behavior.tooltip');
 ?>
