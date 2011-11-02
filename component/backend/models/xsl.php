@@ -49,12 +49,14 @@ class DocimportModelXsl extends FOFModel
 		// Find the XML file
 		$xmlfiles = JFolder::files($dir_src, '\.xml$', false, true);
 		
+		$xslt_filename = (count($xmlfiles) > 1) ? 'onechunk.xsl' : 'chunk.xsl';
+		
 		if( ($xmlfiles === false) || (empty($xmlfiles)) ) {
 			$this->setError(JText::_('COM_DOCIMPORT_XSL_ERROR_NOXMLFILES'));
 			return false;
 		}
 		
-		$file_xsl = JPATH_ADMINISTRATOR.'/components/com_docimport/assets/dbxsl/xhtml/chunk.xsl';
+		$file_xsl = JPATH_ADMINISTRATOR.'/components/com_docimport/assets/dbxsl/xhtml/'.$xslt_filename;
 		
 		// Load the XSLT filters
 		$xslDoc = new DOMDocument();
