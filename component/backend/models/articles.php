@@ -37,6 +37,20 @@ class DocimportModelArticles extends FOFModel
 			);
 		}
 		
+		$category = $this->getState('category',null,'cmd');
+		if(is_numeric($category)) {
+			$query->where(
+				$db->nameQuote('a').'.'.$db->nameQuote('docimport_category_id').' = '.$db->quote($category)
+			);
+		}
+		
+		$slug = $this->getState('slug',null,'string');
+		if(!empty($slug)) {
+			$query->where(
+				$db->nameQuote('a').'.'.$db->nameQuote('slug').' = '.$db->quote($slug)
+			);
+		}
+		
 		$language = $this->getState('language',null,'array');
 		if(empty($language)) $language = $this->getState('language',null,'string');
 		if(!empty($language) && (is_array($language) ? (!empty($language[0])) : true) ) {
