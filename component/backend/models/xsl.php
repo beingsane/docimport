@@ -179,7 +179,7 @@ class DocimportModelXsl extends FOFModel
 		if(!empty($files)) foreach($files as $filename) {
 			$slugs[] = basename($filename,'.html');
 		}
-		
+
 		// First pass: find articles pointing to files no longer existing
 		if(!empty($articles)) foreach($articles as $slug => $article) {
 			if(!in_array($slug, $slugs)) {
@@ -225,9 +225,9 @@ class DocimportModelXsl extends FOFModel
 		if(!empty($slugs) && !empty($articles)) foreach($articles as $article) {
 			if(in_array($article->slug, $slugs)) {
 				// Do we have to update?
-				$filepath = $dir_output.'/'.$slug.'.html';
+				$filepath = $dir_output.'/'.$article->slug.'.html';
 				if(@filemtime($filepath) == $article->last_timestamp) continue;
-				
+
 				jimport('joomla.utilities.date');
 				
 				$jNow = new JDate();
@@ -242,7 +242,6 @@ class DocimportModelXsl extends FOFModel
 					->getItem()
 					->save(array(
 						'title'					=> $filedata->title,
-						'slug'					=> $slug,
 						'fulltext'				=> $filedata->contents,
 						'last_timestamp'		=> $filedata->timestamp,
 						'enabled'				=> 1,
