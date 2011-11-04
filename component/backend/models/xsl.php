@@ -82,7 +82,7 @@ class DocimportModelXsl extends FOFModel
 			$parameters = array(
 				'base.dir'				=> rtrim($dir_output,'/').'/',
 				'img.src.path'			=> "/media/com_docimport/{$category->slug}/",
-				'admon.graphics.path'	=> '/media/com_docimport/admonition',
+				'admon.graphics.path'	=> '/media/com_docimport/admonition/',
 				'admon.graphics'		=> 1,
 				'use.id.as.filename'    => 1,
 				'toc.section.depth'		=> 5,
