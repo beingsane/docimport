@@ -157,7 +157,7 @@ class DocimportModelXsl extends FOFModel
 		
 		// Load the list of articles in this category
 		$db = $this->getDBO();
-		$query = FOFQueryMysql::getNew($db)
+		$query = FOFQueryAbstract::getNew()
 			->from($db->nameQuote('#__docimport_articles'))
 			->select(array(
 				$db->nameQuote('docimport_article_id').' AS '.$db->nameQuote('id'),
@@ -251,6 +251,85 @@ class DocimportModelXsl extends FOFModel
 						'modified_by'			=> $user_id
 					));
 			}
+		}
+		
+		// Fourth pass: Load a list of enabled articles (IDs and slugs)
+		$db = $this->getDBO();
+		$query = FOFQueryAbstract::getNew()
+			->from($db->nameQuote('#__docimport_articles'))
+			->select(array(
+				$db->nameQuote('docimport_article_id').' AS '.$db->nameQuote('id'),
+				$db->nameQuote('slug')
+			))
+			->where($db->nameQuote('docimport_category_id').' = '.$db->quote($category_id))
+			->where($db->nameQuote('enabled').' = '.$db->quote(1))
+		;
+		$db->setQuery($query);
+		$rawlist = $db->loadObjectList();
+		$mapSlugID = array();
+		if(!empty($rawlist)) foreach($rawlist as $rawItem) {
+			$mapSlugID[$rawItem->slug] = $rawItem->id;
+		}
+		unset($rawlist);
+		
+		// Fifth pass: Load the index page and determine ordering of slugs
+		$mapSlugOrder = array();
+		$maxOrder = 0;
+		if(JFile::exists($dir_output.'/index.html')) {
+			$file_data = JFile::read($dir_output.'/index.html');
+			$domdoc = new DOMDocument();
+			$success = $domdoc->loadXML($file_data);
+			unset($file_data);
+
+			if($success) {
+				// Get a list of anchor elements (<a href="...">)
+				$anchors =& $domdoc->getElementsByTagName('a');
+				if(!empty($anchors)) foreach($anchors as $anchor) {
+					// Grab the href
+					$href = $anchor->getAttribute('href');
+					// Kill any page anchors from the URL, e.g. #some-anchor
+					$hashlocation = strpos($href, '#');
+					if($hashlocation !== false)
+					{
+						$href = substr($href, 0, $hashlocation);
+					}
+					// Only precess if this page is not already found
+					$slug = basename($href,'.html');
+					if(!array_key_exists($slug, $mapSlugID)) continue;
+					if(array_key_exists($slug, $mapSlugOrder)) continue;
+					
+					$mapSlugOrder[$slug] = ++$maxOrder;
+				}
+			}
+		}
+		
+		// Sixth pass: Load each article, replace links and modify ordering
+		$allIds = array_values($mapSlugID);
+		if(!empty($allIds)) foreach($allIds as $id) {
+			// Load the article
+			$article = FOFModel::getTmpInstance('Articles','DocimportModel')
+				->setId($id)
+				->getItem();
+			// Replace links
+			$fulltext = $article->fulltext;
+			foreach($mapSlugID as $slug => $id) {
+				if($slug == 'index') {
+					$url = 'index.php?option=com_docimport&view=category&id='.$category_id;
+				} else {
+					$url = 'index.php?option=com_docimport&view=article&id='.$id;
+				}
+				$fulltext = str_replace('href="'.$slug.'.html', 'href="'.$url.'', $fulltext);
+			}
+			// Replace ordering
+			$ordering = $article->ordering;
+			if(array_key_exists($article->slug, $mapSlugOrder)) $ordering = $mapSlugOrder[$article->slug];
+			// Apply changes
+			$article->save(array(
+				'fulltext'		=> $fulltext,
+				'ordering'		=> $ordering
+			));
+			unset($fulltext);
+			unset($article);
 		}
 		
 		return true;
