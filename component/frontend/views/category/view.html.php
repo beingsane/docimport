@@ -12,6 +12,8 @@ class DocimportViewCategory extends FOFViewHtml
 {
 	public function onRead($tpl = null)
 	{
+		parent::onRead($tpl);
+		
 		$catid = $this->getModel()->getItem()->docimport_category_id;
 		// Look for an index article
 		$index = FOFModel::getTmpInstance('Articles','DocimportModel')
@@ -22,6 +24,9 @@ class DocimportViewCategory extends FOFViewHtml
 		
 		if($index->docimport_article_id) {
 			$items = array();
+			if($this->item->process_plugins) {
+				$index->fulltext = JHTML::_('content.prepare',$index->fulltext);
+			}
 		} else {
 			$index = null;
 			$items = FOFModel::getTmpInstance('Articles','DocimportModel')
@@ -34,7 +39,5 @@ class DocimportViewCategory extends FOFViewHtml
 		
 		$this->assign('items', $items);
 		$this->assign('index', $index);
-		
-		parent::onRead($tpl);
 	}
 }
