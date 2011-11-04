@@ -74,6 +74,15 @@
 	margin: 0.5em 1em !important;
 	padding: 2px !important;
 	border-radius: 0.6em;
+	font-size: small;
+	max-width: none;
+}
+
+.docimport .warning img,
+.docimport .important img,
+.docimport .note img,
+.docimport .tip img {
+	padding: 0.2em 0.5em 0 0;
 }
 
 .docimport .warning { background-color: #ffe0e0; border-color: #990000; }
