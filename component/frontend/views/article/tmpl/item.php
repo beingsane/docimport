@@ -9,13 +9,7 @@
 defined('_JEXEC') or die();
 
 FOFTemplateUtils::addCSS('media://com_docimport/css/frontend.css');
-		
-$text = $this->item->fulltext;
-if($category->process_plugins) {
-	$text = JHTML::_('content.prepare', $text);
-}
-
 ?>
 <div class="docimport docimport-page-article">
-	<?php echo $text; ?>
+	<?php echo $this->item->fulltext; ?>
 </div>

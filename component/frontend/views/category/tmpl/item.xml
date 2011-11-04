@@ -9,4 +9,12 @@
 		<name>COM_DOCIMPORT_VIEW_CATEGORY_ITEM_TITLE</name>
 		<description>COM_DOCIMPORT_VIEW_CATEGORY_ITEM_DESC</description>
 	</state>
+	<params>
+		<param name="catid" type="sql" default="0" label="COM_DOCIMPORT_VIEW_LBL_CATEGORY_LABEL" description="COM_DOCIMPORT_VIEW_LBL_CATEGORY_DESC" query="SELECT `docimport_category_id` as `id`, `title` FROM `#__docimport_categories` ORDER BY `ordering`,`title` ASC" key_field="id" value_field="title" />
+	</params>
+	<fields name="params">
+		<fieldset name="basic" label="COM_ARS_FIELDSET_BASIC">
+			<field name="catid" type="sql" default="0" label="COM_DOCIMPORT_VIEW_LBL_CATEGORY_LABEL" description="COM_DOCIMPORT_VIEW_LBL_CATEGORY_DESC" query="SELECT `docimport_category_id` as `id`, `title` FROM `#__docimport_categories` ORDER BY `ordering`,`title` ASC" key_field="id" value_field="title" />
+		</fieldset>
+	</fields>
 </metadata>

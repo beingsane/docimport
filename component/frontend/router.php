@@ -29,7 +29,7 @@ function docimportBuildRoute(&$query)
 	$view = DocimportRouterHelper::getAndPop($query, 'view', 'categories');
 	$task = DocimportRouterHelper::getAndPop($query, 'task', 'browse');
 	$id = DocimportRouterHelper::getAndPop($query, 'id');
-	$Itemid = DocimportRouterHelper::getAndPop($query, 'Itemid');
+	$queryItemid = DocimportRouterHelper::getAndPop($query, 'Itemid');
 	
 	// Fix the View/Task variables
 	switch($view) {
@@ -61,37 +61,72 @@ function docimportBuildRoute(&$query)
 			break;
 	}
 	
-	$qoptions = array( 'view' => $view, 'task' => $task, 'id' => $id );
+	$qoptions = array( 'view' => $view, 'id' => $id );
 	
 	switch($view) {
 		case 'categories':
-			// Is it a browser menu?
-			if($Itemid) {
-				$menu = $menus->getItem($Itemid);
-				$mView = isset($menu->query['view']) ? $menu->query['view'] : 'categories';
-				// No, we have to find another root
-				if( ($mView != 'categories') ) $Itemid = null;
-			}
-			
 			// Find a suitable Itemid
-			if(empty($Itemid))
-			{
-				$menu = DocimportRouterHelper::findMenu($qoptions);
-				$Itemid = empty($menu) ? null : $menu->id;
-			}
+			$menu = DocimportRouterHelper::findMenu($qoptions);
+			$Itemid = empty($menu) ? null : $menu->id;
 			
 			if(!empty($Itemid))
 			{
 				// Joomla! will let the menu item naming work its magic
 				$query['Itemid'] = $Itemid;
+			} else {
+				if($queryItemid) {
+					$menu = $menus->getItem($queryItemid);
+					$mView = isset($menu->query['view']) ? $menu->query['view'] : 'categories';
+					// No, we have to find another root
+					if( ($mView != 'categories') ) $Itemid = null;
+				}				
 			}
 			
 			break;
 		
 		case 'category':
-			// Do we have a category menu?
-			if($Itemid)
+			// Get category slug
+			$slug = FOFModel::getTmpInstance('Category','DocimportModel')
+				->setId($id)
+				->getItem()
+				->slug;
+
+			// Try to find a menu item for this category
+			$options = $qoptions; unset($options['id']);
+			$params = array('catid' => $id);
+			$menu = DocimportRouterHelper::findMenu($options, $params);
+			$Itemid = empty($menu) ? null : $menu->id;
+
+			if(!empty($Itemid))
 			{
+				// A category menu item found, use it
+				$query['Itemid'] = $Itemid;
+			}
+			else
+			{
+				// Not found. Try fetching a browser menu item
+				$options = array('view' => 'categories');
+				$menu = DocimportRouterHelper::findMenu($options);
+				$Itemid = empty($menu) ? null : $menu->id;
+				if(!empty($Itemid))
+				{
+					// Push the Itemid and category alias
+					$query['Itemid'] = $menu->id;
+					$segments[] = $slug;
+				}
+				else
+				{
+					// Push the browser layout and category alias
+					$segments[] = 'categories';
+					$segments[] = $slug;
+				}
+			}
+			
+			
+			// Do we have a category menu?
+			if(empty($Itemid) && !empty($queryItemid))
+			{
+				$itemId = $queryItemid;
 				$menu = $menus->getItem($Itemid);
 				$mView = isset($menu->query['view']) ? $menu->query['view'] : 'categories';
 				// No, we have to find another root
@@ -101,60 +136,8 @@ function docimportBuildRoute(&$query)
 					if($params->get('catid',0) == $id)
 					{
 						$query['Itemid'] = $Itemid;
-						return $segments;
-					}
-					else
-					{
-						$Itemid = null;
 					}
 				}
-				elseif($mView != 'categories')
-				{
-					$Itemid = null;
-				}
-			}
-			
-			// Get category slug
-			$slug = FOFModel::getTmpInstance('Category','DocimportModel')
-				->setId($id)
-				->getItem()
-				->slug;
-
-			if(empty($Itemid)) {
-				// Try to find a menu item for this category
-				$options = $qoptions; unset($options['id']);
-				$params = array('catid' => $id);
-				$menu = DocimportRouterHelper::findMenu($options, $params);
-				$Itemid = empty($menu) ? null : $menu->id;
-
-				if(!empty($Itemid))
-				{
-					// A category menu item found, use it
-					$query['Itemid'] = $Itemid;
-				}
-				else
-				{
-					// Not found. Try fetching a browser menu item
-					$options = array('view' => 'categories');
-					$menu = DocimportRouterHelper::findMenu($options);
-					$Itemid = empty($menu) ? null : $menu->id;
-					if(!empty($Itemid))
-					{
-						// Push the Itemid and category alias
-						$query['Itemid'] = $menu->id;
-						$segments[] = $slug;
-					}
-					else
-					{
-						// Push the browser layout and category alias
-						$segments[] = 'categories';
-						$segments[] = $slug;
-					}
-				}
-			} else {
-				// This is a categories menu. Push the category alias
-				$query['Itemid'] = $Itemid;
-				$segments[] = $slug;
 			}
 			break;
 		
@@ -169,16 +152,49 @@ function docimportBuildRoute(&$query)
 				->getItem()
 				->slug;
 			
+			// Try to find a category menu item
+			$options = array('view'=>'category');
+			$params = array('catid'=>$article->docimport_category_id);
+			$menu = ArsRouterHelper::findMenu($options, $params);
+			$Itemid = null;
+			if(!empty($menu))
+			{
+				// Found it! Just append the article slug
+				$Itemid = $menu->id;
+				$query['Itemid'] = $menu->id;
+				$segments[] = $article->slug;
+			}
+			else
+			{
+				// Nah. Let's find a categories menu item.
+				$options = array('view'=>'categories');
+				$menu = ArsRouterHelper::findMenu($options);
+				if(!empty($menu))
+				{
+					// We must add the category and article slug.
+					$Itemid = $menu->id;
+					$query['Itemid'] = $menu->id;
+					$segments[] = $slug;
+					$segments[] = $article->slug;
+				}
+				else
+				{
+					// I must add the full path
+					$segments[] = 'categories';
+					$segments[] = $slug;
+					$segments[] = $article->slug;
+				}
+			}
+			
 			// Do we have a "category" menu?
-			if($Itemid) {
+			if(!$Itemid && $queryItemid) {
+				$Itemid = $queryItemid;
 				$menu = $menus->getItem($Itemid);
 				$mView = isset($menu->query['view']) ? $menu->query['view'] : 'categories';
 				if( ($mView == 'categories') )
 				{
 					// No. It is a categories menu item. We must add the category and article slug.
 					$query['Itemid'] = $Itemid;
-					$segments[] = $slug;
-					$segments[] = $article->slug;
 				}
 				elseif( ($mView == 'category') )
 				{
@@ -188,51 +204,6 @@ function docimportBuildRoute(&$query)
 					{
 						// Cool! Just append the article slug
 						$query['Itemid'] = $Itemid;
-						$segments[] = $article->slug;
-					}
-					else
-					{
-						// Nope. Gotta find a new menu item.
-						$Itemid = null;
-					}
-				}
-				else
-				{
-					// Probably a menu item to another category. Hmpf!
-					$Itemid = null;
-				}
-			}
-			
-			if(empty($Itemid))
-			{
-				// Try to find a category menu item
-				$options = array('view'=>'category');
-				$params = array('catid'=>$article->docimport_category_id);
-				$menu = ArsRouterHelper::findMenu($options, $params);
-				if(!empty($menu))
-				{
-					// Found it! Just append the article slug
-					$query['Itemid'] = $menu->id;
-					$segments[] = $article->slug;
-				}
-				else
-				{
-					// Nah. Let's find a categories menu item.
-					$options = array('view'=>'categories');
-					$menu = ArsRouterHelper::findMenu($options);
-					if(!empty($menu))
-					{
-						// We must add the category and article slug.
-						$query['Itemid'] = $menu->id;
-						$segments[] = $slug;
-						$segments[] = $article->slug;
-					}
-					else
-					{
-						// I must add the full path
-						$segments[] = 'categories';
-						$segments[] = $slug;
-						$segments[] = $article->slug;
 					}
 				}
 			}
@@ -323,12 +294,14 @@ function docimportParseRoute(&$segments)
 				case 1:
 					// Category view
 					$query['view'] = 'category';
+					$view = 'category';
 					$slug_category = array_pop($segments);
 					break;
 
 				case 2:
 					// Article view
 					$query['view'] = 'article';
+					$view = 'article';
 					$slug_article = array_pop($segments);
 					$slug_category = array_pop($segments);
 					break;
@@ -338,6 +311,15 @@ function docimportParseRoute(&$segments)
 		{
 			$query['view'] = 'article';
 			$slug_article = array_pop($segments);
+		}
+		
+		if(is_null($slug_category) && !is_null($slug_article) && ($view == 'category')) {
+			$menus =& JMenu::getInstance('site');
+			$params =  $menu->params instanceof JRegistry ? $menu->params : $menus->getParams($menu->id);
+			$category = FOFModel::getTmpInstance('Category','DocimportModel')
+				->setId($params->getValue('catid'))
+				->getItem();
+			$slug_category = $category->slug;
 		}
 		
 		if(!is_null($slug_article) && !is_null($slug_category)) {
