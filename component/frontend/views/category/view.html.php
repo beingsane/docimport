@@ -10,9 +10,9 @@ defined('_JEXEC') or die();
 
 class DocimportViewCategory extends FOFViewHtml
 {
-	public function onRead($tpl = null)
+	public function onAdd($tpl = null)
 	{
-		parent::onRead($tpl);
+		parent::onAdd($tpl);
 		
 		$catid = $this->getModel()->getItem()->docimport_category_id;
 		// Look for an index article

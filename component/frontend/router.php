@@ -184,7 +184,7 @@ function docimportBuildRoute(&$query)
 				{
 					// Yes! Is it the category we want?
 					$params = ($menu->params instanceof JRegistry) ? $menu->params : $menus->getParams($Itemid);
-					if($params->get('catid',0) == $release->category_id)
+					if($params->get('catid',0) == $article->docimport_category_id)
 					{
 						// Cool! Just append the article slug
 						$query['Itemid'] = $Itemid;
