@@ -31,14 +31,14 @@ class DocimportModelArticles extends FOFModel
 		}
 		
 		$enabled = $this->getState('enabled',null,'cmd');
-		if(is_numeric($enabled)) {
+		if(is_numeric($enabled) && ($enabled > 0)) {
 			$query->where(
 				$db->nameQuote('a').'.'.$db->nameQuote('enabled').' = '.$db->quote($enabled)
 			);
 		}
 		
 		$category = $this->getState('category',null,'cmd');
-		if(is_numeric($category)) {
+		if(is_numeric($category) && ($category > 0)) {
 			$query->where(
 				$db->nameQuote('a').'.'.$db->nameQuote('docimport_category_id').' = '.$db->quote($category)
 			);
@@ -68,6 +68,12 @@ class DocimportModelArticles extends FOFModel
 				);
 			}
 		}
+		
+		$order = $this->getState('filter_order', 'docimport_article_id', 'cmd');
+		if(!in_array($order, array_keys($this->getTable()->getData()))) $order = 'docimport_article_id';
+		$order = $db->nameQuote('a').'.'.$db->nameQuote($order);
+		$dir = $this->getState('filter_order_Dir', 'DESC', 'cmd');
+		$query->order( $order.' '.$dir);
 		return $query;
 	}
 }

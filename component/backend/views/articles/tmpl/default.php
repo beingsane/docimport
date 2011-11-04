@@ -28,7 +28,7 @@ JHtml::_('behavior.tooltip');
 	<thead>
 		<tr>
 			<th width="60">
-				<?php echo JHTML::_('grid.sort', 'Num', 'docimport_category_id', $this->lists->order_Dir, $this->lists->order) ?>
+				<?php echo JHTML::_('grid.sort', 'Num', 'docimport_article_id', $this->lists->order_Dir, $this->lists->order) ?>
 			</th>
 			<th width="25"></th>
 			<th width="20%">
@@ -36,6 +36,10 @@ JHtml::_('behavior.tooltip');
 			</th>
 			<th>
 				<?php echo JHTML::_('grid.sort', 'COM_DOCIMPORT_ARTICLES_FIELD_TITLE', 'title', $this->lists->order_Dir, $this->lists->order) ?>
+			</th>
+			<th width="10%">
+				<?php echo JHTML::_('grid.sort', 'COM_DOCIMPORT_COMMON_FIELD_ORDERING', 'ordering', $this->lists->order_Dir, $this->lists->order); ?>
+				<?php echo JHTML::_('grid.order', $this->items); ?>
 			</th>
 			<th width="8%">
 				<?php echo JHTML::_('grid.sort', 'COM_DOCIMPORT_COMMON_FIELD_ENABLED', 'enabled', $this->lists->order_Dir, $this->lists->order); ?>
@@ -58,6 +62,7 @@ JHtml::_('behavior.tooltip');
 					<?php echo JText::_('COM_DOCIMPORT_COMMON_Reset'); ?>
 				</button>
 			</td>
+			<td></td>
 			<td>
 				<?php echo DocimportHelperSelect::published($this->getModel()->getState('enabled',''), 'enabled', array('onchange'=>'this.form.submit();')) ?>
 			</td>
@@ -78,6 +83,7 @@ JHtml::_('behavior.tooltip');
 			$i++; $m = 1-$m;
 			$checkedOut = ($item->locked_by != 0);
 			$item->published = $item->enabled;
+			$ordering = $this->lists->order == 'ordering';
 		?>
 		<tr class="<?php echo 'row'.$m; ?>">
 			<td align="center">
@@ -95,6 +101,12 @@ JHtml::_('behavior.tooltip');
 						<strong><?php echo $this->escape($item->title) ?></strong>
 					</a>
 				</span>
+			</td>
+			<td class="order" align="center">
+				<span><?php echo $this->pagination->orderUpIcon( $i, true, 'orderup', 'Move Up', $ordering ); ?></span>
+				<span><?php echo $this->pagination->orderDownIcon( $i, $count, true, 'orderdown', 'Move Down', $ordering ); ?></span>
+				<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
+				<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
 			</td>
 			<td align="center">
 				<?php echo JHTML::_('grid.published', $item, $i); ?>
