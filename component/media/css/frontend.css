@@ -1,0 +1,141 @@
+/**
+ * @package		DocImport
+ * @copyright	Copyright (c)2010 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
+ */
+
+/* Structure */
+
+.docimport dl { margin-left: 2em; }
+.docimport dd { margin-left: 1em; }
+
+/* Navigation */
+
+.docimport .navheader {
+	border-bottom: 1px solid #cccccc;
+	color: #999999;
+	margin-bottom: 1em;
+}
+
+.docimport .navfooter {
+	border-top: 1px solid #cccccc;
+	color: #999999;
+	margin-top: 1em;
+}
+
+.docimport .navheader a,
+.docimport .navfooter a {
+	color: #443333;
+}
+
+.docimport .navheader a:hover,
+.docimport .navfooter a:hover {
+	font-weight: bold;
+	color: #990000;
+	text-decoration: none;
+}
+
+.docimport .navheader hr,
+.docimport .navfooter hr {
+	display: none;
+}
+
+.docimport h1.title {
+	font-weight: bold;
+	text-align: center;
+	text-shadow: 1px 1px 4px #99f;
+}
+
+.docimport h2.title {
+	font-weight: bold;
+	text-shadow: 1px 1px 4px #ff9;
+}
+
+.docimport table tr,
+.docimport table td {
+	border: none;
+}
+
+.docimport table p {
+	margin-bottom: 6pt;
+}
+
+.docimport pre {
+	margin-bottom: 6pt;
+}
+
+/* Admonitions */
+
+.docimport .warning,
+.docimport .important,
+.docimport .note,
+.docimport .tip {
+	border: 2px solid black;
+	margin: 0.5em 1em !important;
+	padding: 2px !important;
+	border-radius: 0.6em;
+}
+
+.docimport .warning { background-color: #ffe0e0; border-color: #990000; }
+.docimport .important { background-color: #ffffe0; border-color: #999900; }
+.docimport .note { background-color: #e0ffe0; border-color: #009900; }
+.docimport .tip { background-color: #eeeeff; border-color: #000099; }
+
+.docimport .warning th { color: #660000; font-size: larger; }
+.docimport .important th { color: #666600; font-size: larger; }
+.docimport .note th { color: #006600; font-size: larger; }
+.docimport .tip th { color: #000066; font-size: larger; }
+
+/* Fixed width */
+
+.docimport pre.programlisting {
+	border: 1px solid #333333;
+	background-color: #f0f0f0;
+	font-family: "Courier New", "Liberation Mono", monospace;
+	color: #003300;
+	border-radius: 5px;
+	padding: 3px;
+}
+
+/* Document elements */
+.docimport .replaceable {
+	font-style: italic;
+	text-decoration: underline;
+}
+
+.docimport code {
+	font-family: "Courier New", "Liberation Mono", monospace;
+}
+
+.docimport code.filename {
+	color: #333366;
+}
+
+.docimport .guimenu,
+.docimport .guisubmenu,
+.docimport .guilabel,
+.docimport .guibutton {
+	color: #336633;
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.docimport .guilabel {
+	color: #333399;
+}
+
+.docimport .guibutton {
+	color: black;
+	border: 1px dashed #aaaaaa;
+	padding: 2px;
+	background: #f1f1f1;
+}
+
+.docimport dt .term {
+	font-weight: bold;
+	color: #663333;
+}
+
+.docimport trademark {
+	color: #336633;
+}
