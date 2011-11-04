@@ -9,11 +9,6 @@
 defined('_JEXEC') or die();
 
 FOFTemplateUtils::addCSS('media://com_docimport/css/frontend.css');
-
-$category = FOFModel::getTmpInstance('Category','DocimportModel')
-	->setId($this->item->docimport_category_id)
-	->getItem();
-JFactory::getDocument()->setTitle($category->title.' :: '.$this->item->title);
 		
 $text = $this->item->fulltext;
 if($category->process_plugins) {
