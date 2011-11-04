@@ -222,7 +222,7 @@ function docimportBuildRoute(&$query)
 					$menu = ArsRouterHelper::findMenu($options);
 					if(!empty($menu))
 					{
-						// We must add the category and release aliases.
+						// We must add the category and article slug.
 						$query['Itemid'] = $menu->id;
 						$segments[] = $slug;
 						$segments[] = $article->slug;
@@ -282,7 +282,7 @@ function docimportParseRoute(&$segments)
 				break;
 				
 			case 3:
-				// Release view
+				// Article view
 				$query['view'] = 'article';
 				$slug_article = array_pop($segments);
 				$slug_category = array_pop($segments);
@@ -327,7 +327,7 @@ function docimportParseRoute(&$segments)
 					break;
 
 				case 2:
-					// Release view
+					// Article view
 					$query['view'] = 'article';
 					$slug_article = array_pop($segments);
 					$slug_category = array_pop($segments);
