@@ -32,7 +32,8 @@ function docimportBuildRoute(&$query)
 			$model->saveQuery($oldQuery, $value);
 		}
 	} else {
-		$sef = explode('/', $sef);
+		$sef = explode('/', $sef['sef']);
+		array_shift($sef);
 		foreach(array_keys($query) as $k) {
 			if(in_array($k,array('option','Itemid'))) continue;
 			unset($query[$k]);
@@ -61,7 +62,6 @@ function docimportParseRoute(&$segments)
 	$nonsef = $model->getNonsef($sef);
 	if(is_array($nonsef)) {
 		$segments = array();
-		var_dump($nonsef);die();
 		return $nonsef;
 	} else {
 		return docimportParseRouteCLASSIC($segments);
