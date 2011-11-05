@@ -43,5 +43,4 @@ CREATE TABLE IF NOT EXISTS `#__docimport_categories` (
 CREATE TABLE IF NOT EXISTS `#__docimport_urls` (
   `nonsef` varchar(10240) NOT NULL DEFAULT '',
   `sef` varchar(10240) NOT NULL DEFAULT ''
-  PRIMARY KEY (`nonsef`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
