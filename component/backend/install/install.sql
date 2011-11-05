@@ -39,3 +39,9 @@ CREATE TABLE IF NOT EXISTS `#__docimport_categories` (
   `access` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`docimport_category_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `#__docimport_urls` (
+  `nonsef` varchar(10240) NOT NULL DEFAULT '',
+  `sef` varchar(10240) NOT NULL DEFAULT ''
+  PRIMARY KEY (`nonsef`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

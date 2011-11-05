@@ -12,6 +12,64 @@ include_once JPATH_ADMINISTRATOR.'/components/com_docimport/fof/include.php';
 
 function docimportBuildRoute(&$query)
 {
+	static $model = null;
+	
+	if(!is_object($model)) {
+		$model = FOFModel::getAnInstance('Urls','DocimportModel');
+	}
+	
+	$sef = $model->getSef($query);
+	if($sef === false) {
+		$oldQuery = $query;
+		$sef = docimportBuildRouteCLASSIC($query);
+		if(!empty($sef)) {
+			if(array_key_exists('Itemid', $oldQuery)) {
+				$value = $oldQuery['Itemid'];
+			} else {
+				$value = '0';
+			}
+			$value .= '/'.implode('/', $sef);
+			$model->saveQuery($oldQuery, $value);
+		}
+	} else {
+		$sef = explode('/', $sef);
+		foreach(array_keys($query) as $k) {
+			if(in_array($k,array('option','Itemid'))) continue;
+			unset($query[$k]);
+		}
+	}
+	return $sef;
+}
+
+function docimportParseRoute(&$segments)
+{
+	static $model = null;
+	
+	if(!is_object($model)) {
+		$model = FOFModel::getAnInstance('Urls','DocimportModel');
+	}
+	
+	$menus =& JMenu::getInstance('site');
+	$menu = $menus->getActive();
+	if($menu) {
+		$itemID = $menu->id;
+	} else {
+		$itemID = 0;
+	}
+	
+	$sef = $itemID.'/'.implode('/', $segments);
+	$nonsef = $model->getNonsef($sef);
+	if(is_array($nonsef)) {
+		$segments = array();
+		var_dump($nonsef);die();
+		return $nonsef;
+	} else {
+		return docimportParseRouteCLASSIC($segments);
+	}
+}
+
+function docimportBuildRouteCLASSIC(&$query)
+{
 	$segments = array();
 	
 	//If there is only the option and Itemid, let Joomla! decide on the naming scheme
@@ -214,10 +272,8 @@ function docimportBuildRoute(&$query)
 	return $segments;
 }
 
-function docimportParseRoute(&$segments)
+function docimportParseRouteCLASSIC(&$segments)
 {
-	$segments = DocimportRouterHelper::preconditionSegments($segments);
-	
 	$query = array();
 	$menus = JMenu::getInstance('site');
 	$menu = $menus->getActive();
@@ -359,7 +415,7 @@ function docimportParseRoute(&$segments)
 			$query['view'] = 'categories';
 		}
 	}
-	
+
 	return $query;
 }
 
