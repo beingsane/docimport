@@ -47,9 +47,11 @@ JHtml::_('behavior.tooltip');
 			<th width="8%">
 				<?php echo JHTML::_('grid.sort', 'COM_DOCIMPORT_COMMON_FIELD_ENABLED', 'enabled', $this->lists->order_Dir, $this->lists->order); ?>
 			</th>
+			<?php if(version_compare(JVERSION, '1.6.0', 'ge')):?>
 			<th width="8%">
 				<?php echo JHTML::_('grid.sort', 'COM_DOCIMPORT_COMMON_FIELD_LANGUAGE', 'language', $this->lists->order_Dir, $this->lists->order); ?>
 			</th>
+			<?php endif; ?>
 		</tr>
 		<tr>
 			<td></td>
@@ -70,9 +72,11 @@ JHtml::_('behavior.tooltip');
 			<td>
 				<?php echo DocimportHelperSelect::published($this->getModel()->getState('enabled',''), 'enabled', array('onchange'=>'this.form.submit();')) ?>
 			</td>
+			<?php if(version_compare(JVERSION, '1.6.0', 'ge')):?>
 			<td>
 				<?php echo DocimportHelperSelect::languages($this->getModel()->getState('language',''), 'language', array('onchange'=>'this.form.submit();')) ?>
 			</td>
+			<?php endif; ?>
 		</tr>
 	</thead>
 	<tfoot>
@@ -126,9 +130,11 @@ JHtml::_('behavior.tooltip');
 			<td align="center">
 				<?php echo JHTML::_('grid.published', $item, $i); ?>
 			</td>
+			<?php if(version_compare(JVERSION, '1.6.0', 'ge')):?>
 			<td>
 				<?php echo DocimportHelperFormat::language($item->language) ?>
 			</td>
+			<?php endif; ?>
 		</tr>
 		<?php endforeach;?>
 		<?php else: ?>

@@ -37,9 +37,11 @@ $editor =& JFactory::getEditor();
 		</span>
 		<div class="docimport-clear"></div>
 		
+		<?php if(version_compare(JVERSION, '1.6.0', 'ge')):?>
 		<label for="language" class="main"><?php echo JText::_('COM_DOCIMPORT_COMMON_FIELD_LANGUAGE'); ?></label>
 		<?php echo DocimportHelperSelect::languages($this->item->language, 'language') ?>
 		<div class="docimport-clear"></div>
+		<?php endif; ?>
 		
 		<label for="access" class="main"><?php echo JText::_('COM_DOCIMPORT_COMMON_FIELD_ACCESS'); ?></label>
 		<?php echo JHTML::_('list.accesslevel', $this->item); ?>
