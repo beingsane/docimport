@@ -8,6 +8,8 @@
 defined('_JEXEC') or die();
 
 FOFTemplateUtils::addCSS('media://com_docimport/css/backend.css');
+$lang = JFactory::getLanguage();
+
 ?>
 <div id="cpanel">
 	<div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">
