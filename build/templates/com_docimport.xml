@@ -43,9 +43,10 @@
 	</uninstall>
 	
 	<media destination="com_docimport" folder="media">
-		<folder>js</folder>
-		<folder>css</folder>
 		<folder>admonition</folder>
+		<folder>css</folder>
+		<folder>images</folder>
+		<folder>js</folder>
 	</media>
 
 	<administration>
