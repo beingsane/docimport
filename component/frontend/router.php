@@ -215,7 +215,7 @@ function docimportBuildRouteCLASSIC(&$query)
 			// Try to find a category menu item
 			$options = array('view'=>'category');
 			$params = array('catid'=>$article->docimport_category_id);
-			$menu = ArsRouterHelper::findMenu($options, $params);
+			$menu = DocimportRouterHelper::findMenu($options, $params);
 			$Itemid = null;
 			if(!empty($menu))
 			{
@@ -228,7 +228,7 @@ function docimportBuildRouteCLASSIC(&$query)
 			{
 				// Nah. Let's find a categories menu item.
 				$options = array('view'=>'categories');
-				$menu = ArsRouterHelper::findMenu($options);
+				$menu = DocimportRouterHelper::findMenu($options);
 				if(!empty($menu))
 				{
 					// We must add the category and article slug.
