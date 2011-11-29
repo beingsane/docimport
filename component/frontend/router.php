@@ -58,6 +58,8 @@ function docimportParseRoute(&$segments)
 		$itemID = 0;
 	}
 	
+	$segments = DocimportRouterHelper::preconditionSegments($segments);
+	
 	$sef = $itemID.'/'.implode('/', $segments);
 	$nonsef = $model->getNonsef($sef);
 	if(is_array($nonsef)) {
@@ -343,73 +345,64 @@ function docimportParseRouteCLASSIC(&$segments)
 		$slug_article = null;
 		$slug_category = null;
 		
-		if( empty($view) || ($view == 'categories') )
+		$menuparams = $menu->params;
+		if(!($menuparams instanceof JRegistry)) {
+			$x = new JRegistry();
+			$x->loadINI($menuparams);
+			$menuparams = $x;
+		}
+		$catid = $menuparams->getValue('catid', null);
+		
+		if( empty($view) || ($view == 'categories') || ($view == 'category') )
 		{
 			switch(count($segments))
 			{
-				case 1:
+				case 0:
 					// Category view
 					$query['view'] = 'category';
 					$view = 'category';
-					$slug_category = array_pop($segments);
 					break;
 
-				case 2:
+				case 1:
 					// Article view
 					$query['view'] = 'article';
 					$view = 'article';
 					$slug_article = array_pop($segments);
-					$slug_category = array_pop($segments);
 					break;
 			}
 		}
 		else
 		{
 			$query['view'] = 'article';
-			$slug_article = array_pop($segments);
 		}
 		
-		if(is_null($slug_category) && !is_null($slug_article) && ($view == 'category')) {
-			$menus =& JMenu::getInstance('site');
-			$params =  $menu->params instanceof JRegistry ? $menu->params : $menus->getParams($menu->id);
-			$category = FOFModel::getTmpInstance('Category','DocimportModel')
-				->setId($params->getValue('catid'))
-				->getItem();
-			$slug_category = $category->slug;
-		}
-		
-		if(!is_null($slug_article) && !is_null($slug_category)) {
-			// Load the category
-			$category = FOFModel::getTmpInstance('Category','DocimportModel')
-				->slug($slug_category)
-				->getFirstItem();
-			
+		if(!is_null($slug_article)) {
 			// Load the article
 			$article = FOFModel::getTmpInstance('Article','DocimportModel')
-				->category($category->docimport_category_id)
+				->category($catid)
 				->slug($slug_article)
 				->getFirstItem();
 
 			if(empty($article->docimport_article_id))
 			{
 				$query['view'] = 'category';
-				$query['id'] = $category->docimport_category_id;
+				$query['id'] = $catid;
 			}
 			else
 			{
 				$query['id'] = $article->docimport_article_id;
 			}
-		} elseif( $slug_category && is_null($slug_article) ) {
+		} elseif( is_null($slug_article) ) {
 			// Load the category
 			$category = FOFModel::getTmpInstance('Category','DocimportModel')
-				->slug($slug_category)
-				->getFirstItem();
+				->setId($catid)
+				->getItem();
 			
 			if(empty($category->docimport_category_id)) {
 				$query['view'] = 'categories';
 			} else {
 				$query['view'] = 'category';
-				$query['id'] = $category->docimport_category_id;
+				$query['id'] = $catid;
 			}
 		} else {
 			$query['view'] = 'categories';
