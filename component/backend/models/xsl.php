@@ -77,10 +77,15 @@ class DocimportModelXsl extends FOFModel
 				$this->setError(JText::_('COM_DOCIMPORT_XSL_ERROR_NOLOADXML'));
 				return false;
 			}
+			
+			$filesprefix = '';
+			if(count($xmlfiles)) {
+				$filesprefix = basename($file_xml,'.xml');
+			}
 
 			// Setup the XSLT processor
 			$parameters = array(
-				'base.dir'				=> rtrim($dir_output,'/').'/',
+				'base.dir'				=> rtrim($dir_output,'/').'/'.(empty($filesprefix) ? '' : $filesprefix.'-'),
 				'img.src.path'			=> "/media/com_docimport/{$category->slug}/",
 				'admon.graphics.path'	=> '/media/com_docimport/admonition/',
 				'admon.graphics'		=> 1,
@@ -108,6 +113,14 @@ class DocimportModelXsl extends FOFModel
 			} else {
 				$timestamp_local = @filemtime($file_xml);
 				if($timestamp_local > $timestamp) $timestamp = $timestamp_local;
+				
+				if(!empty($filesprefix)) {
+					$fname = rtrim($dir_output,'/')."/$filesprefix-index.html";
+					$renamed = rtrim($dir_output,'/')."/$filesprefix.html";
+					if(@file_exists($fname)) {
+						JFile::move($fname, $renamed);
+					}
+				}
 			}
 		}
 		
