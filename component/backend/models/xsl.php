@@ -79,7 +79,7 @@ class DocimportModelXsl extends FOFModel
 			}
 			
 			$filesprefix = '';
-			if(count($xmlfiles)) {
+			if(count($xmlfiles) > 1) {
 				$filesprefix = basename($file_xml,'.xml');
 			}
 
