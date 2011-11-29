@@ -24,6 +24,16 @@ class DocimportDispatcher extends FOFDispatcher
 			}
 			FOFInput::setVar('view',$view,$this->input);
 		}
+		
+		// If the action is "add" in the front-end, map it to "read"
+		$view = FOFInput::getCmd('view',$this->defaultView, $this->input);
+		$task = FOFInput::getCmd('task','',$this->input);
+		if(empty($task)) {
+			$task = $this->getTask($view);
+		}
+		if($task == 'add') $task = 'read';
+		FOFInput::setVar('view',$view,$this->input);
+		FOFInput::setVar('task',$task,$this->input);
 
 		return $result;
 	}

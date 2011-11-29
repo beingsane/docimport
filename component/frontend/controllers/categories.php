@@ -43,4 +43,22 @@ class DocimportControllerCategories extends FOFController
 		
 		return true;
 	}
+	
+	public function onBeforeRead()
+	{
+		$id = FOFInput::getInt('id',0,$this->input);
+		if($id === 0) {
+			$menu = JMenu::getInstance('site')->getActive();
+			$menuparams = $menu->params;
+			if(!($menuparams instanceof JRegistry)) {
+				$x = new JRegistry();
+				$x->loadINI($menuparams);
+				$menuparams = $x;
+			}
+			$id = $menuparams->getValue('catid', 0);
+			FOFInput::setVar('id', $id, $this->input);
+		}
+		
+		return true;
+	}
 }

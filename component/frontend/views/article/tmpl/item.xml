@@ -8,13 +8,13 @@
 	<state>
 		<name>COM_DOCIMPORT_VIEW_ARTICLE_ITEM_TITLE</name>
 		<description>COM_DOCIMPORT_VIEW_ARTICLE_ITEM_DESC</description>
+		<params>
+			<param name="articleid" type="sql" default="0" label="COM_DOCIMPORT_VIEW_LBL_ARTICLE_LABEL" description="COM_DOCIMPORT_VIEW_LBL_ARTICLE_DESC" query="SELECT `a`.`docimport_article_id` as `id`, CONCAT(`c`.`title`,' :: ',`a`.`title`) as `title` FROM `#__docimport_articles` AS `a` INNER JOIN `#__docimport_categories` AS `c` USING(`docimport_category_id`) ORDER BY `c`.`ordering`,`c`.`title`,`a`.`ordering`,`a`.`title` ASC" key_field="id" value_field="title" />
+		</params>
 	</state>
-	<params>
-		<param name="catid" type="sql" default="0" label="COM_DOCIMPORT_VIEW_LBL_ARTICLE_LABEL" description="COM_DOCIMPORT_VIEW_LBL_ARTICLE_DESC" query="SELECT `a`.`docimport_article_id` as `id`, CONCAT(`c`.`title`,' :: ',`a`.`title`) as `title` FROM `#__docimport_articles` AS `a` INNER JOIN `#__docimport_categories` AS `c` USING(`docimport_category_id`) ORDER BY `c`.`ordering`,`c`.`title`,`a`.`ordering`,`a`.`title` ASC" key_field="id" value_field="title" />
-	</params>
 	<fields name="params">
 		<fieldset name="basic" label="COM_ARS_FIELDSET_BASIC">
-			<field name="catid" type="sql" default="0" label="COM_DOCIMPORT_VIEW_LBL_ARTICLE_LABEL" description="COM_DOCIMPORT_VIEW_LBL_ARTICLE_DESC" query="SELECT `a`.`docimport_article_id` as `id`, CONCAT(`c`.`title`,' :: ',`a`.`title`) as `title` FROM `#__docimport_articles` AS `a` INNER JOIN `#__docimport_categories` AS `c` USING(`docimport_category_id`) ORDER BY `c`.`ordering`,`c`.`title`,`a`.`ordering`,`a`.`title` ASC" key_field="id" value_field="title" />
+			<field name="articleid" type="sql" default="0" label="COM_DOCIMPORT_VIEW_LBL_ARTICLE_LABEL" description="COM_DOCIMPORT_VIEW_LBL_ARTICLE_DESC" query="SELECT `a`.`docimport_article_id` as `id`, CONCAT(`c`.`title`,' :: ',`a`.`title`) as `title` FROM `#__docimport_articles` AS `a` INNER JOIN `#__docimport_categories` AS `c` USING(`docimport_category_id`) ORDER BY `c`.`ordering`,`c`.`title`,`a`.`ordering`,`a`.`title` ASC" key_field="id" value_field="title" />
 		</fieldset>
 	</fields>
 </metadata>
