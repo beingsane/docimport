@@ -49,6 +49,12 @@ class DocimportModelCategories extends FOFModel
 			}
 		}
 		
+		// Fix the ordering
+		$order = $this->getState('filter_order', 'docimport_category_id', 'cmd');
+		if(!in_array($order, array_keys($this->getTable()->getData()))) $order = 'docimport_category_id';
+		$dir = $this->getState('filter_order_Dir', 'DESC', 'cmd');
+		$query->order($db->nameQuote('a').'.'.$order.' '.$dir);
+		
 		return $query;
 	}
 	
