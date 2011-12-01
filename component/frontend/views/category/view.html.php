@@ -32,6 +32,8 @@ class DocimportViewCategory extends FOFViewHtml
 			$items = FOFModel::getTmpInstance('Articles','DocimportModel')
 				->category($catid)
 				->enabled(1)
+				->filter_order('ordering')
+				->filter_order('ASC')
 				->limit(0)
 				->limitstart(0)
 				->getList();

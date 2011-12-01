@@ -39,7 +39,9 @@ class DocimportControllerCategories extends FOFController
 		$this->getThisModel()
 			->language(array('*',$lang))
 			->limit(0)
-			->limitstart(0);
+			->limitstart(0)
+			->filter_order('ordering')
+			->filter_order_Dir('ASC');
 		
 		return true;
 	}
