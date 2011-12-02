@@ -97,8 +97,7 @@ class DocimportModelUrls extends JModel
 	{
 		$db = $this->getDbo();
 		$this->urls = array();
-		$db->setQuery('TRUNCATE '.$db->nameQuote('#__docimport_urls'));
-		$db->setQuery($query);
+		$db->setQuery('TRUNCATE TABLE '.$db->nameQuote('#__docimport_urls'));
 		return $db->query();
 	}
 }
