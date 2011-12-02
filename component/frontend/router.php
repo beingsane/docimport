@@ -121,7 +121,7 @@ function docimportBuildRouteCLASSIC(&$query)
 			break;
 	}
 	
-	$qoptions = array( 'view' => $view, 'id' => $id );
+	$qoptions = array( 'view' => $view, 'id' => $id, 'option' => 'com_docimport' );
 	
 	switch($view) {
 		case 'categories':
@@ -165,7 +165,7 @@ function docimportBuildRouteCLASSIC(&$query)
 			else
 			{
 				// Not found. Try fetching a browser menu item
-				$options = array('view' => 'categories');
+				$options = array('view' => 'categories', 'option' => 'com_docimport');
 				$menu = DocimportRouterHelper::findMenu($options);
 				$Itemid = empty($menu) ? null : $menu->id;
 				if(!empty($Itemid))
@@ -213,7 +213,7 @@ function docimportBuildRouteCLASSIC(&$query)
 				->slug;
 			
 			// Try to find a category menu item
-			$options = array('view'=>'category');
+			$options = array('view'=>'category', 'option' => 'com_docimport');
 			$params = array('catid'=>$article->docimport_category_id);
 			$menu = DocimportRouterHelper::findMenu($options, $params);
 			$Itemid = null;
@@ -227,7 +227,7 @@ function docimportBuildRouteCLASSIC(&$query)
 			else
 			{
 				// Nah. Let's find a categories menu item.
-				$options = array('view'=>'categories');
+				$options = array('view'=>'categories', 'option' => 'com_docimport');
 				$menu = DocimportRouterHelper::findMenu($options);
 				if(!empty($menu))
 				{
