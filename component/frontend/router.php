@@ -146,7 +146,7 @@ function docimportBuildRouteCLASSIC(&$query)
 		
 		case 'category':
 			// Get category slug
-			$slug = FOFModel::getTmpInstance('Category','DocimportModel')
+			$slug = FOFModel::getTmpInstance('Categories','DocimportModel')
 				->setId($id)
 				->getItem()
 				->slug;
@@ -203,11 +203,11 @@ function docimportBuildRouteCLASSIC(&$query)
 		
 		case 'article':
 			// Get article info
-			$article = FOFModel::getTmpInstance('Article','DocimportModel')
+			$article = FOFModel::getTmpInstance('Articles','DocimportModel')
 				->setId($id)
 				->getItem();
 			// Get slug
-			$slug = FOFModel::getTmpInstance('Category','DocimportModel')
+			$slug = FOFModel::getTmpInstance('Categories','DocimportModel')
 				->setId($article->docimport_category_id)
 				->getItem()
 				->slug;
@@ -296,7 +296,7 @@ function docimportParseRouteCLASSIC(&$segments)
 				array_pop($segments); // Remove the "categories" thingy
 
 				// Load the category
-				$category = FOFModel::getTmpInstance('Category','DocimportModel')
+				$category = FOFModel::getTmpInstance('Categories','DocimportModel')
 					->slug($slug)
 					->getFirstItem();
 
@@ -318,12 +318,12 @@ function docimportParseRouteCLASSIC(&$segments)
 				array_pop($segments); // Remove the "categories" thingy
 				
 				// Load the category
-				$category = FOFModel::getTmpInstance('Category','DocimportModel')
+				$category = FOFModel::getTmpInstance('Categories','DocimportModel')
 					->slug($slug_category)
 					->getFirstItem();
 			
 				// Load the article
-				$article = FOFModel::getTmpInstance('Article','DocimportModel')
+				$article = FOFModel::getTmpInstance('Articles','DocimportModel')
 					->category($category->docimport_category_id)
 					->slug($slug_article)
 					->getFirstItem();
@@ -378,8 +378,8 @@ function docimportParseRouteCLASSIC(&$segments)
 		
 		if(!is_null($slug_article)) {
 			// Load the article
-			$article = FOFModel::getTmpInstance('Article','DocimportModel')
-				->category($catid)
+			$article = FOFModel::getTmpInstance('Articles','DocimportModel')
+				->category((int)$catid)
 				->slug($slug_article)
 				->getFirstItem();
 
@@ -394,7 +394,7 @@ function docimportParseRouteCLASSIC(&$segments)
 			}
 		} elseif( is_null($slug_article) ) {
 			// Load the category
-			$category = FOFModel::getTmpInstance('Category','DocimportModel')
+			$category = FOFModel::getTmpInstance('Categories','DocimportModel')
 				->setId($catid)
 				->getItem();
 			
