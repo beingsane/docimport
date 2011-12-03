@@ -53,6 +53,22 @@ class DocimportModelXsl extends FOFModel
 		// Find the XML file
 		$xmlfiles = JFolder::files($dir_src, '\.xml$', false, true);
 		
+		// If we have many files, let's filter out only articles and books
+		if(count($xmlfiles) > 1) {
+			$files = $xmlfiles;
+			$xmlfiles = array();
+			foreach($files as $file_xml) {
+				$xmlDoc = new DOMDocument();
+				if(!$xmlDoc->load($file_xml)) continue;
+
+				$tagName = $xmlDoc->documentElement->tagName;
+				if(in_array($tagName,array('article','book'))) {
+					$xmlfiles[] = $file_xml;
+				}
+				unset($xmlDoc);
+			}
+		}
+
 		$xslt_filename = (count($xmlfiles) > 1) ? 'onechunk.xsl' : 'chunk.xsl';
 		
 		if( ($xmlfiles === false) || (empty($xmlfiles)) ) {
@@ -68,15 +84,17 @@ class DocimportModelXsl extends FOFModel
 			$this->setError(JText::_('COM_DOCIMPORT_XSL_ERROR_NOLOADXSL'));
 			return false;
 		}
-
+		
 		$timestamp = 0;
 		foreach($xmlfiles as $file_xml) {
 			// Load the XML document
 			$xmlDoc = new DOMDocument();
-			if(!$xmlDoc->load($file_xml)) {
+			if(!$xmlDoc->load($file_xml, LIBXML_DTDATTR | LIBXML_NOENT | LIBXML_NONET | LIBXML_XINCLUDE )) {
 				$this->setError(JText::_('COM_DOCIMPORT_XSL_ERROR_NOLOADXML'));
 				return false;
 			}
+			$doc->documentURI = $file_xml;
+			$xmlDoc->xinclude(LIBXML_DTDATTR | LIBXML_NOENT | LIBXML_NONET | LIBXML_XINCLUDE);
 			
 			$filesprefix = '';
 			if(count($xmlfiles) > 1) {
