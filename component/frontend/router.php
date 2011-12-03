@@ -32,7 +32,8 @@ function docimportBuildRoute(&$query)
 			$model->saveQuery($oldQuery, $value);
 		}
 	} else {
-		$sef = explode('/', $sef['sef']);
+		if(is_array($sef)) $sef = $sef['sef'];
+		$sef = explode('/', $sef);
 		array_shift($sef);
 		foreach(array_keys($query) as $k) {
 			if(in_array($k,array('option','Itemid'))) continue;
