@@ -114,6 +114,7 @@
 
 .docimport code {
 	font-family: "Courier New", "Liberation Mono", monospace;
+	font-size: small;
 }
 
 .docimport code.filename {
