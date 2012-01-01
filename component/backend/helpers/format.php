@@ -1,10 +1,9 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *  @package DocImport
+ *  @copyright Copyright (c)2010-2012 Nicholas K. Dionysopoulos
+ *  @license GNU General Public License version 3, or later
  */
-
 
 class DocimportHelperFormat
 {
