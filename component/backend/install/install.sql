@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS `#__docimport_articles` (
   `locked_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `locked_by` int(11) NOT NULL DEFAULT '0',
    `ordering` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`docimport_article_id`)
+  PRIMARY KEY (`docimport_article_id`),
+  FULLTEXT INDEX `fulltextindex` (`fulltext`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__docimport_categories` (
