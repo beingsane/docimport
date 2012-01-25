@@ -2,3 +2,4 @@
 DocImport 3.0.b1
 ================================================================================
 ~ Completely new version!
+# You could not change the ordering in Joomla! 2.5.0 due to undocumented JavaScript changes in the Joomla! core
