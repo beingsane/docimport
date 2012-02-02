@@ -51,7 +51,7 @@ function docimportParseRoute(&$segments)
 		$model = FOFModel::getAnInstance('Urls','DocimportModel');
 	}
 	
-	$menus =& JMenu::getInstance('site');
+	$menus = JMenu::getInstance('site');
 	$menu = $menus->getActive();
 	if($menu) {
 		$itemID = $menu->id;
@@ -84,7 +84,7 @@ function docimportBuildRouteCLASSIC(&$query)
 	}
 	
 	// Load the site's menus
-	$menus =& JMenu::getInstance('site');
+	$menus = JMenu::getInstance('site');
 	
 	// Get some interesting variables
 	$view = DocimportRouterHelper::getAndPop($query, 'view', 'categories');
@@ -446,8 +446,8 @@ class DocimportRouterHelper
 		// Convert $qoptions to an object
 		if(empty($qoptions) || !is_array($qoptions)) $qoptions = array();
 
-		$menus =& JMenu::getInstance('site');
-		$menuitem =& $menus->getActive();
+		$menus = JMenu::getInstance('site');
+		$menuitem = $menus->getActive();
 
 		// First check the current menu item (fastest shortcut!)
 		if(is_object($menuitem)) {
@@ -489,7 +489,7 @@ class DocimportRouterHelper
 
 		if(!is_null($params))
 		{
-			$menus =& JMenu::getInstance('site');
+			$menus = JMenu::getInstance('site');
 			$check =  $menu->params instanceof JRegistry ? $menu->params : $menus->getParams($menu->id);
 
 			foreach($params as $key => $value)

@@ -314,7 +314,7 @@ class DocimportModelXsl extends FOFModel
 
 			if($success) {
 				// Get a list of anchor elements (<a href="...">)
-				$anchors =& $domdoc->getElementsByTagName('a');
+				$anchors = $domdoc->getElementsByTagName('a');
 				if(!empty($anchors)) foreach($anchors as $anchor) {
 					// Grab the href
 					$href = $anchor->getAttribute('href');

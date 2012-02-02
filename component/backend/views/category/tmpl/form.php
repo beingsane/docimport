@@ -11,7 +11,7 @@ FOFTemplateUtils::addCSS('media://com_docimport/css/backend.css');
 
 $this->loadHelper('Select');
 
-$editor =& JFactory::getEditor();
+$editor = JFactory::getEditor();
 ?>
 <form action="index.php" method="post" name="adminForm">
 	<input type="hidden" name="option" value="com_docimport" />
