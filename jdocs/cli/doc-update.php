@@ -20,8 +20,15 @@ include_once JPATH_LIBRARIES.'/import.php';
 require_once JPATH_BASE.'/includes/version.php';
 
 jimport( 'joomla.application.cli' );
- 
-class AppDocupdate extends JCli
+
+// Bloody idiots, decide on a name and get done with it, for fuck's sake!
+if(class_exists('JApplicationCli', true)) {
+	class PlatformDevsAreIndecisiveWithNamingConventions extends JApplicationCli {}
+} else {
+	class PlatformDevsAreIndecisiveWithNamingConventions extends JCli {}
+}
+
+class AppDocupdate extends PlatformDevsAreIndecisiveWithNamingConventions
 {
 	private $_folderMap = array(
 		'docs/manual/en-US'				=> 'manual',
