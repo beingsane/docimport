@@ -11,13 +11,26 @@ if (file_exists(dirname(__FILE__).'/defines.php')) {
 }
 
 if (!defined('_JDEFINES')) {
-        define('JPATH_BASE', dirname(__FILE__).'/../');
+		//Windows compatible parent path
+        $file = substr(dirname(__FILE__), 0, strlen(dirname(__FILE__)) - 4);
+        define('JPATH_BASE', $file);
         require_once JPATH_BASE.'/includes/defines.php';
 }
 
 // Load the rest of the necessary files
 include_once JPATH_LIBRARIES.'/import.php';
-require_once JPATH_BASE.'/includes/version.php';
+
+//Joomla! 1.7 version file
+if(file_exists(JPATH_BASE.'/includes/version.php')){
+	require_once JPATH_BASE.'/includes/version.php';
+}
+else
+{
+	//Joomla! 2.5 version file
+	require_once JPATH_LIBRARIES.'/cms/version/version.php';
+	$jversion = new JVersion;
+	define('JVERSION', $jversion->getShortVersion());
+}
 
 jimport( 'joomla.application.cli' );
 
