@@ -21,6 +21,7 @@
 	<fileset dir="${dirs.component}" id="component">
 		<include name="backend**" />
 		<include name="frontend**" />
+		<include name="fof**" />
 		<include name="media/admonition**" />
 		<include name="media/css**" />
 		<include name="media/images**" />
@@ -28,6 +29,7 @@
 		<include name="translations**" />
 		
 		<include name="*.xml" />
+		<include name="*.php" />
 		<include name="LICENSE.txt" />
 		<include name="README.php" />
 	</fileset>

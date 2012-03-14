@@ -78,4 +78,9 @@
 	<updateservers>
 		<server type="extension" priority="1" name="DocImport Updates"><![CDATA[http://nocdn.akeebabackup.com/updates/docimport.xml]]></server>
 	</updateservers>
+	
+	<!-- Installation / uninstallation PHP scripts -->
+	<installfile>install.docimport.php</installfile>
+	<uninstallfile>uninstall.docimport.php</uninstallfile>
+	<scriptfile>script.docimport.php</scriptfile>
 </install>
