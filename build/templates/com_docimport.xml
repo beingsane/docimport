@@ -56,7 +56,6 @@
 		<files folder="backend">
 			<folder>assets</folder>
 			<folder>controllers</folder>
-			<folder>fof</folder>
 			<folder>helpers</folder>
 			<folder>install</folder>
 			<folder>models</folder>
