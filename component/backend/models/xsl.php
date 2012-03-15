@@ -121,9 +121,20 @@ class DocimportModelXsl extends FOFModel
 			// Process it!
 			set_time_limit(0);
 			$errorsetting = error_reporting(0);
+			if (version_compare(PHP_VERSION,'5.4',"<")) {
+				$oldval = ini_set("xsl.security_prefs",XSL_SECPREFS_NONE);
+			} else {
+				$oldval = $xslt->setSecurityPreferences(XSL_SECPREFS_NONE);
+			}
+			
 			$result = $xslt->transformToXml($xmlDoc);
+			
 			error_reporting($errorsetting);
-
+			if (version_compare(PHP_VERSION,'5.4',"<")) {
+				ini_set("xsl.security_prefs",$oldval);
+			} else {
+				$xslt->setSecurityPreferences($oldval);
+			}
 			unset($xslt);
 			
 			if($result === false) {
