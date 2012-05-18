@@ -78,9 +78,9 @@ class plgSearchDocimport extends JPlugin
 			case 'exact':
 				$text		= $db->Quote('%'.$db->getEscaped($text, true).'%', false);
 				$query->where(
-					'(('.$db->nq('a').'.'.$db->nq('title').' LIKE '.$text.')'
+					'(('.$db->qn('a').'.'.$db->qn('title').' LIKE '.$text.')'
 					.' OR '.
-					'('.$db->nq('a').'.'.$db->nq('fulltext').' LIKE '.$text.'))'
+					'('.$db->qn('a').'.'.$db->qn('fulltext').' LIKE '.$text.'))'
 				);
 				break;
 
@@ -91,9 +91,9 @@ class plgSearchDocimport extends JPlugin
 				{
 					$word		= $db->Quote('%'.$db->getEscaped($word, true).'%', false);
 					$query->where(
-						'(('.$db->nq('a').'.'.$db->nq('title').' LIKE '.$word.')'
+						'(('.$db->qn('a').'.'.$db->qn('title').' LIKE '.$word.')'
 						.' OR '.
-						'('.$db->nq('a').'.'.$db->nq('fulltext').' LIKE '.$word.'))'
+						'('.$db->qn('a').'.'.$db->qn('fulltext').' LIKE '.$word.'))'
 					);
 				}
 				break;
@@ -104,9 +104,9 @@ class plgSearchDocimport extends JPlugin
 				{
 					$word		= $db->Quote('%'.$db->getEscaped($word, true).'%', false);
 					$query->where(
-						'(('.$db->nq('a').'.'.$db->nq('title').' LIKE '.$word.')'
+						'(('.$db->qn('a').'.'.$db->qn('title').' LIKE '.$word.')'
 						.' OR '.
-						'('.$db->nq('a').'.'.$db->nq('fulltext').' LIKE '.$word.'))',
+						'('.$db->qn('a').'.'.$db->qn('fulltext').' LIKE '.$word.'))',
 						'OR'
 					);
 				}
@@ -138,19 +138,19 @@ class plgSearchDocimport extends JPlugin
 		}
 		
 		$query->select(array(
-			$db->nq('a').'.'.$db->nq('docimport_article_id'),
-			$db->nq('a').'.'.$db->nq('title').' AS '.$db->nq('title'),
-			$db->nq('c').'.'.$db->nq('title').' AS '.$db->nq('cattitle'),
+			$db->qn('a').'.'.$db->qn('docimport_article_id'),
+			$db->qn('a').'.'.$db->qn('title').' AS '.$db->qn('title'),
+			$db->qn('c').'.'.$db->qn('title').' AS '.$db->qn('cattitle'),
 			'CONCAT_WS(" / ", '.$db->q($section).', c.title) AS section',
-			$db->nq('a').'.'.$db->nq('created_on').' AS '.$db->nq('created'),
-			$db->nq('a').'.'.$db->nq('fulltext').' AS '.$db->nq('text'),
-			$db->q('1').' AS '.$db->nq('browsernav')
-		))->from($db->nq('#__docimport_articles').' AS '.$db->nq('a'))
+			$db->qn('a').'.'.$db->qn('created_on').' AS '.$db->qn('created'),
+			$db->qn('a').'.'.$db->qn('fulltext').' AS '.$db->qn('text'),
+			$db->q('1').' AS '.$db->qn('browsernav')
+		))->from($db->qn('#__docimport_articles').' AS '.$db->qn('a'))
 		->join('INNER',
-			$db->nq('#__docimport_categories').' AS '.$db->nq('c').' ON('.
-			$db->nq('c').'.'.$db->nq('docimport_category_id').' = '.
-			$db->nq('a').'.'.$db->nq('docimport_category_id').')'
-		)->where($db->nq('access').' IN ('.$groups.')')
+			$db->qn('#__docimport_categories').' AS '.$db->qn('c').' ON('.
+			$db->qn('c').'.'.$db->qn('docimport_category_id').' = '.
+			$db->qn('a').'.'.$db->qn('docimport_category_id').')'
+		)->where($db->qn('access').' IN ('.$groups.')')
 		->where('a.enabled = 1')
 		->where('c.enabled = 1')
 		->order($order);
