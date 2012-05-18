@@ -138,7 +138,7 @@ class ComAkeebaStandardInstallationLibrary {
 			->from('#__assets')
 			->where($db->nameQuote('name').' = '.$db->Quote($this->_akeeba_extension));
 		$db->setQuery($query);
-		$ids = $db->loadResultArray();
+		$ids = $db->loadColumn();
 		if(!empty($ids)) foreach($ids as $id) {
 			$query = $db->getQuery(true);
 			$query->delete('#__assets')
@@ -153,7 +153,7 @@ class ComAkeebaStandardInstallationLibrary {
 			->from('#__extensions')
 			->where($db->nameQuote('element').' = '.$db->Quote($this->_akeeba_extension));
 		$db->setQuery($query);
-		$ids = $db->loadResultArray();
+		$ids = $db->loadColumn();
 		if(!empty($ids)) foreach($ids as $id) {
 			$query = $db->getQuery(true);
 			$query->delete('#__extensions')
@@ -170,7 +170,7 @@ class ComAkeebaStandardInstallationLibrary {
 			->where($db->nameQuote('menutype').' = '.$db->Quote('main'))
 			->where($db->nameQuote('link').' LIKE '.$db->Quote('index.php?option='.$this->_akeeba_extension));
 		$db->setQuery($query);
-		$ids = $db->loadResultArray();
+		$ids = $db->loadColumn();
 		if(!empty($ids)) foreach($ids as $id) {
 			$query = $db->getQuery(true);
 			$query->delete('#__menu')
@@ -193,7 +193,7 @@ class ComAkeebaStandardInstallationLibrary {
 			->from('#__extensions')
 			->where($db->nameQuote('element').' = '.$db->Quote($this->_akeeba_extension));
 		$db->setQuery($query);
-		$ids = $db->loadResultArray();
+		$ids = $db->loadColumn();
 		if(count($ids) > 1) {
 			asort($ids);
 			$extension_id = array_shift($ids); // Keep the oldest id
@@ -237,7 +237,7 @@ class ComAkeebaStandardInstallationLibrary {
 			->where($db->nameQuote('menutype').' = '.$db->Quote('main'))
 			->where($db->nameQuote('link').' LIKE '.$db->Quote('index.php?option='.$this->_akeeba_extension));
 		$db->setQuery($query);
-		$ids1 = $db->loadResultArray();
+		$ids1 = $db->loadColumn();
 		if(empty($ids1)) $ids1 = array();
 		$query = $db->getQuery(true);
 		$query->select('id')
@@ -246,7 +246,7 @@ class ComAkeebaStandardInstallationLibrary {
 			->where($db->nameQuote('menutype').' = '.$db->Quote('main'))
 			->where($db->nameQuote('link').' LIKE '.$db->Quote('index.php?option='.$this->_akeeba_extension.'&%'));
 		$db->setQuery($query);
-		$ids2 = $db->loadResultArray();
+		$ids2 = $db->loadColumn();
 		if(empty($ids2)) $ids2 = array();
 		$ids = array_merge($ids1, $ids2);
 		if(!empty($ids)) foreach($ids as $id) {
