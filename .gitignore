@@ -10,3 +10,8 @@ component/fof
 /component/media/jmanual/
 /component/media/coding-standards/
 /component/media/manual/
+
+build/AntBuild.xml
+.buildpath
+.project
+.settings/

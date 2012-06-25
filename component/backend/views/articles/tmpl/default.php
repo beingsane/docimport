@@ -90,7 +90,7 @@ JHtml::_('behavior.tooltip');
 				<?php echo $item->docimport_article_id; ?>
 			</td>
 			<td>
-				<?php echo JHTML::_('grid.id', $i, $item->docimport_category_id, $checkedOut); ?>
+				<?php echo JHTML::_('grid.id', $i, $item->docimport_article_id, $checkedOut); ?>
 			</td>
 			<td align="left">
 				<?php echo $item->category_title; ?>
