@@ -35,7 +35,11 @@ class DocimportControllerCategories extends FOFController
 						$params->loadJSON($originalParams);
 					}
 				}
-				$lang = $params->getValue('language','');
+				if(version_compare(JVERSION, '3.0.0', 'ge')) {
+					$lang = $params->get('language','');
+				} else {
+					$lang = $params->getValue('language','');
+				}
 			}
 			if(empty($lang)) {
 				$lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
@@ -68,7 +72,11 @@ class DocimportControllerCategories extends FOFController
 				}
 				$menuparams = $x;
 			}
-			$id = $menuparams->getValue('catid', 0);
+			if(version_compare(JVERSION, '3.0.0', 'ge')) {
+				$id = $menuparams->get('catid', 0);
+			} else {
+				$id = $menuparams->getValue('catid', 0);
+			}
 			FOFInput::setVar('id', $id, $this->input);
 		}
 		

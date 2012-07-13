@@ -356,7 +356,11 @@ function docimportParseRouteCLASSIC(&$segments)
 			}
 			$menuparams = $x;
 		}
-		$catid = $menuparams->getValue('catid', null);
+		if(version_compare(JVERSION, '3.0.0', 'ge')) {
+			$catid = $menuparams->get('catid', null);
+		} else {
+			$catid = $menuparams->getValue('catid', null);
+		}
 		
 		if( empty($view) || ($view == 'categories') || ($view == 'category') )
 		{
