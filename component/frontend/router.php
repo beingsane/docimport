@@ -349,7 +349,11 @@ function docimportParseRouteCLASSIC(&$segments)
 		$menuparams = $menu->params;
 		if(!($menuparams instanceof JRegistry)) {
 			$x = new JRegistry();
-			$x->loadINI($menuparams);
+			if(version_compare(JVERSION, '3.0.0', 'ge')) {
+				$x->loadString($menuparams, 'INI');
+			} else {
+				$x->loadINI($menuparams);
+			}
 			$menuparams = $x;
 		}
 		$catid = $menuparams->getValue('catid', null);
