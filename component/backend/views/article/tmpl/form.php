@@ -13,7 +13,7 @@ $this->loadHelper('Select');
 
 $editor = JFactory::getEditor();
 ?>
-<form action="index.php" method="post" name="adminForm">
+<form action="index.php" method="post" name="adminForm" id="adminForm">
 	<input type="hidden" name="option" value="com_docimport" />
 	<input type="hidden" name="view" value="article" />
 	<input type="hidden" name="task" value="" />
