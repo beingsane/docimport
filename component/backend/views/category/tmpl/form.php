@@ -18,7 +18,7 @@ $editor = JFactory::getEditor();
 	<input type="hidden" name="view" value="category" />
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="docimport_category_id" value="<?php echo $this->item->docimport_category_id ?>" />
-	<input type="hidden" name="<?php echo JUtility::getToken();?>" value="1" />
+	<input type="hidden" name="<?php echo JFactory::getSession()->getToken();?>" value="1" />
 	
 	<fieldset id="categories-basic">
 		<legend><?php echo JText::_('COM_DOCIMPORT_CATEGORY_BASIC_TITLE'); ?></legend>
