@@ -29,7 +29,11 @@ class DocimportControllerCategories extends FOFController
 				if(!is_object($params)) {
 					$originalParams = $params;
 					$params = new JRegistry;
-					$params->loadJSON($originalParams);
+					if(version_compare(JVERSION, '3.0.0', 'ge')) {
+						$params->loadString($originalParams, 'JSON');
+					} else {
+						$params->loadJSON($originalParams);
+					}
 				}
 				$lang = $params->getValue('language','');
 			}
