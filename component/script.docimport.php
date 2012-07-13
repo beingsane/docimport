@@ -136,13 +136,13 @@ class ComAkeebaStandardInstallationLibrary {
 		$query = $db->getQuery(true);
 		$query->select('id')
 			->from('#__assets')
-			->where($db->nameQuote('name').' = '.$db->Quote($this->_akeeba_extension));
+			->where($db->quoteName('name').' = '.$db->Quote($this->_akeeba_extension));
 		$db->setQuery($query);
 		$ids = $db->loadColumn();
 		if(!empty($ids)) foreach($ids as $id) {
 			$query = $db->getQuery(true);
 			$query->delete('#__assets')
-				->where($db->nameQuote('id').' = '.$db->Quote($id));
+				->where($db->quoteName('id').' = '.$db->Quote($id));
 			$db->setQuery($query);
 			$db->query();
 		}
@@ -151,13 +151,13 @@ class ComAkeebaStandardInstallationLibrary {
 		$query = $db->getQuery(true);
 		$query->select('extension_id')
 			->from('#__extensions')
-			->where($db->nameQuote('element').' = '.$db->Quote($this->_akeeba_extension));
+			->where($db->quoteName('element').' = '.$db->Quote($this->_akeeba_extension));
 		$db->setQuery($query);
 		$ids = $db->loadColumn();
 		if(!empty($ids)) foreach($ids as $id) {
 			$query = $db->getQuery(true);
 			$query->delete('#__extensions')
-				->where($db->nameQuote('extension_id').' = '.$db->Quote($id));
+				->where($db->quoteName('extension_id').' = '.$db->Quote($id));
 			$db->setQuery($query);
 			$db->query();
 		}
@@ -166,15 +166,15 @@ class ComAkeebaStandardInstallationLibrary {
 		$query = $db->getQuery(true);
 		$query->select('id')
 			->from('#__menu')
-			->where($db->nameQuote('type').' = '.$db->Quote('component'))
-			->where($db->nameQuote('menutype').' = '.$db->Quote('main'))
-			->where($db->nameQuote('link').' LIKE '.$db->Quote('index.php?option='.$this->_akeeba_extension));
+			->where($db->quoteName('type').' = '.$db->Quote('component'))
+			->where($db->quoteName('menutype').' = '.$db->Quote('main'))
+			->where($db->quoteName('link').' LIKE '.$db->Quote('index.php?option='.$this->_akeeba_extension));
 		$db->setQuery($query);
 		$ids = $db->loadColumn();
 		if(!empty($ids)) foreach($ids as $id) {
 			$query = $db->getQuery(true);
 			$query->delete('#__menu')
-				->where($db->nameQuote('id').' = '.$db->Quote($id));
+				->where($db->quoteName('id').' = '.$db->Quote($id));
 			$db->setQuery($query);
 			$db->query();
 		}
@@ -191,7 +191,7 @@ class ComAkeebaStandardInstallationLibrary {
 		$query = $db->getQuery(true);
 		$query->select('extension_id')
 			->from('#__extensions')
-			->where($db->nameQuote('element').' = '.$db->Quote($this->_akeeba_extension));
+			->where($db->quoteName('element').' = '.$db->Quote($this->_akeeba_extension));
 		$db->setQuery($query);
 		$ids = $db->loadColumn();
 		if(count($ids) > 1) {
@@ -201,7 +201,7 @@ class ComAkeebaStandardInstallationLibrary {
 			foreach($ids as $id) {
 				$query = $db->getQuery(true);
 				$query->delete('#__extensions')
-					->where($db->nameQuote('extension_id').' = '.$db->Quote($id));
+					->where($db->quoteName('extension_id').' = '.$db->Quote($id));
 				$db->setQuery($query);
 				$db->query();
 			}
@@ -213,7 +213,7 @@ class ComAkeebaStandardInstallationLibrary {
 		$query = $db->getQuery(true);
 		$query->select('id')
 			->from('#__assets')
-			->where($db->nameQuote('name').' = '.$db->Quote($this->_akeeba_extension));
+			->where($db->quoteName('name').' = '.$db->Quote($this->_akeeba_extension));
 		$db->setQuery($query);
 		$ids = $db->loadObjectList();
 		if(count($ids) > 1) {
@@ -223,7 +223,7 @@ class ComAkeebaStandardInstallationLibrary {
 			foreach($ids as $id) {
 				$query = $db->getQuery(true);
 				$query->delete('#__assets')
-					->where($db->nameQuote('id').' = '.$db->Quote($id));
+					->where($db->quoteName('id').' = '.$db->Quote($id));
 				$db->setQuery($query);
 				$db->query();
 			}
@@ -233,18 +233,18 @@ class ComAkeebaStandardInstallationLibrary {
 		$query = $db->getQuery(true);
 		$query->select('id')
 			->from('#__menu')
-			->where($db->nameQuote('type').' = '.$db->Quote('component'))
-			->where($db->nameQuote('menutype').' = '.$db->Quote('main'))
-			->where($db->nameQuote('link').' LIKE '.$db->Quote('index.php?option='.$this->_akeeba_extension));
+			->where($db->quoteName('type').' = '.$db->Quote('component'))
+			->where($db->quoteName('menutype').' = '.$db->Quote('main'))
+			->where($db->quoteName('link').' LIKE '.$db->Quote('index.php?option='.$this->_akeeba_extension));
 		$db->setQuery($query);
 		$ids1 = $db->loadColumn();
 		if(empty($ids1)) $ids1 = array();
 		$query = $db->getQuery(true);
 		$query->select('id')
 			->from('#__menu')
-			->where($db->nameQuote('type').' = '.$db->Quote('component'))
-			->where($db->nameQuote('menutype').' = '.$db->Quote('main'))
-			->where($db->nameQuote('link').' LIKE '.$db->Quote('index.php?option='.$this->_akeeba_extension.'&%'));
+			->where($db->quoteName('type').' = '.$db->Quote('component'))
+			->where($db->quoteName('menutype').' = '.$db->Quote('main'))
+			->where($db->quoteName('link').' LIKE '.$db->Quote('index.php?option='.$this->_akeeba_extension.'&%'));
 		$db->setQuery($query);
 		$ids2 = $db->loadColumn();
 		if(empty($ids2)) $ids2 = array();
@@ -252,7 +252,7 @@ class ComAkeebaStandardInstallationLibrary {
 		if(!empty($ids)) foreach($ids as $id) {
 			$query = $db->getQuery(true);
 			$query->delete('#__menu')
-				->where($db->nameQuote('id').' = '.$db->Quote($id));
+				->where($db->quoteName('id').' = '.$db->Quote($id));
 			$db->setQuery($query);
 			$db->query();
 		}

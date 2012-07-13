@@ -15,19 +15,19 @@ class DocimportModelCategories extends FOFModel
 
 		$query = FOFQueryAbstract::getNew()
 			->select('*')
-			->from($db->nameQuote('#__docimport_categories'));
+			->from($db->quoteName('#__docimport_categories'));
 
 		$search = $this->getState('search', null,'string');
 		if(!empty($search)) {
 			$query->where(
-				$db->nameQuote('title').' LIKE '.$db->quote('%'.$search.'%')
+				$db->quoteName('title').' LIKE '.$db->quote('%'.$search.'%')
 			);
 		}
 		
 		$enabled = $this->getState('enabled',null,'cmd');
 		if(is_numeric($enabled)) {
 			$query->where(
-				$db->nameQuote('enabled').' = '.$db->quote($enabled)
+				$db->quoteName('enabled').' = '.$db->quote($enabled)
 			);
 		}
 		
@@ -40,11 +40,11 @@ class DocimportModelCategories extends FOFModel
 					$langs[] = $db->quote($l);
 				}
 				$query->where(
-					$db->nameQuote('language').' IN ('.implode(',',$langs).')'
+					$db->quoteName('language').' IN ('.implode(',',$langs).')'
 				);
 			} else {
 				$query->where(
-					$db->nameQuote('language').' = '.$db->quote($language)
+					$db->quoteName('language').' = '.$db->quote($language)
 				);
 			}
 		}

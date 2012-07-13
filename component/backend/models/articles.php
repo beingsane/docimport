@@ -15,39 +15,39 @@ class DocimportModelArticles extends FOFModel
 
 		$query = FOFQueryAbstract::getNew()
 			->select(array(
-				$db->nameQuote('a').'.*',
-				$db->nameQuote('c').'.'.$db->nameQuote('title').' AS '.$db->nameQuote('category_title')
+				$db->quoteName('a').'.*',
+				$db->quoteName('c').'.'.$db->quoteName('title').' AS '.$db->quoteName('category_title')
 			))
-			->from($db->nameQuote('#__docimport_articles').' AS '.$db->nameQuote('a'))
-			->join('INNER', $db->nameQuote('#__docimport_categories').' AS '.$db->nameQuote('c').
-					' USING ('.$db->nameQuote('docimport_category_id').')');
+			->from($db->quoteName('#__docimport_articles').' AS '.$db->quoteName('a'))
+			->join('INNER', $db->quoteName('#__docimport_categories').' AS '.$db->quoteName('c').
+					' USING ('.$db->quoteName('docimport_category_id').')');
 		;
 
 		$search = $this->getState('search', null,'string');
 		if(!empty($search)) {
 			$query->where(
-				$db->nameQuote('a').'.'.$db->nameQuote('title').' LIKE '.$db->quote('%'.$search.'%')
+				$db->quoteName('a').'.'.$db->quoteName('title').' LIKE '.$db->quote('%'.$search.'%')
 			);
 		}
 		
 		$enabled = $this->getState('enabled',null,'cmd');
 		if(is_numeric($enabled) && ($enabled > 0)) {
 			$query->where(
-				$db->nameQuote('a').'.'.$db->nameQuote('enabled').' = '.$db->quote($enabled)
+				$db->quoteName('a').'.'.$db->quoteName('enabled').' = '.$db->quote($enabled)
 			);
 		}
 		
 		$category = $this->getState('category',null,'cmd');
 		if(is_numeric($category) && ($category > 0)) {
 			$query->where(
-				$db->nameQuote('a').'.'.$db->nameQuote('docimport_category_id').' = '.$db->quote($category)
+				$db->quoteName('a').'.'.$db->quoteName('docimport_category_id').' = '.$db->quote($category)
 			);
 		}
 		
 		$slug = $this->getState('slug',null,'string');
 		if(!empty($slug)) {
 			$query->where(
-				$db->nameQuote('a').'.'.$db->nameQuote('slug').' = '.$db->quote($slug)
+				$db->quoteName('a').'.'.$db->quoteName('slug').' = '.$db->quote($slug)
 			);
 		}
 		
@@ -60,18 +60,18 @@ class DocimportModelArticles extends FOFModel
 					$langs[] = $db->quote($l);
 				}
 				$query->where(
-					$db->nameQuote('c').'.'.$db->nameQuote('language').' IN ('.implode(',',$langs).')'
+					$db->quoteName('c').'.'.$db->quoteName('language').' IN ('.implode(',',$langs).')'
 				);
 			} else {
 				$query->where(
-					$db->nameQuote('c').'.'.$db->nameQuote('language').' = '.$db->quote($language)
+					$db->quoteName('c').'.'.$db->quoteName('language').' = '.$db->quote($language)
 				);
 			}
 		}
 		
 		$order = $this->getState('filter_order', 'docimport_article_id', 'cmd');
 		if(!in_array($order, array_keys($this->getTable()->getData()))) $order = 'docimport_article_id';
-		$order = $db->nameQuote('a').'.'.$db->nameQuote($order);
+		$order = $db->quoteName('a').'.'.$db->quoteName($order);
 		$dir = $this->getState('filter_order_Dir', 'DESC', 'cmd');
 		$query->order( $order.' '.$dir);
 		return $query;

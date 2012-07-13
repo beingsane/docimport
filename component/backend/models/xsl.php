@@ -200,14 +200,14 @@ class DocimportModelXsl extends FOFModel
 		// Load the list of articles in this category
 		$db = $this->getDBO();
 		$query = FOFQueryAbstract::getNew()
-			->from($db->nameQuote('#__docimport_articles'))
+			->from($db->quoteName('#__docimport_articles'))
 			->select(array(
-				$db->nameQuote('docimport_article_id').' AS '.$db->nameQuote('id'),
-				$db->nameQuote('slug'),
-				$db->nameQuote('last_timestamp'),
-				$db->nameQuote('enabled')
+				$db->quoteName('docimport_article_id').' AS '.$db->quoteName('id'),
+				$db->quoteName('slug'),
+				$db->quoteName('last_timestamp'),
+				$db->quoteName('enabled')
 			))
-			->where($db->nameQuote('docimport_category_id').' = '.$db->quote($category_id))
+			->where($db->quoteName('docimport_category_id').' = '.$db->quote($category_id))
 		;
 		$db->setQuery($query);
 		$articles = $db->loadObjectList('slug');
@@ -298,13 +298,13 @@ class DocimportModelXsl extends FOFModel
 		// Fourth pass: Load a list of enabled articles (IDs and slugs)
 		$db = $this->getDBO();
 		$query = FOFQueryAbstract::getNew()
-			->from($db->nameQuote('#__docimport_articles'))
+			->from($db->quoteName('#__docimport_articles'))
 			->select(array(
-				$db->nameQuote('docimport_article_id').' AS '.$db->nameQuote('id'),
-				$db->nameQuote('slug')
+				$db->quoteName('docimport_article_id').' AS '.$db->quoteName('id'),
+				$db->quoteName('slug')
 			))
-			->where($db->nameQuote('docimport_category_id').' = '.$db->quote($category_id))
-			->where($db->nameQuote('enabled').' = '.$db->quote(1))
+			->where($db->quoteName('docimport_category_id').' = '.$db->quote($category_id))
+			->where($db->quoteName('enabled').' = '.$db->quote(1))
 		;
 		$db->setQuery($query);
 		$rawlist = $db->loadObjectList();
@@ -385,10 +385,10 @@ class DocimportModelXsl extends FOFModel
 		// Load a list of categories
 		$db = $this->getDBO();
 		$query = FOFQueryMysql::getNew($db)
-			->from($db->nameQuote('#__docimport_categories'))
+			->from($db->quoteName('#__docimport_categories'))
 			->select(array(
-				$db->nameQuote('docimport_category_id').' AS '.$db->nameQuote('id'),
-				$db->nameQuote('slug')
+				$db->quoteName('docimport_category_id').' AS '.$db->quoteName('id'),
+				$db->quoteName('slug')
 			))
 		;
 		$db->setQuery($query);

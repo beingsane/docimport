@@ -32,7 +32,7 @@ class DocimportModelUrls extends JModel
 		$db = $this->getDbo();
 		$query = FOFQueryAbstract::getNew()
 			->select('*')
-			->from($db->nameQuote('#__docimport_urls'));
+			->from($db->quoteName('#__docimport_urls'));
 		$db->setQuery($query);
 		$this->urls = $db->loadAssocList('nonsef', 'sef');
 	}
@@ -72,20 +72,20 @@ class DocimportModelUrls extends JModel
 		$db = $this->getDbo();
 		if($existing) {
 			$query = FOFQueryAbstract::getNew($db)
-				->update($db->nameQuote('#__docimport_urls'))
+				->update($db->quoteName('#__docimport_urls'))
 				->set(
-					$db->nameQuote('sef').' = '.$db->quote($value)
+					$db->quoteName('sef').' = '.$db->quote($value)
 				)->where(
-					$db->nameQuote('nonsef').' = '.$db->quote($key)
+					$db->quoteName('nonsef').' = '.$db->quote($key)
 				);
 			$db->setQuery($query);
 			return $db->query();
 		} else {
 			$query = FOFQueryAbstract::getNew($db)
-				->insert($db->nameQuote('#__docimport_urls'))
+				->insert($db->quoteName('#__docimport_urls'))
 				->columns(array(
-					$db->nameQuote('nonsef'),
-					$db->nameQuote('sef')
+					$db->quoteName('nonsef'),
+					$db->quoteName('sef')
 				))
 				->values($db->quote($key).','.$db->quote($value));
 			$db->setQuery($query);
@@ -97,7 +97,7 @@ class DocimportModelUrls extends JModel
 	{
 		$db = $this->getDbo();
 		$this->urls = array();
-		$db->setQuery('TRUNCATE TABLE '.$db->nameQuote('#__docimport_urls'));
+		$db->setQuery('TRUNCATE TABLE '.$db->quoteName('#__docimport_urls'));
 		return $db->query();
 	}
 }
