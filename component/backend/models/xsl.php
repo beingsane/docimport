@@ -256,7 +256,7 @@ class DocimportModelXsl extends FOFModel
 						'fulltext'				=> $filedata->contents,
 						'last_timestamp'		=> $filedata->timestamp,
 						'enabled'				=> 1,
-						'created_on'			=> $jNow->toMySQL(),
+						'created_on'			=> $jNow->toSql(),
 						'created_by'			=> $user_id
 						
 					));
@@ -289,7 +289,7 @@ class DocimportModelXsl extends FOFModel
 						'enabled'				=> 1,
 						'locked_on'				=> '0000-00-00 00:00:00',
 						'locked_by'				=> 0,
-						'modified_on'			=> $jNow->toMySQL(),
+						'modified_on'			=> $jNow->toSql(),
 						'modified_by'			=> $user_id
 					));
 			}
