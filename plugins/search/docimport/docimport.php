@@ -76,7 +76,7 @@ class plgSearchDocimport extends JPlugin
 		switch ($phrase)
 		{
 			case 'exact':
-				$text		= $db->Quote('%'.$db->getEscaped($text, true).'%', false);
+				$text		= $db->Quote('%'.$db->escape($text, true).'%', false);
 				$query->where(
 					'(('.$db->qn('a').'.'.$db->qn('title').' LIKE '.$text.')'
 					.' OR '.
@@ -89,7 +89,7 @@ class plgSearchDocimport extends JPlugin
 				$words	= explode(' ', $text);
 				foreach ($words as $word)
 				{
-					$word		= $db->Quote('%'.$db->getEscaped($word, true).'%', false);
+					$word		= $db->Quote('%'.$db->escape($word, true).'%', false);
 					$query->where(
 						'(('.$db->qn('a').'.'.$db->qn('title').' LIKE '.$word.')'
 						.' OR '.
@@ -102,7 +102,7 @@ class plgSearchDocimport extends JPlugin
 				$words	= explode(' ', $text);
 				foreach ($words as $word)
 				{
-					$word		= $db->Quote('%'.$db->getEscaped($word, true).'%', false);
+					$word		= $db->Quote('%'.$db->escape($word, true).'%', false);
 					$query->where(
 						'(('.$db->qn('a').'.'.$db->qn('title').' LIKE '.$word.')'
 						.' OR '.
