@@ -29,13 +29,13 @@ class DocimportControllerCategories extends FOFController
 				if(!is_object($params)) {
 					$originalParams = $params;
 					$params = new JRegistry;
-					if(version_compare(JVERSION, '3.0.0', 'ge')) {
+					if(version_compare(JVERSION, '3.0', 'ge')) {
 						$params->loadString($originalParams, 'JSON');
 					} else {
 						$params->loadJSON($originalParams);
 					}
 				}
-				if(version_compare(JVERSION, '3.0.0', 'ge')) {
+				if(version_compare(JVERSION, '3.0', 'ge')) {
 					$lang = $params->get('language','');
 				} else {
 					$lang = $params->getValue('language','');
@@ -65,14 +65,14 @@ class DocimportControllerCategories extends FOFController
 			$menuparams = $menu->params;
 			if(!($menuparams instanceof JRegistry)) {
 				$x = new JRegistry();
-				if(version_compare(JVERSION, '3.0.0', 'ge')) {
+				if(version_compare(JVERSION, '3.0', 'ge')) {
 					$x->loadString($menuparams, 'INI');
 				} else {
 					$x->loadINI($menuparams);
 				}
 				$menuparams = $x;
 			}
-			if(version_compare(JVERSION, '3.0.0', 'ge')) {
+			if(version_compare(JVERSION, '3.0', 'ge')) {
 				$id = $menuparams->get('catid', 0);
 			} else {
 				$id = $menuparams->getValue('catid', 0);
