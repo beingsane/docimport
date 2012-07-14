@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/component-install.dtd">
-<install type="component" method="upgrade" version="1.5.0">
+<extension type="component" method="upgrade" version="1.5.0">
 	<name>DocImport</name>
 	<creationDate>##DATE##</creationDate>
 	<author>Nicholas K. Dionysopoulos</author>
@@ -82,4 +82,4 @@
 	<installfile>install.docimport.php</installfile>
 	<uninstallfile>uninstall.docimport.php</uninstallfile>
 	<scriptfile>script.docimport.php</scriptfile>
-</install>
+</extension>
