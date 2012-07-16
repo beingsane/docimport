@@ -22,6 +22,7 @@
 		<include name="backend**" />
 		<include name="frontend**" />
 		<include name="fof**" />
+		<include name="strapper**" />
 		<include name="media/admonition**" />
 		<include name="media/css**" />
 		<include name="media/images**" />
