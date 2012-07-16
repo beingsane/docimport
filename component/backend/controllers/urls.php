@@ -8,7 +8,15 @@
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
-class DocimportControllerUrls extends JController
+if(!class_exists('JoomlaSucksController')) {
+	if(interface_exists('JController')) {
+		abstract class JoomlaSucksController extends JControllerLegacy {}
+	} else {
+		class JoomlaSucksController extends JController {}
+	}
+}
+
+class DocimportControllerUrls extends JoomlaSucksController
 {
 	public function nuke()
 	{
