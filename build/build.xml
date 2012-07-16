@@ -27,6 +27,7 @@
 		<include name="media/css**" />
 		<include name="media/images**" />
 		<include name="media/js**" />
+		<include name="plugins**" />
 		<include name="translations**" />
 		
 		<include name="*.xml" />
