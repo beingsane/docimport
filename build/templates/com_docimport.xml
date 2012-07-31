@@ -58,6 +58,7 @@
 			<folder>helpers</folder>
 			<folder>install</folder>
 			<folder>models</folder>
+			<folder>tables</folder>
 			<folder>views</folder>
 			
 			<filename>index.html</filename>
