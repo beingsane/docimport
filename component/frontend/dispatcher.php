@@ -25,6 +25,12 @@ class DocimportDispatcher extends FOFDispatcher
 			FOFInput::setVar('view',$view,$this->input);
 		}
 		
+		// Load Akeeba Strapper
+		include_once JPATH_ROOT.'/media/akeeba_strapper/strapper.php';
+		AkeebaStrapper::bootstrap();
+		AkeebaStrapper::jQueryUI();
+		AkeebaStrapper::addCSSfile('media://com_docimport/css/frontend.css');
+		
 		// If the action is "add" in the front-end, map it to "read"
 		$view = FOFInput::getCmd('view',$this->defaultView, $this->input);
 		$task = FOFInput::getCmd('task','',$this->input);

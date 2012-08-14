@@ -7,8 +7,6 @@
 
 // Protect from unauthorized access
 defined('_JEXEC') or die();
-
-FOFTemplateUtils::addCSS('media://com_docimport/css/frontend.css');
 ?>
 <div class="docimport docimport-page-article">
 	<?php echo $this->item->fulltext; ?>

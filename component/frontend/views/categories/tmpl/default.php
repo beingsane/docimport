@@ -7,17 +7,15 @@
 
 // Protect from unauthorized access
 defined('_JEXEC') or die();
-
-FOFTemplateUtils::addCSS('media://com_docimport/css/frontend.css');
 ?>
-<div class="docimport docimport-page-categories">
+<div class="docimport docimport-page-categories akeeba-bootstrap">
 <?php if(empty($this->items)):?>
 <p><?php echo JText::_('COM_DOCIMPORT_CATEGORIES_NONE') ?></p>
 <?php else:?>
 <?php foreach($this->items as $item):
 $url = JRoute::_('index.php?option=com_docimport&view=category&id='.$item->docimport_category_id);
 ?>
-<div class="docimport-category">
+<div class="docimport-category well">
 	<h2 class="docimport-category-title">
 		<a href="<?php echo $url ?>">
 			<?php echo $this->escape($item->title) ?>
@@ -31,7 +29,7 @@ $url = JRoute::_('index.php?option=com_docimport&view=category&id='.$item->docim
 	</div>
 	
 	<div class="docimport-category-readon">
-		<a class="readon" href="<?php echo $url?>">
+		<a class="btn btn-primary" href="<?php echo $url?>">
 			<?php echo JText::_('COM_DOCIMPORT_CATEGORIES_GOTOINDEX') ?>
 		</a>
 	</div>

@@ -7,7 +7,6 @@
 
 defined('_JEXEC') or die();
 
-FOFTemplateUtils::addCSS('media://com_docimport/css/backend.css');
 $lang = JFactory::getLanguage();
 
 ?>
