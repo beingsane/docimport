@@ -26,21 +26,21 @@ JHtml::_('behavior.tooltip');
 	<thead>
 		<tr>
 			<th width="60">
-				<?php echo JHTML::_('grid.sort', 'Num', 'docimport_article_id', $this->lists->order_Dir, $this->lists->order) ?>
+				<?php echo JHTML::_('grid.sort', 'Num', 'docimport_article_id', $this->lists->order_Dir, $this->lists->order, 'browse') ?>
 			</th>
 			<th width="25"></th>
 			<th width="20%">
-				<?php echo JHTML::_('grid.sort', 'COM_DOCIMPORT_ARTICLES_FIELD_CATEGORY', 'docimport_category_id', $this->lists->order_Dir, $this->lists->order) ?>
+				<?php echo JHTML::_('grid.sort', 'COM_DOCIMPORT_ARTICLES_FIELD_CATEGORY', 'docimport_category_id', $this->lists->order_Dir, $this->lists->order, 'browse') ?>
 			</th>
 			<th>
-				<?php echo JHTML::_('grid.sort', 'COM_DOCIMPORT_ARTICLES_FIELD_TITLE', 'title', $this->lists->order_Dir, $this->lists->order) ?>
+				<?php echo JHTML::_('grid.sort', 'COM_DOCIMPORT_ARTICLES_FIELD_TITLE', 'title', $this->lists->order_Dir, $this->lists->order, 'browse') ?>
 			</th>
 			<th width="10%">
-				<?php echo JHTML::_('grid.sort', 'COM_DOCIMPORT_COMMON_FIELD_ORDERING', 'ordering', $this->lists->order_Dir, $this->lists->order); ?>
+				<?php echo JHTML::_('grid.sort', 'COM_DOCIMPORT_COMMON_FIELD_ORDERING', 'ordering', $this->lists->order_Dir, $this->lists->order, 'browse') ?>
 				<?php echo JHTML::_('grid.order', $this->items); ?>
 			</th>
 			<th width="8%">
-				<?php echo JHTML::_('grid.sort', 'COM_DOCIMPORT_COMMON_FIELD_ENABLED', 'enabled', $this->lists->order_Dir, $this->lists->order); ?>
+				<?php echo JHTML::_('grid.sort', 'COM_DOCIMPORT_COMMON_FIELD_ENABLED', 'enabled', $this->lists->order_Dir, $this->lists->order, 'browse') ?>
 			</th>
 		</tr>
 		<tr>
