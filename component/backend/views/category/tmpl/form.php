@@ -42,7 +42,11 @@ $editor = JFactory::getEditor();
 		<?php endif; ?>
 		
 		<label for="access" class="main"><?php echo JText::_('COM_DOCIMPORT_COMMON_FIELD_ACCESS'); ?></label>
+		<?php if(version_compare(JVERSION, '3.0', 'gt')): ?>
+		<?php echo JHTML::_('access.level', 'access', $this->item->access); ?>
+		<?php else: ?>
 		<?php echo JHTML::_('list.accesslevel', $this->item); ?>
+		<?php endif; ?>
 		<div class="docimport-clear"></div>
 		
 		<label for="enabled" class="main" class="mainlabel">
