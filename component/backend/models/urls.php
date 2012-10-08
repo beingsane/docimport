@@ -7,15 +7,15 @@
 
 defined('_JEXEC') or die();
 
-if(!class_exists('JoomlaSucksModel')) {
+if(!class_exists('JoomlaCompatModel')) {
 	if(interface_exists('JModel')) {
-		abstract class JoomlaSucksModel extends JModelLegacy {}
+		abstract class JoomlaCompatModel extends JModelLegacy {}
 	} else {
-		class JoomlaSucksModel extends JModel {}
+		class JoomlaCompatModel extends JModel {}
 	}
 }
 
-class DocimportModelUrls extends JoomlaSucksModel
+class DocimportModelUrls extends JoomlaCompatModel
 {
 	private $urls = array();
 	
