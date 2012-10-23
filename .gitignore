@@ -16,3 +16,5 @@ build/AntBuild.xml
 .buildpath
 .project
 .settings/
+
+/documentation/docimport-guide.xml~

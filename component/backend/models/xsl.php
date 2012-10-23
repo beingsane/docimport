@@ -105,7 +105,7 @@ class DocimportModelXsl extends FOFModel
 			$parameters = array(
 				'base.dir'				=> rtrim($dir_output,'/').'/'.(empty($filesprefix) ? '' : $filesprefix.'-'),
 				'img.src.path'			=> "/media/com_docimport/{$category->slug}/",
-				'admon.graphics.path'	=> '/media/com_docimport/admonition/',
+				'admon.graphics.path'	=> 'media/com_docimport/admonition/',
 				'admon.graphics'		=> 1,
 				'use.id.as.filename'    => 1,
 				'toc.section.depth'		=> 5,
@@ -124,16 +124,16 @@ class DocimportModelXsl extends FOFModel
 			if (version_compare(PHP_VERSION,'5.4',"<")) {
 				$oldval = ini_set("xsl.security_prefs",XSL_SECPREFS_NONE);
 			} else {
-				$oldval = $xslt->setSecurityPrefs(XSL_SECPREF_NONE);
+				$oldval = $xslt->setSecurityPreferences(XSL_SECPREFS_NONE);
 			}
-
+			
 			$result = $xslt->transformToXml($xmlDoc);
 			
 			error_reporting($errorsetting);
 			if (version_compare(PHP_VERSION,'5.4',"<")) {
 				ini_set("xsl.security_prefs",$oldval);
 			} else {
-				$xslt->setSecurityPrefs($oldval);
+				$xslt->setSecurityPreferences($oldval);
 			}
 			unset($xslt);
 			
