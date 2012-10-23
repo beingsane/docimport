@@ -122,7 +122,7 @@ class DocimportModelXsl extends FOFModel
 			set_time_limit(0);
 			$errorsetting = error_reporting(0);
 			if (version_compare(PHP_VERSION,'5.4',"<")) {
-				$oldval = ini_set("xsl.security_prefs",XSL_SECPREF_NONE);
+				$oldval = ini_set("xsl.security_prefs",XSL_SECPREFS_NONE);
 			} else {
 				$oldval = $xslt->setSecurityPrefs(XSL_SECPREF_NONE);
 			}
