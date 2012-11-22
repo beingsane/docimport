@@ -1,5 +1,5 @@
-================================================================================
 DocImport 3.0.b1
 ================================================================================
 ~ Completely new version!
+~ Make sure we are no longer using Joomla!'s integrated extension update (it doesn't support stability and Joomla! version compatibility checks)
 # You could not change the ordering in Joomla! 2.5.0 due to undocumented JavaScript changes in the Joomla! core
