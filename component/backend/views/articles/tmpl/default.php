@@ -45,7 +45,9 @@ JHtml::_('behavior.tooltip');
 		</tr>
 		<tr>
 			<td></td>
-			<td></td>
+			<td>
+				<input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this);" />
+			</td>
 			<td>
 				<?php echo DocimportHelperSelect::categories($this->getModel()->getState('category',''), 'category', array('onchange'=>'this.form.submit();')) ?>
 			</td>

@@ -53,7 +53,9 @@ JHtml::_('behavior.tooltip');
 		</tr>
 		<tr>
 			<td></td>
-			<td></td>
+			<td>
+				<input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this);" />
+			</td>
 			<td>
 				<input type="text" name="search" id="search"
 					value="<?php echo $this->escape($this->getModel()->getState('search',''));?>"
