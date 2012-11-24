@@ -104,7 +104,7 @@ class DocimportModelXsl extends FOFModel
 			// Setup the XSLT processor
 			$parameters = array(
 				'base.dir'				=> rtrim($dir_output,'/').'/'.(empty($filesprefix) ? '' : $filesprefix.'-'),
-				'img.src.path'			=> "/media/com_docimport/{$category->slug}/",
+				'img.src.path'			=> JURI::root(true)."/media/com_docimport/{$category->slug}/",
 				'admon.graphics.path'	=> '/media/com_docimport/admonition/',
 				'admon.graphics'		=> 1,
 				'use.id.as.filename'    => 1,
