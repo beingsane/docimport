@@ -38,6 +38,9 @@ class DocimportModelXsl extends FOFModel
 			return false;
 		}
 		
+		// Clear the output directory
+		JFolder::delete($dir_output);
+		// Regenerate the output directory
 		if(!JFolder::exists($dir_output)) {
 			$result = JFolder::create($dir_output);
 			if(!$result) {
@@ -49,7 +52,7 @@ class DocimportModelXsl extends FOFModel
 				JFile::write($dir_output.'/.htaccess', $content);
 			}
 		}
-		
+				
 		// Find the XML file
 		$xmlfiles = JFolder::files($dir_src, '\.xml$', false, true);
 		
