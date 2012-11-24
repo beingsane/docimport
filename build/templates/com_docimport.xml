@@ -65,6 +65,7 @@
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
 			<filename>docimport.php</filename>
+			<filename>version.php</filename>
 		</files>
 		
 		<languages folder="translations/backend">

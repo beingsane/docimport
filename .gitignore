@@ -12,6 +12,8 @@ component/strapper
 /component/media/coding-standards/
 /component/media/manual/
 
+/component/backend/version.php
+
 build/AntBuild.xml
 .buildpath
 .project
