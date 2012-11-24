@@ -12,7 +12,9 @@ defined('_JEXEC') or die();
 //require_once JPATH_COMPONENT_ADMINISTRATOR.'/version.php';
 
 // Include FOF
-include_once JPATH_ROOT.'/libraries/fof/include.php';
+if(!defined('FOF_INCLUDED')) {
+	include_once JPATH_LIBRARIES.'/fof/include.php';
+}
 
 // Dispatch
 FOFDispatcher::getAnInstance('com_docimport')->dispatch();

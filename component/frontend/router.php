@@ -8,7 +8,9 @@
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
-include_once JPATH_ADMINISTRATOR.'/components/com_docimport/fof/include.php';
+if(!defined('FOF_INCLUDED')) {
+	include_once JPATH_LIBRARIES.'/fof/include.php';
+}
 
 function docimportBuildRoute(&$query)
 {
