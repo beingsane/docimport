@@ -8,7 +8,7 @@
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
-class AkeebasubsDispatcher extends FOFDispatcher
+class DocimportDispatcher extends FOFDispatcher
 {
 	public function onBeforeDispatch() {
 		if($result = parent::onBeforeDispatch()) {
