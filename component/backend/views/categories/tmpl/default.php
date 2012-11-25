@@ -22,7 +22,7 @@ JHtml::_('behavior.tooltip');
 <input type="hidden" name="filter_order_Dir" id="filter_order_Dir" value="<?php echo $this->lists->order_Dir ?>" />
 <input type="hidden" name="<?php echo JFactory::getSession()->getToken();?>" value="1" />
 
-<table class="table table-striped">
+<table class="table table-striped" width="100%">
 	<thead>
 		<tr>
 			<th width="60">
