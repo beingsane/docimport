@@ -72,7 +72,7 @@ $editor = JFactory::getEditor();
 			</div>
 			
 			<div class="control-group">
-				<label for="enabled" class="main" class="control-label">
+				<label for="enabled" class="control-label">
 					<?php if(version_compare(JVERSION,'1.6.0','ge')): ?>
 					<?php echo JText::_('JPUBLISHED'); ?>
 					<?php else: ?>
