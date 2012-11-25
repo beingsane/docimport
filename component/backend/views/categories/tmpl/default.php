@@ -22,7 +22,7 @@ JHtml::_('behavior.tooltip');
 <input type="hidden" name="filter_order_Dir" id="filter_order_Dir" value="<?php echo $this->lists->order_Dir ?>" />
 <input type="hidden" name="<?php echo JFactory::getSession()->getToken();?>" value="1" />
 
-<table class="adminlist">
+<table class="table table-striped">
 	<thead>
 		<tr>
 			<th width="60">
@@ -56,25 +56,28 @@ JHtml::_('behavior.tooltip');
 			<td>
 				<input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this);" />
 			</td>
-			<td>
+			<td class="form-inline">
 				<input type="text" name="search" id="search"
 					value="<?php echo $this->escape($this->getModel()->getState('search',''));?>"
-					class="text_area" onchange="document.adminForm.submit();" />
-				<button onclick="this.form.submit();">
-					<?php echo JText::_('COM_DOCIMPORT_COMMON_GO'); ?>
-				</button>
-				<button onclick="document.adminForm.search.value='';this.form.submit();">
-					<?php echo JText::_('COM_DOCIMPORT_COMMON_Reset'); ?>
-				</button>
+					class="input-medium" onchange="document.adminForm.submit();" />
+				<nobr>
+					<button onclick="this.form.submit();" class="btn btn-small">
+						<?php echo JText::_('COM_DOCIMPORT_COMMON_GO'); ?>
+					</button>
+					<button onclick="document.adminForm.search.value='';this.form.submit();" class="btn btn-small">
+						<?php echo JText::_('COM_DOCIMPORT_COMMON_Reset'); ?>
+					</button>
+				</nobr>
 			</td>
 			<td></td>
 			<td></td>
+			<td></td>
 			<td>
-				<?php echo DocimportHelperSelect::published($this->getModel()->getState('enabled',''), 'enabled', array('onchange'=>'this.form.submit();')) ?>
+				<?php echo DocimportHelperSelect::published($this->getModel()->getState('enabled',''), 'enabled', array('onchange'=>'this.form.submit();', 'class' => 'input-small')) ?>
 			</td>
 			<?php if(version_compare(JVERSION, '1.6.0', 'ge')):?>
 			<td>
-				<?php echo DocimportHelperSelect::languages($this->getModel()->getState('language',''), 'language', array('onchange'=>'this.form.submit();')) ?>
+				<?php echo DocimportHelperSelect::languages($this->getModel()->getState('language',''), 'language', array('onchange'=>'this.form.submit();', 'class' => 'input-small')) ?>
 			</td>
 			<?php endif; ?>
 		</tr>
@@ -111,10 +114,20 @@ JHtml::_('behavior.tooltip');
 				</span>
 			</td>
 			<td align="center">
-				<img src="<?php echo JURI::base() ?>../media/com_docimport/images/cat_<?php echo $item->status ?>.png" width="16" height="16" title="<?php echo JText::_('COM_DOCIMPORT_CATEGORIES_STATUS_'.$item->status) ?>" />
+				<?php if($item->status == 'missing'): ?>
+				<span class="badge badge-warning">
+					<i class="icon-white icon-remove"></i>
+				</span>
+				<?php else: ?>
+				<span class="badge badge-success">
+					<i class="icon-white icon-ok"></i>
+				</span>
+				<?php endif; ?>
 				&nbsp;
-				<button onclick="window.location='<?php echo JURI::base() ?>index.php?option=com_docimport&view=categories&task=rebuild&id=<?php echo $item->docimport_category_id ?>';return false;">
-					<img src="<?php echo JURI::base() ?>../media/com_docimport/images/cat_rebuild.png" width="16" height="16" title="<?php echo JText::_('COM_DOCIMPORT_CATEGORIES_REBUILD') ?>" />
+				<button onclick="window.location='<?php echo JURI::base() ?>index.php?option=com_docimport&view=categories&task=rebuild&id=<?php echo $item->docimport_category_id ?>';return false;"
+					class="btn <?php echo ($item->status == 'missing') ? 'btn-primary' : 'btn-inverse' ?> btn-small"
+					title="<?php echo JText::_('COM_DOCIMPORT_CATEGORIES_REBUILD') ?>">
+					<i class="icon-white icon-refresh"></i>
 				</button>
 				
 			</td>
