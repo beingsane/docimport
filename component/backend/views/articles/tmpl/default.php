@@ -22,7 +22,7 @@ JHtml::_('behavior.tooltip');
 <input type="hidden" name="filter_order_Dir" id="filter_order_Dir" value="<?php echo $this->lists->order_Dir ?>" />
 <input type="hidden" name="<?php echo JFactory::getSession()->getToken();?>" value="1" />
 
-<table class="adminlist">
+<table class="tabel table-striped" width="100%">
 	<thead>
 		<tr>
 			<th width="60">
@@ -51,20 +51,22 @@ JHtml::_('behavior.tooltip');
 			<td>
 				<?php echo DocimportHelperSelect::categories($this->getModel()->getState('category',''), 'category', array('onchange'=>'this.form.submit();')) ?>
 			</td>
-			<td>
+			<td class="form-inline">
 				<input type="text" name="search" id="search"
 					value="<?php echo $this->escape($this->getModel()->getState('search',''));?>"
-					class="text_area" onchange="document.adminForm.submit();" />
-				<button onclick="this.form.submit();">
-					<?php echo JText::_('COM_DOCIMPORT_COMMON_GO'); ?>
-				</button>
-				<button onclick="document.adminForm.search.value='';this.form.submit();">
-					<?php echo JText::_('COM_DOCIMPORT_COMMON_Reset'); ?>
-				</button>
+					class="input-medium" onchange="document.adminForm.submit();" />
+				<nobr>
+					<button onclick="this.form.submit();" class="btn btn-small">
+						<?php echo JText::_('COM_DOCIMPORT_COMMON_GO'); ?>
+					</button>
+					<button onclick="document.adminForm.search.value='';this.form.submit();" class="btn btn-small">
+						<?php echo JText::_('COM_DOCIMPORT_COMMON_Reset'); ?>
+					</button>
+				</nobr>
 			</td>
 			<td></td>
 			<td>
-				<?php echo DocimportHelperSelect::published($this->getModel()->getState('enabled',''), 'enabled', array('onchange'=>'this.form.submit();')) ?>
+				<?php echo DocimportHelperSelect::published($this->getModel()->getState('enabled',''), 'enabled', array('onchange'=>'this.form.submit();', 'class' => 'input-small')) ?>
 			</td>
 		</tr>
 	</thead>
