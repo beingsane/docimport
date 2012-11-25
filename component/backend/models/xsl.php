@@ -96,7 +96,7 @@ class DocimportModelXsl extends FOFModel
 				$this->setError(JText::_('COM_DOCIMPORT_XSL_ERROR_NOLOADXML'));
 				return false;
 			}
-			$doc->documentURI = $file_xml;
+			$xmlDoc->documentURI = $file_xml;
 			$xmlDoc->xinclude(LIBXML_DTDATTR | LIBXML_NOENT | LIBXML_NONET | LIBXML_XINCLUDE);
 			
 			$filesprefix = '';
@@ -120,9 +120,10 @@ class DocimportModelXsl extends FOFModel
 				$this->setError(JText::_('COM_DOCIMPORT_XSL_ERROR_NOLOADPARAMETERS'));
 				return false;
 			}
-
+			
 			// Process it!
 			set_time_limit(0);
+			
 			$errorsetting = error_reporting(0);
 			if (version_compare(PHP_VERSION,'5.4',"<")) {
 				$oldval = ini_set("xsl.security_prefs",XSL_SECPREF_NONE);
