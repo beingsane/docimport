@@ -96,9 +96,16 @@
           </listitem>
         </itemizedlist>
 
-        <para>Please note that Akeeba DocImport is a developer's product. It
-        is not supported like our other components and we expect its users to
-        be proficient enough in PHP to tweak the code themselves.</para>
+        <warning>
+          <para>Akeeba DocImport is a developer's product. It may be difficult
+          for end users and site integrators to use. That's by design!
+          Frankly, unless you are a hardcore developer, what are you doing
+          messing around with DocBook XML? It's not like it is the easiest
+          publishing format on this planet. If you are looking for something
+          very easy to use to publish articles or structured FAQs on yoru site
+          please look at one of the FAQ or CCK extensions for Joomla! at the
+          Joomla! Extensions Directory.</para>
+        </warning>
       </section>
 
       <section xml:id="requirements">
@@ -157,10 +164,9 @@
             in alpha</para>
           </important>
 
-          <para>Akeeba DocImport can be updated with three different methods:
-          installing the new version on top of the old one, using the
-          integrated Live Update system or or using the extensions update
-          feature in Joomla! 1.6 and later.</para>
+          <para>Akeeba DocImport can be updated with two different methods:
+          installing the new version on top of the old one or using the
+          integrated Live Update system.</para>
 
           <bridgehead>Updating directly</bridgehead>
 
@@ -199,21 +205,6 @@
           hostnames, which means that they resolve to a different IP depending
           on where in the world you are.</para>
 
-          <bridgehead>Using Joomla! 1.6 and later's extension
-          update</bridgehead>
-
-          <para>Since Joomla! 1.6, the Joomla! Extensions Manager allows
-          directly updating your extensions. Just log in to the backend of
-          your site and go to <guimenu>Extensions</guimenu>,
-          <guimenuitem>Extension Manager</guimenuitem>. Click on the
-          <guilabel>Update</guilabel> link below the toolbar. Then click on
-          the <guibutton>Find Updates</guibutton> button. If there is a new
-          Akeeba DocImport release it will appear in the list below. Tick the
-          box on the left of the row and then click on the
-          <guibutton>Update</guibutton> button. If your site is compatible
-          with this Joomla! feature, you will see the new version being
-          installed automatically for you.</para>
-
           <bridgehead>Something not working right after the
           update?</bridgehead>
 
@@ -240,10 +231,279 @@
     <chapter xml:id="setup-and-usage">
       <title>Initial set-up and usage</title>
 
-      <section>
-        <title>TO DO</title>
+      <section xml:id="overview">
+        <title>Overview</title>
 
-        <para>TO DO</para>
+        <para>DocImport is used to generate articles from categories. Each
+        category either contains a single DocBook XML book or one or more
+        DocBook XML articles.</para>
+
+        <para>Each category has its own folder under the
+        <filename>media/com_docimport</filename> directory. In the root of
+        each category directory you place the XML file(s) of your DocBook XML
+        book or articles. Images used in your book must be located under the
+        <filename>images</filename> subdirectory. The intermediate results of
+        the DocBook to HTML conversion will be located in the
+        <filename>output</filename> subdirectory. If DocImport cannot create
+        this directory it will not be able to generate the articles. In this
+        case, please create this subdirectory manually and make sure that it
+        is writable by Joomla!.</para>
+
+        <para>Whenever you upload a new XML file or an updated version of an
+        XML file to a category you need to rebuild the articles of that
+        category. The rebuild process will convert your XML file(s) into HTML
+        and then create or update articles. The rebuild process does not run
+        automatically. You have to either launch it manually from the back-end
+        of the component or run it periodically by means of a CRON job using
+        the provided CLI script.</para>
+
+        <note>
+          <para>Uploading of new XML files and images is supposed to occur
+          outside of the component, e.g by FTP or using Joomla!'s Media
+          Manager. There is no facility to upload files from within the
+          DocImport component.</para>
+        </note>
+
+        <para>DocImport is designed to create beautiful, sensible URLs without
+        the use of a third party SEF component. It does so using its own
+        router. Due to the complexity of the algorithm, building and parsing
+        the URLs is a resource intensive process. In order to speed up the
+        process DocImport uses its own SEF URL cache. If you get strange
+        results after rebuilding a category you can always purge it so that
+        DocImport can regenerate it.</para>
+      </section>
+
+      <section xml:id="control-panel">
+        <title>The Control Panel page</title>
+
+        <para>The Control Panel page of the component is very spartan. You
+        only have a handful of icons:</para>
+
+        <variablelist>
+          <varlistentry>
+            <term>Categories</term>
+
+            <listitem>
+              <para>Opens the categories management page</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Articles</term>
+
+            <listitem>
+              <para>Opens the articles management page</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Purge SEF URL cache</term>
+
+            <listitem>
+              <para>If after a category rebuild or editing an article you
+              experience wrong or no articles being displayed in some
+              circumstances please click this button. It will empty the SEF
+              URL cache of the component which is what most likely was causing
+              the issue.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </section>
+
+      <section xml:id="categories-management">
+        <title>Categories management</title>
+
+        <para>This is the single most important page in DocImport. This is
+        where you manage documentation categories and regenerate their
+        contents (articles). It is a standard Joomla! grid view, with the
+        following columns:</para>
+
+        <variablelist>
+          <varlistentry>
+            <term>Num</term>
+
+            <listitem>
+              <para>That's the numeric ID of the category. Normally you won't
+              need it anywhere.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Checkboxes</term>
+
+            <listitem>
+              <para>Check it to select the category/categories to
+              <guibutton>Publish</guibutton>,
+              <guibutton>Unpublish</guibutton>, <guibutton>Edit</guibutton> or
+              <guibutton>Delete</guibutton> using the corresponding toolbar
+              buttons.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Title</term>
+
+            <listitem>
+              <para>The title of the category</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Status</term>
+
+            <listitem>
+              <para>There are two icons here. The left one will tell you if
+              the category is up to date. DocImport determines that by
+              comparing the date of your XML file(s) against the last
+              date/time it built the articles for this category.</para>
+
+              <para>The second one is a actually a button. When you click on
+              it DocImport will (re)build the articles for this category off
+              the XML source. You have to do that every time you create a new
+              category or upload a new version of your XML
+              documentation.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Slug / Directory</term>
+
+            <listitem>
+              <para>This is a double purpose field. The value in here will be
+              used as the URL slug when showing the category. It is also the
+              name of the <filename>media/com_docimport</filename>
+              subdirectory where the files of this category will be
+              stored.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Ordering</term>
+
+            <listitem>
+              <para>Self-explanatory, it's the order the categories will be
+              shown in the front-end.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Published</term>
+
+            <listitem>
+              <para>Is this category visible in the front-end?</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Language</term>
+
+            <listitem>
+              <para>DocImport supports Joomla!'s multilingual feature. Each
+              category can either be assigned to All (shown in all languages
+              of your site) or a particular language. This allows you, for
+              example, to have your documentation in English, French and
+              German with only the properly localised version shown to
+              visitors viewing your site in each language, i.e. English to
+              English users, French to French users and so on.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+
+        <bridgehead>The editor page</bridgehead>
+
+        <para>When editing an existing or creating a new category you get to
+        see the editor page. The fields here are:</para>
+
+        <variablelist>
+          <varlistentry>
+            <term>Title</term>
+
+            <listitem>
+              <para>The title of the category. It will be shown in the
+              front-end list</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Slug / Directory</term>
+
+            <listitem>
+              <para>This is a double purpose field. The value in here will be
+              used as the URL slug when showing the category. It is also the
+              name of the <filename>media/com_docimport</filename>
+              subdirectory where the files of this category will be
+              stored.</para>
+
+              <important>
+                <para>The directory must already exist when you are creating a
+                category</para>
+              </important>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Run content plugins</term>
+
+            <listitem>
+              <para>If enabled, Joomla!'s content plugins will run against
+              each article's contents. This is not very convenient, though, as
+              you're probably documenting the use of content plugins. In this
+              case we suggest that you use No here so that content plugins
+              don't run.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Language</term>
+
+            <listitem>
+              <para>DocImport supports Joomla!'s multilingual feature. Each
+              category can either be assigned to All (shown in all languages
+              of your site) or a particular language. If you do not have a
+              multilingual site always select <option>All</option>.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>View level</term>
+
+            <listitem>
+              <para>The Viewing Access Level which can view this category and
+              its articles. Using Public will make your documentation
+              available to everyone on most site setups.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Published</term>
+
+            <listitem>
+              <para>Should this category be shown in the front-end of the
+              site?</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Description</term>
+
+            <listitem>
+              <para>A free HTML entry field to describe your documentation
+              category. This is shown in the front-end.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </section>
+
+      <section xml:id="articles-management">
+        <title>Articles management</title>
+
+        <para/>
+      </section>
+
+      <section xml:id="automating-category-rebuild">
+        <title>Automating the category rebuild</title>
+
+        <para/>
       </section>
     </chapter>
   </part>
