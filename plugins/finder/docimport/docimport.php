@@ -1,7 +1,7 @@
 <?php
 /**
  * @package ats
- * @copyright Copyright (c)2011-2012 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ * @copyright Copyright (c)2011-2013 Nicholas K. Dionysopoulos / AkeebaBackup.com
  * @license GNU GPL v3 or later
  */
 
