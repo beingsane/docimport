@@ -16,9 +16,9 @@
 		<folder>models</folder>
 		<folder>views</folder>
 
-		<filename>index.html</filename>
 		<filename>dispatcher.php</filename>
 		<filename>docimport.php</filename>
+		<filename>index.html</filename>
 		<filename>metadata.xml</filename>
 		<filename>router.php</filename>
 	</files>
@@ -61,17 +61,17 @@
 			<folder>tables</folder>
 			<folder>views</folder>
 			
-			<filename>index.html</filename>
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
+			<filename>dispatcher.php</filename>
 			<filename>docimport.php</filename>
+			<filename>index.html</filename>
 			<filename>toolbar.php</filename>
 			<filename>version.php</filename>
 		</files>
 		
 		<languages folder="translations/backend">
 			<language tag="en-GB">en-GB.com_docimport.ini</language>
-			<language tag="en-GB">en-GB.com_docimport.menu.ini</language>
 			<language tag="en-GB">en-GB.com_docimport.sys.ini</language>
 		</languages>
 	</administration>
