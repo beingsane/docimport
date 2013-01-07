@@ -149,8 +149,12 @@ $hasAjaxOrderingSupport = $this->hasAjaxOrderingSupport();
 			</td>
 			<td align="center">
 				<?php if($item->status == 'missing'): ?>
-				<span class="badge badge-warning">
+				<span class="badge badge-important">
 					<i class="icon-white icon-remove"></i>
+				</span>
+				<?php elseif($item->status == 'modified'): ?>
+				<span class="badge badge-warning">
+					<i class="icon-white icon-warning-sign"></i>
 				</span>
 				<?php else: ?>
 				<span class="badge badge-success">
@@ -159,7 +163,7 @@ $hasAjaxOrderingSupport = $this->hasAjaxOrderingSupport();
 				<?php endif; ?>
 				&nbsp;
 				<button onclick="window.location='<?php echo JURI::base() ?>index.php?option=com_docimport&view=categories&task=rebuild&id=<?php echo $item->docimport_category_id ?>';return false;"
-					class="btn <?php echo ($item->status == 'missing') ? 'btn-primary' : 'btn-inverse' ?> btn-small"
+					class="btn <?php echo ($item->status == 'modified') ? 'btn-primary btn-medium' : 'btn-inverse btn-small' ?>"
 					title="<?php echo JText::_('COM_DOCIMPORT_CATEGORIES_REBUILD') ?>">
 					<i class="icon-white icon-refresh"></i>
 				</button>
