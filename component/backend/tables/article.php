@@ -54,14 +54,14 @@ class DocimportTableArticle extends FOFTable
 			// Make sure we don't have a duplicate slug on this table
 			$db = $this->getDbo();
 			if(version_compare(JVERSION, '3.0', 'ge')) {
-				$query = FOFQueryAbstract::getNew($db)
+				$query = $db->getQuery(true)
 					->select($db->qn($slug))
 					->from($this->_tbl)
 					->where($db->qn($slug).' = '.$db->q($this->$slug))
 					->where('NOT '.$db->qn($this->_tbl_key).' = '.$db->q($this->{$this->_tbl_key}))
 					->where($db->qn('docimport_category_id').' = '.$db->q($this->docimport_category_id));
 			} else {
-				$query = FOFQueryAbstract::getNew($db)
+				$query = $db->getQuery(true)
 					->select($db->quoteName($slug))
 					->from($this->_tbl)
 					->where($db->quoteName($slug).' = '.$db->quote($this->$slug))
@@ -77,13 +77,13 @@ class DocimportTableArticle extends FOFTable
 				$count++;
 				$newSlug = $this->$slug .'-'. $count;
 				if(version_compare(JVERSION, '3.0', 'ge')) {
-					$query = FOFQueryAbstract::getNew($db)
+					$query = $db->getQuery(true)
 						->select($db->qn($slug))
 						->from($this->_tbl)
 						->where($db->qn($slug).' = '.$db->q($newSlug))
 						->where($db->qn($this->_tbl_key).' = '.$db->q($this->{$this->_tbl_key}), 'AND NOT');
 				} else {
-					$query = FOFQueryAbstract::getNew($db)
+					$query = $db->getQuery(true)
 						->select($db->quoteName($slug))
 						->from($this->_tbl)
 						->where($db->quoteName($slug).' = '.$db->quote($newSlug))

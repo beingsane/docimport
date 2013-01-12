@@ -13,7 +13,7 @@ class DocimportModelCategories extends FOFModel
 	{
 		$db = $this->getDbo();
 
-		$query = FOFQueryAbstract::getNew()
+		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__docimport_categories'));
 

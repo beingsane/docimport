@@ -13,7 +13,7 @@ class DocimportModelArticles extends FOFModel
 	{
 		$db = $this->getDbo();
 
-		$query = FOFQueryAbstract::getNew()
+		$query = $db->getQuery(true)
 			->select(array(
 				$db->quoteName('a').'.*',
 				$db->quoteName('c').'.'.$db->quoteName('title').' AS '.$db->quoteName('category_title')

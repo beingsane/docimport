@@ -38,7 +38,7 @@ class DocimportModelUrls extends JoomlaCompatModel
 	protected function load()
 	{
 		$db = $this->getDbo();
-		$query = FOFQueryAbstract::getNew()
+		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__docimport_urls'));
 		$db->setQuery($query);
@@ -79,7 +79,7 @@ class DocimportModelUrls extends JoomlaCompatModel
 		
 		$db = $this->getDbo();
 		if($existing) {
-			$query = FOFQueryAbstract::getNew($db)
+			$query = $db->getQuery(true)
 				->update($db->quoteName('#__docimport_urls'))
 				->set(
 					$db->quoteName('sef').' = '.$db->quote($value)
@@ -89,7 +89,7 @@ class DocimportModelUrls extends JoomlaCompatModel
 			$db->setQuery($query);
 			return $db->query();
 		} else {
-			$query = FOFQueryAbstract::getNew($db)
+			$query = $db->getQuery(true)
 				->insert($db->quoteName('#__docimport_urls'))
 				->columns(array(
 					$db->quoteName('nonsef'),

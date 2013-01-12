@@ -203,7 +203,7 @@ class DocimportModelXsl extends FOFModel
 		
 		// Load the list of articles in this category
 		$db = $this->getDBO();
-		$query = FOFQueryAbstract::getNew()
+		$query = $db->getQuery(true)
 			->from($db->quoteName('#__docimport_articles'))
 			->select(array(
 				$db->quoteName('docimport_article_id').' AS '.$db->quoteName('id'),
@@ -301,7 +301,7 @@ class DocimportModelXsl extends FOFModel
 		
 		// Fourth pass: Load a list of enabled articles (IDs and slugs)
 		$db = $this->getDBO();
-		$query = FOFQueryAbstract::getNew()
+		$query = $db->getQuery(true)
 			->from($db->quoteName('#__docimport_articles'))
 			->select(array(
 				$db->quoteName('docimport_article_id').' AS '.$db->quoteName('id'),
