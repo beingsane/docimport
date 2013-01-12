@@ -24,5 +24,21 @@ if(!defined('FOF_INCLUDED') || !class_exists('FOFForm', true)) {?>
 </p>
 <?php return; }
 
+// PHP version check
+if(defined('PHP_VERSION')) {
+	$version = PHP_VERSION;
+} elseif(function_exists('phpversion')) {
+	$version = phpversion();
+} else {
+	$version = '5.0.0'; // all bets are off!
+}
+if(!version_compare($version, '5.3.0', '>=')) {?>
+<h1>Akeeba DocImport<sup>3</sup></h1>
+<h2>Incompatible PHP version</h2>
+<p>
+	You need PHP 5.3.0 or later to run this component
+</p>
+<?php return; }
+
 // Dispatch
 FOFDispatcher::getAnInstance('com_docimport')->dispatch();
