@@ -91,6 +91,7 @@ class Com_DocimportInstallerScript
 	);
 	
 	private $akeebaCliScripts = array(
+		'docimport-update.php',
 	);
 	
 	/**

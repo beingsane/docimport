@@ -369,7 +369,7 @@
               background means that the articles are up-to-date. DocImport
               determines that by comparing the date of your XML file(s)
               against the last date/time it built the articles for this
-              category. </para>
+              category.</para>
 
               <para>The second one is a actually a button. When you click on
               it DocImport will (re)build the articles for this category off
@@ -601,7 +601,79 @@
       <section xml:id="automating-category-rebuild">
         <title>Automating the category rebuild</title>
 
-        <para/>
+        <para>DocImport offers a command line (CLI) script which allows you to
+        automate the category rebuild using standard CRON jobs.</para>
+
+        <important>
+          <para>Some hosts offer "CRON jobs" which allow you to enter a URL
+          which will be accessed periodically. This is NOT a CRON job. It is a
+          "fake" CRON job and will not work with DocImport.</para>
+        </important>
+
+        <para>All <application>DocImport</application> releases include the
+        file <filename>cli/docimport-update.php</filename>, which can be run
+        from the command-line PHP interface (PHP CLI). It is a self-contained,
+        native documentation rebuild tool for your
+        <trademark>Joomla!</trademark> site, even if your web server is
+        down!</para>
+
+        <para>In order to schedule a documentation, you will have to use the
+        following command line to your host's CRON interface:</para>
+
+        <programlisting><replaceable>/usr/local/bin/php</replaceable> <replaceable>/home/USER/webroot</replaceable>/cli/docimport-update.php</programlisting>
+
+        <para>where <replaceable>/usr/local/bin/php</replaceable> is the path
+        to your PHP CLI executable and
+        <replaceable>/home/USER/webroot</replaceable> is the absolute path to
+        your web site's root. You can get this information from your
+        host.</para>
+
+        <bridgehead>Setting up a CRON job on cPanel</bridgehead>
+
+        <para>Go to your cPanel main page and choose the <guibutton>CRON
+        Jobs</guibutton> icon from the <guilabel>Advanced</guilabel> pane. In
+        the <guilabel>Add New CRON Job</guilabel> box on the page which loads,
+        enter the following information:</para>
+
+        <variablelist>
+          <varlistentry>
+            <term>Common Settings</term>
+
+            <listitem>
+              <para>Choose the frequency of your backup, for example once per
+              day.</para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Command</term>
+
+            <listitem>
+              <para>Enter your backup command. Usually, you have to use
+              something like:</para>
+
+              <programlisting><replaceable>/usr/bin/php5-cli</replaceable> <replaceable>/home/USER/webroot</replaceable>/cli/docimport-update.php</programlisting>
+
+              <para>where <replaceable>myusername</replaceable> is your
+              account's user name (most probably the same you use to login to
+              cPanel). Do note the path for the PHP command line executable:
+              <filename>/usr/bin/php5-cli</filename>. This is the default
+              location of the correct executable file for cPanel 11 and later.
+              Your host may use a different path to the executable. If the
+              command never runs, ask them. We can't help you with that; only
+              those who have set up the server know the changes they have made
+              to the default setup.</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+
+        <bridgehead>Special considerations for HostGator</bridgehead>
+
+        <para>The location of the PHP CLI binary is
+        <filename>/usr/bin/php-cli</filename>. This means that your CRON
+        command line should look like:</para>
+
+        <programlisting><replaceable>/usr/bin/php-cli</replaceable> <replaceable>/home/USER/webroot</replaceable>/cli/docimport-update.php</programlisting>
       </section>
     </chapter>
   </part>

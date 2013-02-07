@@ -388,7 +388,7 @@ class DocimportModelXsl extends FOFModel
 	{
 		// Load a list of categories
 		$db = $this->getDBO();
-		$query = FOFQueryMysql::getNew($db)
+		$query = $db->getQuery(true)
 			->from($db->quoteName('#__docimport_categories'))
 			->select(array(
 				$db->quoteName('docimport_category_id').' AS '.$db->quoteName('id'),
