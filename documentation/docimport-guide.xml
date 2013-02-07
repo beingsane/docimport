@@ -223,8 +223,8 @@
         component. In your site's back-end, just go to <guimenuitem>Extensions
         Manager</guimenuitem>, click on <guilabel>Uninstall</guilabel>, select
         Akeeba DocImport and click on <guibutton>Uninstall</guibutton>. This
-        will completely remove Akeeba Subscriptions including all subscriber
-        information.</para>
+        will completely remove Akeeba DocImport including all category and
+        article information.</para>
       </section>
     </chapter>
 
