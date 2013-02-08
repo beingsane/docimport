@@ -116,11 +116,10 @@
 
         <itemizedlist>
           <listitem>
-            <para><trademark>Joomla!</trademark> 2.5 or 3.0.</para>
-          </listitem>
-
-          <listitem>
-            <para>PHP 5.3. It may work on 5.2 but it's not tested.</para>
+            <para><trademark>Joomla!</trademark> and PHP version
+            compatibilities are detailed in <link
+            xlink:href="https://www.akeebabackup.com/compatibility.html">our
+            Version Compatibility matrix</link>.</para>
           </listitem>
 
           <listitem>
