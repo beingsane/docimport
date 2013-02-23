@@ -20,3 +20,10 @@ build/AntBuild.xml
 .settings/
 
 /documentation/docimport-guide.xml~
+/build/templates/release.json
+
+/component/backend/liveupdate/assets
+/component/backend/liveupdate/classes
+/component/backend/liveupdate/language
+/component/backend/liveupdate/LICENSE.txt
+/component/backend/liveupdate/liveupdate.php

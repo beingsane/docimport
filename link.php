@@ -1,13 +1,25 @@
 <?php
 // Internal linking script
 $hardlink_files = array(
+	# Live Update
+	'../liveupdate/code/liveupdate.php'			=> 'component/backend/liveupdate/liveupdate.php',
 );
 
 $symlink_files = array(
+	# Live Update
+	'../liveupdate/code/LICENSE.txt'			=> 'component/backend/liveupdate/LICENSE.txt',
 );
 
 $symlink_folders = array(
+	# Live Update
+	'../liveupdate/code/assets'					=> 'component/backend/liveupdate/assets',
+	'../liveupdate/code/classes'				=> 'component/backend/liveupdate/classes',
+	'../liveupdate/code/language'				=> 'component/backend/liveupdate/language',
+
+	# FOF
 	'../fof/fof' => 'component/fof',
+
+	# Akeeba Strapper
 	'../fof/strapper' => 'component/strapper',
 );
 
@@ -43,7 +55,7 @@ function TranslateWinPath( $p_path )
 function doLink($from, $to, $type = 'symlink')
 {
 	$path = dirname(__FILE__);
-	
+
 	$realTo = $path .'/'. $to;
 	$realFrom = $path.'/'.$from;
 	if(IS_WINDOWS) {

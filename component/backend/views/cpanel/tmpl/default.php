@@ -9,6 +9,9 @@ defined('_JEXEC') or die();
 
 $lang = JFactory::getLanguage();
 
+if(!class_exists('LiveUpdate')) {
+	require_once JPATH_ADMINISTRATOR.'/components/com_ats/liveupdate/liveupdate.php';
+}
 ?>
 <div id="cpanel">
 	<div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">
@@ -23,7 +26,7 @@ $lang = JFactory::getLanguage();
 			</a>
 		</div>
 	</div>
-	
+
 	<div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">
 		<div class="icon">
 			<a href="index.php?option=com_docimport&view=articles">
@@ -36,7 +39,7 @@ $lang = JFactory::getLanguage();
 			</a>
 		</div>
 	</div>
-	
+
 	<div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">
 		<div class="icon">
 			<a href="index.php?option=com_docimport&view=urls&task=nuke">
@@ -49,4 +52,6 @@ $lang = JFactory::getLanguage();
 			</a>
 		</div>
 	</div>
+
+	<?php echo LiveUpdate::getIcon(); ?>
 </div>

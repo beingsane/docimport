@@ -57,6 +57,7 @@
 			<folder>controllers</folder>
 			<folder>helpers</folder>
 			<folder>install</folder>
+			<folder>liveupdate</folder>
 			<folder>models</folder>
 			<folder>tables</folder>
 			<folder>views</folder>

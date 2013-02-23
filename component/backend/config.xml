@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-	<params>
-	</params>
+	<fieldset
+		name="updates"
+		label="COM_DOCIMPORT_CONFIG_UPDATES_LABEL"
+		description="COM_DOCIMPORT_CONFIG_UPDATES_DESC"
+		>
+		<!--
+		<field name="downloadid" type="text" default="" size="30"
+			label="COM_DOCIMPORT_CONFIG_DOWNLOADID_LABEL"
+			description="COM_DOCIMPORT_CONFIG_DOWNLOADID_DESC" />
+		-->
+		<field name="minstability" type="list" default="alpha" label="COM_DOCIMPORT_CONFIG_MINSTABILITY_LABEL" description="COM_DOCIMPORT_CONFIG_MINSTABILITY_DESC">
+			<option value="alpha">COM_DOCIMPORT_CONFIG_MINSTABILITY_ALPHA</option>
+			<option value="beta">COM_DOCIMPORT_CONFIG_MINSTABILITY_BETA</option>
+			<option value="rc">COM_DOCIMPORT_CONFIG_MINSTABILITY_RC</option>
+			<option value="stable">COM_DOCIMPORT_CONFIG_MINSTABILITY_STABLE</option>
+		</field>
+		<field name="liveupdate" type="hidden" default="" label="" description="" />
+	</fieldset>
 	
 	<fieldset
 		name="permissions"
@@ -17,5 +33,5 @@
 			filter="rules"
 			component="com_akeebasubs"
 			section="component" />
-	</fieldset>	
+	</fieldset>		
 </config>
