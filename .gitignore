@@ -27,3 +27,5 @@ build/AntBuild.xml
 /component/backend/liveupdate/language
 /component/backend/liveupdate/LICENSE.txt
 /component/backend/liveupdate/liveupdate.php
+
+/component/media/akeebabackup/akeeba-backup-guide.xml
