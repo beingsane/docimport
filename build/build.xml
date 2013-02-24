@@ -7,7 +7,12 @@
 	<property name="dirs.release" value="../release" />
 	<property name="version" value="git" />
 
+	<property name="dirs.bin" value="bin" />
+	<property name="dirs.bin.libxml" value="${dirs.bin}/libxml" />
+	<property name="dirs.bin.fop" value="${dirs.bin}/fop" />
+	<property name="dirs.bin.dbxsl" value="${dirs.bin}/dbxsl" />
 	<property name="dirs.bin.release" value="../release" />
+	<property name="dirs.documentation" value="../documentation" />	
 
 	<taskdef name="zipme" classname="phingext.ZipmeTask" />
 	<taskdef name="gitversion" classname="phingext.GitVersionTask" />
@@ -46,6 +51,10 @@
 	<target name="all" description="Makes everything"
 		depends="git">
 	</target>
+	
+	<target name="documentation" description="Creates the documentation packages"
+		depends="doc-j-pdf">
+	</target>		
 
 	<target name="git" description="Makes only packages, not the documentation"
 		depends="new-release,setup-properties,component-package">
@@ -127,5 +136,16 @@
 		</ftpdeploy>
 		<echo>All done. Have a cup of coffee and relax :)</echo>
 	</target>
+
+		<!--
+	====================================================================================================
+	Tasks - Documentation
+	====================================================================================================
+	-->
 	
+	<target name="doc-j-pdf" description="Documentation for Joomla! in PDF format">
+		<exec command="xsltproc --nonet --xinclude --novalid --stringparam img.src.path ${dirs.documentation}/ --stringparam body.start.indent 0 --stringparam variablelist.term.break.after 1 --stringparam variablelist.term.separator &quot;&quot; --stringparam variablelist.max.termlength 12 --stringparam section.autolabel 1 --stringparam toc.section.depth 5 --stringparam fop1.extensions 1  --output ${dirs.bin.release}/docimport-guide.fo ${dirs.bin.dbxsl}/fo/docbook.xsl ${dirs.documentation}/docimport-guide.xml" dir="${project.basedir}" />
+		<exec command="fop -fo ${dirs.bin.release}/docimport-guide.fo -pdf ${dirs.bin.release}/docimport-guide.pdf" logoutput="true" />
+		<delete file="${dirs.release}docimpport-guide.fo" quiet="yes" />
+	</target>
 </project>
