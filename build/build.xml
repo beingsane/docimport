@@ -49,7 +49,7 @@
 	-->
 	
 	<target name="all" description="Makes everything"
-		depends="git">
+		depends="git,documentation">
 	</target>
 	
 	<target name="documentation" description="Creates the documentation packages"
@@ -137,7 +137,24 @@
 		<echo>All done. Have a cup of coffee and relax :)</echo>
 	</target>
 
-		<!--
+	<target name="release" depends="setup-properties" description="Upload the release to AkeebaBackup.com">
+		<copy file="./templates/release.json" tofile="${dirs.root}/release.json" overwrite="true">
+			<filterchain id="standard-tokens">
+				<replacetokens begintoken="##" endtoken="##">
+					<token key="DATE" value="${build.date}" />
+					<token key="VERSION" value="${version}" />
+					<token key="RELEASEDIR" value="${phing.dir}/${dirs.release}" />
+					<token key="REPODIR" value="${phing.dir}/${dirs.root}" />
+				</replacetokens>
+			</filterchain>
+		</copy>
+
+		<exec command="php ${project.basedir}/../../releasemaker/releasemaker/index.php ${project.basedir}/../release.json" dir="${project.basedir}" passthru="true" />
+
+		<delete file="${dirs.root}/release.json" quiet="yes" />
+	</target>
+
+	<!--
 	====================================================================================================
 	Tasks - Documentation
 	====================================================================================================
