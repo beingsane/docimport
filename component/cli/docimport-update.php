@@ -56,7 +56,7 @@ include_once JPATH_LIBRARIES.'/import.php';
 require_once JPATH_LIBRARIES.'/cms.php';
 
 // Load the JApplicationCli class
-jimport( 'joomla.application.cli' );
+JLoader::import( 'joomla.application.cli' );
 
 class AppDocupdate extends JApplicationCli
 {
@@ -105,10 +105,10 @@ Current memory usage: $memusage
 ENDBLOCK;
 		
 		// Load Joomla! classes
-		jimport('joomla.filesystem.folder');
-		jimport('joomla.filesystem.file');
-		jimport( 'joomla.environment.request' );
-		jimport( 'joomla.environment.uri' );
+		JLoader::import('joomla.filesystem.folder');
+		JLoader::import('joomla.filesystem.file');
+		JLoader::import( 'joomla.environment.request' );
+		JLoader::import( 'joomla.environment.uri' );
 		
 		// Load the translation strings
 		$jlang = JFactory::getLanguage();

@@ -31,7 +31,7 @@ class DocimportModelXsl extends FOFModel
 		$dir_src	= JPATH_ROOT.'/media/com_docimport/'.$category->slug;
 		$dir_output	= JPATH_ROOT.'/media/com_docimport/'.$category->slug.'/output';
 
-		jimport('joomla.filesystem.folder');
+		JLoader::import('joomla.filesystem.folder');
 
 		if(!JFolder::exists($dir_src)) {
 			$this->setError(JText::sprintf('COM_DOCIMPORT_XSL_ERROR_NOFOLDER', $category->slug));
@@ -50,7 +50,7 @@ class DocimportModelXsl extends FOFModel
 				$this->setError(JText::sprintf('COM_DOCIMPORT_XSL_ERROR_CANTCREATEFOLDER', $category->slug.'/output'));
 				return false;
 			} else {
-				jimport('joomla.filesystem.file');
+				JLoader::import('joomla.filesystem.file');
 				$content = "order deny, allow\ndeny from all\allow from none\n";
 				JFile::write($dir_output.'/.htaccess', $content);
 			}
@@ -192,7 +192,7 @@ class DocimportModelXsl extends FOFModel
 		$dir_src	= JPATH_ROOT.'/media/com_docimport/'.$category->slug;
 		$dir_output	= JPATH_ROOT.'/media/com_docimport/'.$category->slug.'/output';
 
-		jimport('joomla.filesystem.folder');
+		JLoader::import('joomla.filesystem.folder');
 
 		if(!JFolder::exists($dir_src)) {
 			$this->setError(JText::sprintf('COM_DOCIMPORT_XSL_ERROR_NOFOLDER', $category->slug));
@@ -243,7 +243,7 @@ class DocimportModelXsl extends FOFModel
 		// Second pass: add articles which are not already there
 		if(!empty($slugs)) foreach($slugs as $slug) {
 			if(!array_key_exists($slug, $articles)) {
-				jimport('joomla.utilities.date');
+				JLoader::import('joomla.utilities.date');
 
 				$jNow = new JDate();
 
@@ -277,7 +277,7 @@ class DocimportModelXsl extends FOFModel
 				$filepath = $dir_output.'/'.$article->slug.'.html';
 				if(@filemtime($filepath) == $article->last_timestamp) continue;
 
-				jimport('joomla.utilities.date');
+				JLoader::import('joomla.utilities.date');
 
 				$jNow = new JDate();
 
@@ -402,7 +402,7 @@ class DocimportModelXsl extends FOFModel
 		$categories = $db->loadObjectList('slug');
 
 		// Get a list of subdirectories, except the built-in ones
-		jimport('joomla.filesystem.folder');
+		JLoader::import('joomla.filesystem.folder');
 		$path = JPATH_ROOT.'/media/com_docimport';
 		$folders = JFolder::folders($path, '.', false, false, array('admonition','css','js','images'));
 
@@ -436,7 +436,7 @@ class DocimportModelXsl extends FOFModel
 
 		$ret->timestamp = @filemtime($filepath);
 
-		jimport('joomla.filesystem.file');
+		JLoader::import('joomla.filesystem.file');
 		$filedata = JFile::read($filepath);
 
 		$startOfTitle = strpos($filedata, '<title>') + 7;

@@ -9,7 +9,7 @@ class DocimportHelperFormat
 {
 	public static function language($lang = '*')
 	{
-		jimport('joomla.language.helper');
+		JLoader::import('joomla.language.helper');
 		$languages = JLanguageHelper::getLanguages('lang_code');
 		
 		if($lang == '*') {

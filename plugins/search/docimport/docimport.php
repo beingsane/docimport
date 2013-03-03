@@ -8,7 +8,7 @@
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
-jimport('joomla.plugin.plugin');
+JLoader::import('joomla.plugin.plugin');
 
 /**
  * DocImport Search plugin

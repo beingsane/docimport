@@ -60,7 +60,7 @@ class DocimportModelCategories extends FOFModel
 	
 	public function onProcessList(&$resultArray)
 	{
-		jimport('joomla.filesystem.folder');
+		JLoader::import('joomla.filesystem.folder');
 		if(!empty($resultArray)) foreach($resultArray as $key => $item) {
 			$resultArray[$key]->status = 'missing';
 			
