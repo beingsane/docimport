@@ -79,7 +79,7 @@ class DocimportModelCategories extends FOFModel
                $lg = JFactory::getLanguage();
                $query->where('a.language IN ('.$db->quote($lg->getTag()).', '.$db->quote('*').')');
             }else{
-               $query->where('a.language IN ('.FOFInput::getCmd('language', '*', $this->input).', '.$db->quote('*').')');
+               $query->where('a.language IN ('.$this->input->getCmd('language', '*').', '.$db->quote('*').')');
             }
             /*
             $lang = JFactory::getLanguage()->getTag();

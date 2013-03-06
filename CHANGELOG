@@ -1,3 +1,7 @@
+DocImport 1.0.2
+================================================================================
+# [HIGH] Internal server error on ancient versions of PHP 5.3 with broken late static binding implementations
+
 DocImport 1.0.1
 ================================================================================
 # [HIGH] The component's menu item was removed if the installation couldn't proceed (too low PHP or Joomla! version)

@@ -47,7 +47,7 @@ class DocimportDispatcher extends FOFDispatcher
 	public function dispatch() {
 		// Handle Live Update requests
 		require_once JPATH_COMPONENT_ADMINISTRATOR.'/liveupdate/liveupdate.php';
-		if((FOFInput::getCmd('view','',$this->input) == 'liveupdate')) {
+		if(($this->input->getCmd('view','') == 'liveupdate')) {
 			LiveUpdate::handleRequest();
 			return;
 		}
