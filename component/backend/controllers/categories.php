@@ -11,11 +11,11 @@ defined('_JEXEC') or die();
 class DocimportControllerCategories extends FOFController
 {
 	public function rebuild($caching = false) {
-		$id = FOFInput::getInt('id',0,$this->input);
+		$id = $this->input->getInt('id',0);
 		$model = FOFModel::getTmpInstance('Xsl','DocimportModel');
 		$status = $model->processXML($id);
 		if($status) $status = $model->processFiles($id);
-		
+
 		$url = 'index.php?option=com_docimport&view=categories';
 		if(!$status) {
 			$this->setRedirect($url,$model->getError(),'error');

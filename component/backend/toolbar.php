@@ -10,26 +10,26 @@ defined('_JEXEC') or die();
 
 class DocimportToolbar extends FOFToolbar
 {
-	
+
 	public function onArticlesBrowse()
 	{
 		// Set toolbar title
-		$subtitle_key = FOFInput::getCmd('option','com_foobar',$this->input).'_TITLE_'.strtoupper(FOFInput::getCmd('view','cpanel',$this->input));
-		JToolBarHelper::title(JText::_( FOFInput::getCmd('option','com_foobar',$this->input)).' &ndash; <small>'.JText::_($subtitle_key).'</small>', str_replace('com_', '', FOFInput::getCmd('option','com_foobar',$this->input)));
-		
+		$subtitle_key = $this->input->getCmd('option','com_foobar').'_TITLE_'.strtoupper($this->input->getCmd('view','cpanel'));
+		JToolBarHelper::title(JText::_( $this->input->getCmd('option','com_foobar')).' &ndash; <small>'.JText::_($subtitle_key).'</small>', str_replace('com_', '', $this->input->getCmd('option','com_foobar')));
+
 		// Add toolbar buttons
 		if($this->perms->delete) {
 			JToolBarHelper::deleteList();
 		}
 		if($this->perms->edit) {
 			JToolBarHelper::editList();
-			
+
 			JToolBarHelper::divider();
-			
+
 			JToolBarHelper::publishList();
 			JToolBarHelper::unpublishList();
 		}
-		
+
 		$this->renderSubmenu();
 	}
 }

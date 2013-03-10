@@ -22,7 +22,7 @@ class DocimportTableArticle extends FOFTable
 		if(property_exists($this, $created_on) && property_exists($this, $created_by)) {
 			if(empty($this->$created_by) || ($this->$created_on == '0000-00-00 00:00:00') || empty($this->$created_on)) {
 				$this->$created_by = JFactory::getUser()->id;
-				jimport('joomla.utilities.date');
+				JLoader::import('joomla.utilities.date');
 				$date = new JDate();
 				if(version_compare(JVERSION, '3.0', 'ge')) {
 					$this->$created_on = $date->toSql();
@@ -31,7 +31,7 @@ class DocimportTableArticle extends FOFTable
 				}
 			} elseif(property_exists($this, $modified_on) && property_exists($this, $modified_by)) {
 				$this->$modified_by = JFactory::getUser()->id;
-				jimport('joomla.utilities.date');
+				JLoader::import('joomla.utilities.date');
 				$date = new JDate();
 				if(version_compare(JVERSION, '3.0', 'ge')) {
 					$this->$modified_on = $date->toSql();

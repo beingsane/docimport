@@ -8,8 +8,8 @@
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
-jimport('joomla.plugin.plugin');
-jimport('joomla.application.component.helper');
+JLoader::import('joomla.plugin.plugin');
+JLoader::import('joomla.application.component.helper');
 
 // Load the base adapter.
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';

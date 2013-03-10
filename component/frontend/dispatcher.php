@@ -14,32 +14,32 @@ class DocimportDispatcher extends FOFDispatcher
 		parent::__construct($config);
 
 		$this->defaultView = 'categories';
-	}	
-	
+	}
+
 	public function onBeforeDispatch() {
 		if($result = parent::onBeforeDispatch()) {
-			$view = FOFInput::getCmd('view',$this->defaultView, $this->input);
+			$view = $this->input->getCmd('view',$this->defaultView);
 			if(empty($view) || ($view == 'cpanel')) {
 				$view = 'categories';
 			}
-			FOFInput::setVar('view',$view,$this->input);
+			$this->input->set('view',$view);
 		}
-		
+
 		// Load Akeeba Strapper
 		include_once JPATH_ROOT.'/media/akeeba_strapper/strapper.php';
 		AkeebaStrapper::bootstrap();
 		AkeebaStrapper::jQueryUI();
 		AkeebaStrapper::addCSSfile('media://com_docimport/css/frontend.css');
-		
+
 		// If the action is "add" in the front-end, map it to "read"
-		$view = FOFInput::getCmd('view',$this->defaultView, $this->input);
-		$task = FOFInput::getCmd('task','',$this->input);
+		$view = $this->input->getCmd('view',$this->defaultView);
+		$task = $this->input->getCmd('task','');
 		if(empty($task)) {
 			$task = $this->getTask($view);
 		}
 		if($task == 'add') $task = 'read';
-		FOFInput::setVar('view',$view,$this->input);
-		FOFInput::setVar('task',$task,$this->input);
+		$this->input->set('view',$view);
+		$this->input->set('task',$task);
 
 		return $result;
 	}

@@ -1,5 +1,14 @@
-DocImport 3.0.b1
+DocImport 1.0.2
 ================================================================================
-~ Completely new version!
-~ Make sure we are no longer using Joomla!'s integrated extension update (it doesn't support stability and Joomla! version compatibility checks)
-# You could not change the ordering in Joomla! 2.5.0 due to undocumented JavaScript changes in the Joomla! core
+# [HIGH] Internal server error on ancient versions of PHP 5.3 with broken late static binding implementations
+
+DocImport 1.0.1
+================================================================================
+# [HIGH] The component's menu item was removed if the installation couldn't proceed (too low PHP or Joomla! version)
+# [HIGH] Joomla! doesn't run the database upgrade scripts when upgrading from a very old version or when the #__schemas entry is somehow missing
+# [HIGH] After a failed installation, even if the subsequent installation is reported successful Joomla! does not install the database tables causing a broken installation
+# [MEDIUM] The reason why the installation was aborted is not shown due to a Joomla! bug; worked around
+
+DocImport 1.0.0
+================================================================================
+! First public release

@@ -17,7 +17,7 @@ class DocimportControllerCategories extends FOFController
 		} else {
 			$enableTranslation = false;
 		}
-		
+
 		if($enableTranslation) {
 			$lang = JFactory::getLanguage()->getTag();
 		} else {
@@ -45,7 +45,7 @@ class DocimportControllerCategories extends FOFController
 				$lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 			}
 		}
-		
+
 		$this->getThisModel()
 			->language(array('*',$lang))
 			->limit(0)
@@ -53,13 +53,13 @@ class DocimportControllerCategories extends FOFController
 			->enabled(1)
 			->filter_order('ordering')
 			->filter_order_Dir('ASC');
-		
+
 		return true;
 	}
-	
+
 	public function onBeforeRead()
 	{
-		$id = FOFInput::getInt('id',0,$this->input);
+		$id = $this->input->getInt('id',0);
 		if($id === 0) {
 			$menu = JMenu::getInstance('site')->getActive();
 			$menuparams = $menu->params;
@@ -77,9 +77,9 @@ class DocimportControllerCategories extends FOFController
 			} else {
 				$id = $menuparams->getValue('catid', 0);
 			}
-			FOFInput::setVar('id', $id, $this->input);
+			$this->input->set('id', $id);
 		}
-		
+
 		return true;
 	}
 }

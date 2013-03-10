@@ -87,7 +87,7 @@ class DocimportModelUrls extends JoomlaCompatModel
 					$db->quoteName('nonsef').' = '.$db->quote($key)
 				);
 			$db->setQuery($query);
-			return $db->query();
+			return $db->execute();
 		} else {
 			$query = $db->getQuery(true)
 				->insert($db->quoteName('#__docimport_urls'))
@@ -97,7 +97,7 @@ class DocimportModelUrls extends JoomlaCompatModel
 				))
 				->values($db->quote($key).','.$db->quote($value));
 			$db->setQuery($query);
-			return $db->query();
+			return $db->execute();
 		}
 	}
 	
@@ -106,6 +106,6 @@ class DocimportModelUrls extends JoomlaCompatModel
 		$db = $this->getDbo();
 		$this->urls = array();
 		$db->setQuery('TRUNCATE TABLE '.$db->quoteName('#__docimport_urls'));
-		return $db->query();
+		return $db->execute();
 	}
 }

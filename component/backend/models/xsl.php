@@ -11,7 +11,7 @@ class DocimportModelXsl extends FOFModel
 {
 	/**
 	 * Runs the XML to HTML file conversion step for a given category
-	 * 
+	 *
 	 * @param int $category_id
 	 * @return bool
 	 */
@@ -21,25 +21,28 @@ class DocimportModelXsl extends FOFModel
 		$category = FOFModel::getTmpInstance('Categories','DocimportModel')
 			->setId($category_id)
 			->getItem();
-		
+
 		if($category->docimport_category_id != $category_id) {
 			$this->setError(JText::sprintf('COM_DOCIMPORT_XSL_ERROR_NOCATEGORY', $category_id));
 			return false;
 		}
-		
+
 		// Check if directories exist
 		$dir_src	= JPATH_ROOT.'/media/com_docimport/'.$category->slug;
 		$dir_output	= JPATH_ROOT.'/media/com_docimport/'.$category->slug.'/output';
-		
-		jimport('joomla.filesystem.folder');
-		
+
+		JLoader::import('joomla.filesystem.folder');
+
 		if(!JFolder::exists($dir_src)) {
 			$this->setError(JText::sprintf('COM_DOCIMPORT_XSL_ERROR_NOFOLDER', $category->slug));
 			return false;
 		}
-		
+
 		// Clear the output directory
-		JFolder::delete($dir_output);
+		if(JFolder::exists($dir_output))
+		{
+			JFolder::delete($dir_output);
+		}
 		// Regenerate the output directory
 		if(!JFolder::exists($dir_output)) {
 			$result = JFolder::create($dir_output);
@@ -47,15 +50,15 @@ class DocimportModelXsl extends FOFModel
 				$this->setError(JText::sprintf('COM_DOCIMPORT_XSL_ERROR_CANTCREATEFOLDER', $category->slug.'/output'));
 				return false;
 			} else {
-				jimport('joomla.filesystem.file');
+				JLoader::import('joomla.filesystem.file');
 				$content = "order deny, allow\ndeny from all\allow from none\n";
 				JFile::write($dir_output.'/.htaccess', $content);
 			}
 		}
-				
+
 		// Find the XML file
 		$xmlfiles = JFolder::files($dir_src, '\.xml$', false, true);
-		
+
 		// If we have many files, let's filter out only articles and books
 		if(count($xmlfiles) > 1) {
 			$files = $xmlfiles;
@@ -73,21 +76,21 @@ class DocimportModelXsl extends FOFModel
 		}
 
 		$xslt_filename = (count($xmlfiles) > 1) ? 'onechunk.xsl' : 'chunk.xsl';
-		
+
 		if( ($xmlfiles === false) || (empty($xmlfiles)) ) {
 			$this->setError(JText::_('COM_DOCIMPORT_XSL_ERROR_NOXMLFILES'));
 			return false;
 		}
-		
+
 		$file_xsl = JPATH_ADMINISTRATOR.'/components/com_docimport/assets/dbxsl/xhtml/'.$xslt_filename;
-		
+
 		// Load the XSLT filters
 		$xslDoc = new DOMDocument();
 		if(!$xslDoc->load($file_xsl)) {
 			$this->setError(JText::_('COM_DOCIMPORT_XSL_ERROR_NOLOADXSL'));
 			return false;
 		}
-		
+
 		$timestamp = 0;
 		foreach($xmlfiles as $file_xml) {
 			// Load the XML document
@@ -98,7 +101,7 @@ class DocimportModelXsl extends FOFModel
 			}
 			$xmlDoc->documentURI = $file_xml;
 			$xmlDoc->xinclude(LIBXML_DTDATTR | LIBXML_NOENT | LIBXML_NONET | LIBXML_XINCLUDE);
-			
+
 			$filesprefix = '';
 			if(count($xmlfiles) > 1) {
 				$filesprefix = basename($file_xml,'.xml');
@@ -120,10 +123,10 @@ class DocimportModelXsl extends FOFModel
 				$this->setError(JText::_('COM_DOCIMPORT_XSL_ERROR_NOLOADPARAMETERS'));
 				return false;
 			}
-			
+
 			// Process it!
 			set_time_limit(0);
-			
+
 			$errorsetting = error_reporting(0);
 			if (version_compare(PHP_VERSION,'5.4',"<")) {
 				$oldval = ini_set("xsl.security_prefs",XSL_SECPREF_NONE);
@@ -132,7 +135,7 @@ class DocimportModelXsl extends FOFModel
 			}
 
 			$result = $xslt->transformToXml($xmlDoc);
-			
+
 			error_reporting($errorsetting);
 			if (version_compare(PHP_VERSION,'5.4',"<")) {
 				ini_set("xsl.security_prefs",$oldval);
@@ -140,13 +143,13 @@ class DocimportModelXsl extends FOFModel
 				$xslt->setSecurityPrefs($oldval);
 			}
 			unset($xslt);
-			
+
 			if($result === false) {
 				$this->setError(JText::_('COM_DOCIMPORT_XSL_ERROR_FAILEDTOPROCESS'));
 			} else {
 				$timestamp_local = @filemtime($file_xml);
 				if($timestamp_local > $timestamp) $timestamp = $timestamp_local;
-				
+
 				if(!empty($filesprefix)) {
 					$fname = rtrim($dir_output,'/')."/$filesprefix-index.html";
 					$renamed = rtrim($dir_output,'/')."/$filesprefix.html";
@@ -156,22 +159,22 @@ class DocimportModelXsl extends FOFModel
 				}
 			}
 		}
-		
+
 		// Update the database record with the file's/files' timestamp
 		$category->save(array(
 			'last_timestamp'	=> $timestamp
 		));
-		
+
 		if($this->getError()) return false;
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Scans the output directory of a category for new HTML files and updates
 	 * the database.
-	 * 
-	 * @param int $category_id 
+	 *
+	 * @param int $category_id
 	 */
 	public function processFiles($category_id)
 	{
@@ -179,28 +182,28 @@ class DocimportModelXsl extends FOFModel
 		$category = FOFModel::getTmpInstance('Categories','DocimportModel')
 			->setId($category_id)
 			->getItem();
-		
+
 		if($category->docimport_category_id != $category_id) {
 			$this->setError(JText::sprintf('COM_DOCIMPORT_XSL_ERROR_NOCATEGORY', $category_id));
 			return false;
 		}
-		
+
 		// Check if directories exist
 		$dir_src	= JPATH_ROOT.'/media/com_docimport/'.$category->slug;
 		$dir_output	= JPATH_ROOT.'/media/com_docimport/'.$category->slug.'/output';
-		
-		jimport('joomla.filesystem.folder');
-		
+
+		JLoader::import('joomla.filesystem.folder');
+
 		if(!JFolder::exists($dir_src)) {
 			$this->setError(JText::sprintf('COM_DOCIMPORT_XSL_ERROR_NOFOLDER', $category->slug));
 			return false;
 		}
-		
+
 		if(!JFolder::exists($dir_output)) {
 			$this->setError(JText::sprintf('COM_DOCIMPORT_XSL_ERROR_NOFOLDER', $category->slug.'/output'));
 			return false;
 		}
-		
+
 		// Load the list of articles in this category
 		$db = $this->getDBO();
 		$query = $db->getQuery(true)
@@ -216,10 +219,10 @@ class DocimportModelXsl extends FOFModel
 		$db->setQuery($query);
 		$articles = $db->loadObjectList('slug');
 		if(empty($articles)) $articles=array();
-		
+
 		// Get a list of existing files
 		$files = JFolder::files($dir_output, '\.html$');
-		
+
 		// And now, turn the files into a list of slugs
 		$slugs = array();
 		if(!empty($files)) foreach($files as $filename) {
@@ -236,20 +239,20 @@ class DocimportModelXsl extends FOFModel
 					));
 			}
 		}
-		
+
 		// Second pass: add articles which are not already there
 		if(!empty($slugs)) foreach($slugs as $slug) {
 			if(!array_key_exists($slug, $articles)) {
-				jimport('joomla.utilities.date');
-				
+				JLoader::import('joomla.utilities.date');
+
 				$jNow = new JDate();
-				
+
 				$user_id = JFactory::getUser()->id;
 				if(empty($user_id)) $user_id = 42;
-				
+
 				$filepath = $dir_output.'/'.$slug.'.html';
 				$filedata = $this->_getHTMLFileData($filepath);
-				
+
 				FOFModel::getTmpInstance('Articles','DocimportModel')
 					->getTable()
 					->save(array(
@@ -262,11 +265,11 @@ class DocimportModelXsl extends FOFModel
 						'enabled'				=> 1,
 						'created_on'			=> $jNow->toSql(),
 						'created_by'			=> $user_id
-						
+
 					));
 			}
 		}
-		
+
 		// Third pass: update existing articles
 		if(!empty($slugs) && !empty($articles)) foreach($articles as $article) {
 			if(in_array($article->slug, $slugs)) {
@@ -274,15 +277,15 @@ class DocimportModelXsl extends FOFModel
 				$filepath = $dir_output.'/'.$article->slug.'.html';
 				if(@filemtime($filepath) == $article->last_timestamp) continue;
 
-				jimport('joomla.utilities.date');
-				
+				JLoader::import('joomla.utilities.date');
+
 				$jNow = new JDate();
-				
+
 				$user_id = JFactory::getUser()->id;
 				if(empty($user_id)) $user_id = 42;
-				
+
 				$filedata = $this->_getHTMLFileData($filepath);
-				
+
 				FOFModel::getTmpInstance('Articles','DocimportModel')
 					->setId($article->id)
 					->getItem()
@@ -298,7 +301,7 @@ class DocimportModelXsl extends FOFModel
 					));
 			}
 		}
-		
+
 		// Fourth pass: Load a list of enabled articles (IDs and slugs)
 		$db = $this->getDBO();
 		$query = $db->getQuery(true)
@@ -317,7 +320,7 @@ class DocimportModelXsl extends FOFModel
 			$mapSlugID[$rawItem->slug] = $rawItem->id;
 		}
 		unset($rawlist);
-		
+
 		// Fifth pass: Load the index page and determine ordering of slugs
 		$mapSlugOrder = array();
 		$maxOrder = 0;
@@ -343,12 +346,12 @@ class DocimportModelXsl extends FOFModel
 					$slug = basename($href,'.html');
 					if(!array_key_exists($slug, $mapSlugID)) continue;
 					if(array_key_exists($slug, $mapSlugOrder)) continue;
-					
+
 					$mapSlugOrder[$slug] = ++$maxOrder;
 				}
 			}
 		}
-		
+
 		// Sixth pass: Load each article, replace links and modify ordering
 		$allIds = array_values($mapSlugID);
 		if(!empty($allIds)) foreach($allIds as $id) {
@@ -377,10 +380,10 @@ class DocimportModelXsl extends FOFModel
 			unset($fulltext);
 			unset($article);
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Scans for the existence of new categories
 	 */
@@ -397,12 +400,12 @@ class DocimportModelXsl extends FOFModel
 		;
 		$db->setQuery($query);
 		$categories = $db->loadObjectList('slug');
-		
+
 		// Get a list of subdirectories, except the built-in ones
-		jimport('joomla.filesystem.folder');
+		JLoader::import('joomla.filesystem.folder');
 		$path = JPATH_ROOT.'/media/com_docimport';
 		$folders = JFolder::folders($path, '.', false, false, array('admonition','css','js','images'));
-		
+
 		// If a subdirectory doesn't exist, create a new category
 		if(!empty($folders)) foreach($folders as $folder) {
 			if(!array_key_exists($folder, $categories)) {
@@ -416,10 +419,10 @@ class DocimportModelXsl extends FOFModel
 			}
 		}
 	}
-	
+
 	/**
 	 * Parse an HTML output file of DocBook XSLT transformation
-	 * 
+	 *
 	 * @param string $filepath The full path to the file
 	 * @return object
 	 */
@@ -430,21 +433,21 @@ class DocimportModelXsl extends FOFModel
 			'contents'	=> '',
 			'timestamp'	=> 0
 		);
-		
+
 		$ret->timestamp = @filemtime($filepath);
-		
-		jimport('joomla.filesystem.file');
+
+		JLoader::import('joomla.filesystem.file');
 		$filedata = JFile::read($filepath);
-		
+
 		$startOfTitle = strpos($filedata, '<title>') + 7;
 		$endOfTitle = strpos($filedata, '</title>');
 		$ret->title = substr($filedata, $startOfTitle, $endOfTitle - $startOfTitle);
-		
+
 		// Extract the body
 		$startOfContent = strpos($filedata, '<body>') + 6;
 		$endOfContent = strpos($filedata, '</body>');
 		$ret->contents = substr($filedata, $startOfContent, $endOfContent - $startOfContent);
-		
+
 		return $ret;
 	}
 }
