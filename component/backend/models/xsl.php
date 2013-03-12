@@ -99,7 +99,7 @@ class DocimportModelXsl extends FOFModel
 				$this->setError(JText::_('COM_DOCIMPORT_XSL_ERROR_NOLOADXML'));
 				return false;
 			}
-			$xmlDoc->documentURI = $file_xml;
+			//$xmlDoc->documentURI = $file_xml;
 			$xmlDoc->xinclude(LIBXML_DTDATTR | LIBXML_NOENT | LIBXML_NONET | LIBXML_XINCLUDE);
 
 			$filesprefix = '';
