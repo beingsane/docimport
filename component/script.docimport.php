@@ -262,7 +262,7 @@ class Com_DocimportInstallerScript
 	The easiest way to provide up-to-date documentation
 </span>
 
-<table class="adminlist">
+<table class="adminlist table table-striped" width="100%">
 	<thead>
 		<tr>
 			<th class="title" colspan="2">Extension</th>
@@ -342,7 +342,7 @@ class Com_DocimportInstallerScript
 <h2 style="font-size: 14pt; font-weight: black; padding: 0; margin: 0 0 0.5em;">&nbsp;Akeeba DocImport Uninstallation</h2>
 <p>We are sorry that you decided to uninstall Akeeba DocImport. Please let us know why by using the Contact Us form on our site. We appreciate your feedback; it helps us develop better software!</p>
 
-<table class="adminlist">
+<table class="adminlist table table-striped" width="100%">
 	<thead>
 		<tr>
 			<th class="title" colspan="2"><?php echo JText::_('Extension'); ?></th>
