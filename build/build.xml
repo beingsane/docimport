@@ -165,4 +165,22 @@
 		<exec command="fop -fo ${dirs.bin.release}/docimport-guide.fo -pdf ${dirs.bin.release}/docimport-guide.pdf" logoutput="true" />
 		<delete file="${dirs.release}docimpport-guide.fo" quiet="yes" />
 	</target>
+	
+	<target name="docsdeploy">
+		<!-- English manual -->
+		<echo>Uploading DocImport documentation</echo>
+		<ftpdeploy
+			host="${ftp.host}"
+			port="${ftp.port}"
+			username="${ftp.username}"
+			password="${ftp.password}"
+			dir="${ftp.dir.docs}/docimport"
+			mode="${ftp.mode}"
+			passive="true"
+			level="debug">
+			<fileset dir="${dirs.documentation}">
+				<include name="*.xml"/>
+			</fileset>			
+		</ftpdeploy>
+	</target>	
 </project>
