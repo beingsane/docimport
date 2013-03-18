@@ -1,6 +1,7 @@
 DocImport 1.0.2
 ================================================================================
 # [HIGH] Internal server error on ancient versions of PHP 5.3 with broken late static binding implementations
+# [MEDIUM] Documents with XInclude statements didn't work if the linked XML documents were not web accessible
 
 DocImport 1.0.1
 ================================================================================

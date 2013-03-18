@@ -29,17 +29,28 @@
 	
 	<install>
 		<sql>
-			<file charset="utf8" driver="mysql">install/install.sql</file>
-			<file charset="utf8" driver="mysqli">install/install.sql</file>
+			<file charset="utf8" driver="mysql">sql/install/mysql/install.sql</file>
+			<file charset="utf8" driver="mysqli">sql/install/mysql/install.sql</file>
 		</sql>
 	</install>
 	
 	<uninstall>
 		<sql>
-			<file charset="utf8" driver="mysql">install/uninstall.sql</file>
-			<file charset="utf8" driver="mysqli">install/uninstall.sql</file>
+			<file charset="utf8" driver="mysql">sql/install/mysql/uninstall.sql</file>
+			<file charset="utf8" driver="mysqli">sql/install/mysql/uninstall.sql</file>
 		</sql>
 	</uninstall>
+	
+	<!-- SQL files to run on update -->
+	<!--
+	<update>
+		<schemas>
+			<schemapath type="mysql">sql/update/mysql</schemapath>
+			<schemapath type="sqlsrv">sql/update/sqlsrv</schemapath>
+			<schemapath type="sqlazure">sql/update/sqlazure</schemapath>
+		</schemas>
+	</update>
+	-->
 	
 	<media destination="com_docimport" folder="media">
 		<folder>admonition</folder>
@@ -56,9 +67,9 @@
 			<folder>assets</folder>
 			<folder>controllers</folder>
 			<folder>helpers</folder>
-			<folder>install</folder>
 			<folder>liveupdate</folder>
 			<folder>models</folder>
+			<folder>sql</folder>
 			<folder>tables</folder>
 			<folder>views</folder>
 			
