@@ -16,9 +16,9 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  *  --
- * 
+ *
  *  Command-line script to schedule the documentation rebuild
  */
 
@@ -72,10 +72,10 @@ class AppDocupdate extends JApplicationCli
 		JError::setErrorHandling(E_ERROR, 'die');
 		JError::setErrorHandling(E_WARNING, 'ignore');
 		JError::setErrorHandling(E_NOTICE, 'ignore');
-		
+
 		// Set up the path of our media directory
 		$this->_media = JPATH_ROOT.'/media/com_docimport/';
-		
+
 		// Get basic information
 		require_once JPATH_ADMINISTRATOR . '/components/com_docimport/version.php';
 		$version = DOCIMPORT_VERSION;
@@ -86,7 +86,7 @@ class AppDocupdate extends JApplicationCli
 		$phpos = PHP_OS;
 		$memusage = $this->memUsage();
 		$start_time = time();
-		
+
 		echo <<<ENDBLOCK
 Akeeba DocImport³ CLI $version ($date)
 Copyright (C) 2010-$year Nicholas K. Dionysopoulos
@@ -103,20 +103,23 @@ Starting documentation category rebuild
 Current memory usage: $memusage
 
 ENDBLOCK;
-		
+
 		// Load Joomla! classes
 		JLoader::import('joomla.filesystem.folder');
 		JLoader::import('joomla.filesystem.file');
 		JLoader::import( 'joomla.environment.request' );
 		JLoader::import( 'joomla.environment.uri' );
-		
+
 		// Load the translation strings
 		$jlang = JFactory::getLanguage();
 		$jlang->load('com_docimport', JPATH_ADMINISTRATOR, 'en-GB', true);
-		
+
 		// Load FOF
 		require_once JPATH_LIBRARIES.'/fof/include.php';
-		
+
+		// Force-load the back-end Categories model (the front-end model doesn't work under CLI)
+		require_once JPATH_ADMINISTRATOR . '/components/com_docimport/models/categories.php';
+
 		// Scan for any missing categories
 		FOFModel::getTmpInstance('Xsl','DocimportModel',array('input'=>array()))
 			->scanCategories();
@@ -127,7 +130,7 @@ ENDBLOCK;
 			->limitstart(0)
 			->enabled(1)
 			->getList();
-		
+
 		foreach($categories as $cat) {
 			$this->out("Processing \"$cat->title\"");
 			$model = FOFModel::getTmpInstance('Xsl','DocimportModel');
@@ -143,17 +146,17 @@ ENDBLOCK;
 				$this->out("\tFAILED: ".$model->getError());
 			}
 		}
-		
+
 		$this->out('');
 		$this->out('Documentation processing finished after approximately ' . $this->timeago($start_time, time(), '', false));
 		$this->out('');
 		$this->out("Peak memory usage: ".$this->peakMemUsage());
     }
-	
+
 	/**
 	 * Returns the current memory usage
-	 * 
-	 * @return string 
+	 *
+	 * @return string
 	 */
 	private function memUsage()
 	{
@@ -168,8 +171,8 @@ ENDBLOCK;
 
 	/**
 	 * Returns the peak memory usage
-	 * 
-	 * @return string 
+	 *
+	 * @return string
 	 */
 	private function peakMemUsage()
 	{
@@ -181,15 +184,15 @@ ENDBLOCK;
 			return "(unknown)";
 		}
 	}
-	
+
 	/**
 	 * Returns a fancy formatted time lapse code
-	 * 
+	 *
 	 * @param  $referencedate	int		Timestamp of the reference date/time
 	 * @param  $timepointer		int		Timestamp of the current date/time
 	 * @param  $measureby		string	One of s, m, h, d, or y (time unit)
 	 * @param  $autotext			bool
-	 * 
+	 *
 	 * @return  string
 	 */
 	private function timeago($referencedate=0, $timepointer='', $measureby='', $autotext=true)
@@ -197,11 +200,11 @@ ENDBLOCK;
 		if($timepointer == '') {
 			$timepointer = time();
 		}
-		
+
 		// Raw time difference
 		$Raw = $timepointer-$referencedate;
 		$Clean = abs($Raw);
-		
+
 		$calcNum = array(
 			array('s', 60),
 			array('m', 60*60),
@@ -209,7 +212,7 @@ ENDBLOCK;
 			array('d', 60*60*60*24),
 			array('y', 60*60*60*24*365)
 		);
-		
+
 		$calc = array(
 			's' => array(1, 'second'),
 			'm' => array(60, 'minute'),
@@ -254,5 +257,5 @@ ENDBLOCK;
 		}
 	}
 }
- 
+
 JCli::getInstance( 'AppDocupdate' )->execute( );

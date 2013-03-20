@@ -1,3 +1,7 @@
+DocImport 1.0.3
+================================================================================
+# [MEDIUM] The CLI script produced a fatal error
+
 DocImport 1.0.2
 ================================================================================
 # [HIGH] Internal server error on ancient versions of PHP 5.3 with broken late static binding implementations
