@@ -267,7 +267,7 @@ ENDBLOCK;
 
 	private function loadComponentOptions()
 	{
-		$db = AEFactory::getDatabase();
+		$db = JFactory::getDbo();
 
 		$sql = $db->getQuery(true)
 			->select($db->qn('params'))
