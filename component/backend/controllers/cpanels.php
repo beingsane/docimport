@@ -14,12 +14,17 @@ class DocimportControllerCpanels extends FOFController
 		$task = 'browse';
 		parent::execute($task);
 	}
-	
+
 	public function onBeforeBrowse()
 	{
+		// Run maintainance tasks
+		$this->getThisModel()
+			->updateMagicParameters()
+			->checkAndFixDatabase();
+
 		FOFModel::getTmpInstance('Xsl','DocimportModel')
 			->scanCategories();
-		
+
 		return true;
 	}
 }
