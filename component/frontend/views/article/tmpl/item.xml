@@ -13,7 +13,7 @@
 		</params>
 	</state>
 	<fields name="params">
-		<fieldset name="basic" label="COM_ARS_FIELDSET_BASIC">
+		<fieldset name="basic" label="COM_DOCIMPORT_FIELDSET_BASIC">
 			<field name="articleid" type="sql" default="0" label="COM_DOCIMPORT_VIEW_LBL_ARTICLE_LABEL" description="COM_DOCIMPORT_VIEW_LBL_ARTICLE_DESC" query="SELECT `a`.`docimport_article_id` as `id`, CONCAT(`c`.`title`,' :: ',`a`.`title`) as `title` FROM `#__docimport_articles` AS `a` INNER JOIN `#__docimport_categories` AS `c` USING(`docimport_category_id`) ORDER BY `c`.`ordering`,`c`.`title`,`a`.`ordering`,`a`.`title` ASC" key_field="id" value_field="title" />
 		</fieldset>
 	</fields>
