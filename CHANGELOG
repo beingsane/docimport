@@ -3,6 +3,7 @@ DocImport 1.0.3
 # [MEDIUM] The CLI script produced a fatal error
 # [MEDIUM] Issues with multilingual sites
 # [MEDIUM] Document generation in the CLI wouldn't get the correct URL to images
+# [MEDIUM] Fatal error clearing the SEF URL cache
 
 DocImport 1.0.2
 ================================================================================
