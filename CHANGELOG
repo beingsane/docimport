@@ -1,5 +1,6 @@
 DocImport 1.0.3
 ================================================================================
+~ If the language of a category is not set, the default (all languages) will be set on save
 # [MEDIUM] The CLI script produced a fatal error
 # [MEDIUM] Issues with multilingual sites
 # [MEDIUM] Document generation in the CLI wouldn't get the correct URL to images
