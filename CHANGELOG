@@ -6,6 +6,7 @@ DocImport 1.0.3
 # [MEDIUM] Document generation in the CLI wouldn't get the correct URL to images
 # [MEDIUM] Fatal error clearing the SEF URL cache
 # [MEDIUM] Missing jimport statement in URL cache model
+# [MEDIUM] XML IDs containing underscores and other characters not acceptable in slugs would result in broken links
 
 DocImport 1.0.2
 ================================================================================

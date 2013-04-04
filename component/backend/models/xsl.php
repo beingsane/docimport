@@ -324,6 +324,7 @@ class DocimportModelXsl extends FOFModel
 
 		// Fifth pass: Load the index page and determine ordering of slugs
 		$mapSlugOrder = array();
+		$mapFilesToSlugs = array();
 		$maxOrder = 0;
 		if(JFile::exists($dir_output.'/index.html')) {
 			$file_data = JFile::read($dir_output.'/index.html');
@@ -344,7 +345,12 @@ class DocimportModelXsl extends FOFModel
 						$href = substr($href, 0, $hashlocation);
 					}
 					// Only precess if this page is not already found
-					$slug = basename($href,'.html');
+					$originalslug = basename($href,'.html');
+					$slug = FOFStringUtils::toSlug($originalslug);
+					if(!array_key_exists($originalslug, $mapFilesToSlugs))
+					{
+						$mapFilesToSlugs[$originalslug] = $slug;
+					}
 					if(!array_key_exists($slug, $mapSlugID)) continue;
 					if(array_key_exists($slug, $mapSlugOrder)) continue;
 
@@ -362,13 +368,14 @@ class DocimportModelXsl extends FOFModel
 				->getItem();
 			// Replace links
 			$fulltext = $article->fulltext;
-			foreach($mapSlugID as $slug => $id) {
+			foreach($mapFilesToSlugs as $realfile => $slug) {
+				$id = $mapSlugID[$slug];
 				if($slug == 'index') {
 					$url = 'index.php?option=com_docimport&view=category&id='.$category_id;
 				} else {
 					$url = 'index.php?option=com_docimport&view=article&id='.$id;
 				}
-				$fulltext = str_replace('href="'.$slug.'.html', 'href="'.$url.'', $fulltext);
+				$fulltext = str_replace('href="'.$realfile.'.html', 'href="'.$url.'', $fulltext);
 			}
 			// Replace ordering
 			$ordering = $article->ordering;
