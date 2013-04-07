@@ -120,6 +120,14 @@ ENDBLOCK;
 		// Force-load the back-end Categories model (the front-end model doesn't work under CLI)
 		require_once JPATH_ADMINISTRATOR . '/components/com_docimport/models/categories.php';
 
+		// Force the server root URL
+		$rootURL = $this->getOptionValue('siteurl', '');
+		if (!empty($rootURL))
+		{
+			$rootURL = rtrim($rootURL, '/') . '/';
+			define('DOCIMPORT_SITEURL', $rootURL);
+		}
+
 		// Scan for any missing categories
 		FOFModel::getTmpInstance('Xsl','DocimportModel',array('input'=>array()))
 			->scanCategories();
@@ -254,6 +262,42 @@ ENDBLOCK;
 			}
 		} else {
 			return 'No input time referenced.';
+		}
+	}
+
+	private function loadComponentOptions()
+	{
+		$db = JFactory::getDbo();
+
+		$sql = $db->getQuery(true)
+			->select($db->qn('params'))
+			->from($db->qn('#__extensions'))
+			->where($db->qn('element')." = ".$db->q('com_docimport'));
+		$db->setQuery($sql);
+		$config_ini  = $db->loadResult();
+
+		$config_ini = json_decode($config_ini, true);
+		if(is_null($config_ini) || empty($config_ini)) {
+			$config_ini = array();
+		}
+		return $config_ini;
+	}
+
+	public function getOptionValue($key, $default)
+	{
+		static $config;
+		if(empty($config))
+		{
+			$config = $this->loadComponentOptions();
+		}
+
+		if(array_key_exists($key, $config))
+		{
+			return $config[$key];
+		}
+		else
+		{
+			return $default;
 		}
 	}
 }

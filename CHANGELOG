@@ -1,6 +1,12 @@
 DocImport 1.0.3
 ================================================================================
+~ If the language of a category is not set, the default (all languages) will be set on save
 # [MEDIUM] The CLI script produced a fatal error
+# [MEDIUM] Issues with multilingual sites
+# [MEDIUM] Document generation in the CLI wouldn't get the correct URL to images
+# [MEDIUM] Fatal error clearing the SEF URL cache
+# [MEDIUM] Missing jimport statement in URL cache model
+# [MEDIUM] XML IDs containing underscores and other characters not acceptable in slugs would result in broken links
 
 DocImport 1.0.2
 ================================================================================

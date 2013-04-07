@@ -17,6 +17,9 @@
 			<option value="stable">COM_DOCIMPORT_CONFIG_MINSTABILITY_STABLE</option>
 		</field>
 		<field name="liveupdate" type="hidden" default="" label="" description="" />
+		
+		<field name="siteurl" type="hidden" default=""
+			label="" />		
 	</fieldset>
 	
 	<fieldset

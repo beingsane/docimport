@@ -8,6 +8,8 @@
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
+JLoader::import('joomla.application.component.controller');
+
 if(!class_exists('JoomlaCompatController')) {
 	if(interface_exists('JController')) {
 		abstract class JoomlaCompatController extends JControllerLegacy {}
@@ -22,7 +24,7 @@ class DocimportControllerUrls extends JoomlaCompatController
 	{
 		FOFModel::getAnInstance('Urls','DocimportModel')
 			->nuke();
-		
+
 		$this->setRedirect('index.php?option=com_docimport', JText::_('COM_DOCIMPORT_CPANEL_NUKEURLS_DONE'));
 	}
 }
