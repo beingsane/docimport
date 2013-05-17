@@ -1,6 +1,6 @@
 <?php
 /**
- * @package AkeebaSubs
+ * @package DocImport
  * @copyright Copyright (c)2010-2013 Nicholas K. Dionysopoulos
  * @license GNU General Public License version 3, or later
  */
@@ -12,7 +12,7 @@ class DocimportDispatcher extends FOFDispatcher
 {
 	public function onBeforeDispatch() {
 		if($result = parent::onBeforeDispatch()) {
-			if (!JFactory::getUser()->authorise('core.manage', 'com_ats')) {
+			if (!JFactory::getUser()->authorise('core.manage', 'com_docimport')) {
 				JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 				return false;
 			}
