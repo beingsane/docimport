@@ -14,13 +14,11 @@ class LiveUpdateConfig extends LiveUpdateAbstractConfig
 {
 	var $_extensionName			= 'com_docimport';
 	var $_versionStrategy		= 'different';
-	/**
 	var $_storageAdapter		= 'component';
 	var $_storageConfig			= array(
-			'extensionName'	=> 'com_docimport',
-			'key'			=> 'liveupdate'
-		);
-	*/
+		'extensionName'	=> 'com_docimport',
+		'key'			=> 'liveupdate'
+	);
 
 	function __construct()
 	{
