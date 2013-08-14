@@ -51,7 +51,7 @@ class DocimportModelXsl extends FOFModel
 				return false;
 			} else {
 				JLoader::import('joomla.filesystem.file');
-				$content = "order deny, allow\ndeny from all\allow from none\n";
+				$content = "order deny,allow\ndeny from all\allow from none\n";
 				JFile::write($dir_output.'/.htaccess', $content);
 			}
 		}
