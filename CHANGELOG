@@ -1,6 +1,7 @@
 DocImport 1.0.4
 ================================================================================
 # [LOW] Pre-installation script would run the wrong SQL files on upgrade (normally not causing a problem, but still it's not the intended behaviour)
+# [LOW] CLI CRON scripts not fully compatible with PHP CGI
 
 DocImport 1.0.3
 ================================================================================
