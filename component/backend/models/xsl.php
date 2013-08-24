@@ -369,13 +369,24 @@ class DocimportModelXsl extends FOFModel
 			// Replace links
 			$fulltext = $article->fulltext;
 			foreach($mapFilesToSlugs as $realfile => $slug) {
-				$id = $mapSlugID[$slug];
-				if($slug == 'index') {
+				if (empty($realfile) || empty($slug))
+				{
+					$realfile = 'index';
+					$slug = 'index';
+				}
+
+				if($slug == 'index')
+				{
 					$url = 'index.php?option=com_docimport&view=category&id='.$category_id;
-				} else {
+				}
+				else
+				{
+					$id = $mapSlugID[$slug];
 					$url = 'index.php?option=com_docimport&view=article&id='.$id;
 				}
+
 				$fulltext = str_replace('href="'.$realfile.'.html', 'href="'.$url.'', $fulltext);
+				$fulltext = str_replace('href="/'.$realfile.'.html', 'href="'.$url.'', $fulltext);
 			}
 			// Replace ordering
 			$ordering = $article->ordering;
