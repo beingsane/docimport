@@ -1,3 +1,7 @@
+DocImport 1.0.6
+================================================================================
+! An annoying –but harmless– fatal error was shown on upgrade from older versions
+
 DocImport 1.0.5
 ================================================================================
 # [LOW] Pre-installation script would run the wrong SQL files on upgrade (normally not causing a problem, but still it's not the intended behavior)
