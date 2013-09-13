@@ -1,3 +1,7 @@
+DocImport 1.0.7
+================================================================================
+# [LOW] Very rarely an empty article would be generated every time you tried processing the DocBook XML files
+
 DocImport 1.0.6
 ================================================================================
 ! An annoying –but harmless– fatal error was shown on upgrade from older versions
