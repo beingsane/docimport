@@ -1,6 +1,7 @@
 DocImport 1.0.7
 ================================================================================
 ~ Improved back-end display in Joomla! 3
+# [MEDIUM] Fatal error com_finder indexer
 # [LOW] Very rarely an empty article would be generated every time you tried processing the DocBook XML files
 
 DocImport 1.0.6
