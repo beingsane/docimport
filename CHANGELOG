@@ -6,6 +6,7 @@ DocImport 1.0.7
 # [LOW] Very rarely an empty article would be generated every time you tried processing the DocBook XML files
 # [MEDIUM] Fatal error com_finder indexer. Thanks Jurian!
 # [MEDIUM] The plugins didn't install. Thanks Jurian!
+# [LOW] Fixed page headings
 
 DocImport 1.0.6
 ================================================================================

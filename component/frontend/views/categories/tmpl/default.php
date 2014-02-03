@@ -7,8 +7,19 @@
 
 // Protect from unauthorized access
 defined('_JEXEC') or die();
+
+$app = JFactory::getApplication();
+$menus = $app->getMenu();
+$menu = $menus->getActive();
+
 ?>
 <div class="docimport docimport-page-categories akeeba-bootstrap">
+	<?php if ($this->params->get('show_page_heading')) : ?>
+		<div class="page-header">
+			<h1><?php echo $this->escape($this->params->get('page_heading', $menu->title)); ?></h1>
+		</div>
+	<?php endif;?>
+
 <?php if(empty($this->items)):?>
 <p><?php echo JText::_('COM_DOCIMPORT_CATEGORIES_NONE') ?></p>
 <?php else:?>
