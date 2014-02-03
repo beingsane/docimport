@@ -41,5 +41,9 @@ class DocimportViewCategory extends FOFViewHtml
 		
 		$this->assign('items', $items);
 		$this->assign('index', $index);
+
+		// Pass page params
+		$params = JFactory::getApplication()->getParams();
+		$this->params = $params;
 	}
 }
