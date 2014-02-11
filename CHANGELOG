@@ -1,6 +1,7 @@
 DocImport 1.0.7
 ================================================================================
 ~ Improved back-end display in Joomla! 3
+~ AJAX ordering now shows the ordering in a textbox, to faciliate ordering without much frustration in Joomla! 3
 # [MEDIUM] Fatal error com_finder indexer
 # [MEDIUM] The plugins didn't install
 # [LOW] Very rarely an empty article would be generated every time you tried processing the DocBook XML files
