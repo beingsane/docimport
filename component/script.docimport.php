@@ -43,6 +43,9 @@ class Com_DocimportInstallerScript
 			'search' => array(
 				'docimport'					=> 1,
 			),
+            'sh404sefextplugins' => array(
+                'com_docimport'             => 1
+            ),
 			'finder' => array(
 				'docimport'					=> 1,
 			),

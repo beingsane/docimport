@@ -1,5 +1,6 @@
 DocImport 1.0.7
 ================================================================================
++ gh-6 Added sh404SEF plugin to create SEF url with that component
 ~ Improved back-end display in Joomla! 3
 ~ AJAX ordering now shows the ordering in a textbox, to faciliate ordering without much frustration in Joomla! 3
 # [MEDIUM] Fatal error com_finder indexer
