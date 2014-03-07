@@ -40,10 +40,6 @@ class DocimportDispatcher extends FOFDispatcher
 			$jlang->load($this->component . '.override', $paths[0], null, true);
 			$jlang->load($this->component . '.override', $paths[1], 'en-GB', true);
 			$jlang->load($this->component . '.override', $paths[1], null, true);
-			// Live Update translation
-			$jlang->load('liveupdate', JPATH_COMPONENT_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'liveupdate', 'en-GB', true);
-			$jlang->load('liveupdate', JPATH_COMPONENT_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'liveupdate', $jlang->getDefault(), true);
-			$jlang->load('liveupdate', JPATH_COMPONENT_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'liveupdate', null, true);
 
 			// Load Akeeba Strapper
 			include_once JPATH_ROOT . '/media/akeeba_strapper/strapper.php';
@@ -53,18 +49,4 @@ class DocimportDispatcher extends FOFDispatcher
 		}
 		return $result;
 	}
-
-	public function dispatch()
-	{
-		// Handle Live Update requests
-		require_once JPATH_COMPONENT_ADMINISTRATOR . '/liveupdate/liveupdate.php';
-		if (($this->input->getCmd('view', '') == 'liveupdate'))
-		{
-			LiveUpdate::handleRequest();
-			return;
-		}
-
-		parent::dispatch();
-	}
-
 }

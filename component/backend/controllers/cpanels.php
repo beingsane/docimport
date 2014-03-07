@@ -17,10 +17,11 @@ class DocimportControllerCpanels extends FOFController
 
 	public function onBeforeBrowse()
 	{
-		// Run maintainance tasks
+		// Run maintenance tasks
 		$this->getThisModel()
 			->updateMagicParameters()
-			->checkAndFixDatabase();
+			->checkAndFixDatabase()
+			->refreshUpdateSite();
 
 		FOFModel::getTmpInstance('Xsl','DocimportModel')
 			->scanCategories();

@@ -67,7 +67,6 @@
 			<folder>assets</folder>
 			<folder>controllers</folder>
 			<folder>helpers</folder>
-			<folder>liveupdate</folder>
 			<folder>models</folder>
 			<folder>sql</folder>
 			<folder>tables</folder>
@@ -91,4 +90,9 @@
 	
 	<!-- Installation / uninstallation PHP scripts -->
 	<scriptfile>script.docimport.php</scriptfile>
+
+    <!-- Update servers -->
+    <updateservers>
+        <server type="extension" priority="1" name="Akeeba DocImport">http://cdn.akeebabackup.com/updates/docimport.xml</server>
+    </updateservers>
 </extension>
