@@ -1,7 +1,7 @@
 <?php
 /**
  *  @package DocImport
- *  @copyright Copyright (c)2010-2013 Nicholas K. Dionysopoulos
+ *  @copyright Copyright (c)2010-2014 Nicholas K. Dionysopoulos
  *  @license GNU General Public License version 3, or later
  */
 
@@ -41,5 +41,9 @@ class DocimportViewCategory extends FOFViewHtml
 		
 		$this->assign('items', $items);
 		$this->assign('index', $index);
+
+		// Pass page params
+		$params = JFactory::getApplication()->getParams();
+		$this->params = $params;
 	}
 }

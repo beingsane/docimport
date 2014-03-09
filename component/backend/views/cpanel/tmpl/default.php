@@ -1,7 +1,7 @@
 <?php
 /**
  *  @package DocImport
- *  @copyright Copyright (c)2010-2013 Nicholas K. Dionysopoulos
+ *  @copyright Copyright (c)2010-2014 Nicholas K. Dionysopoulos
  *  @license GNU General Public License version 3, or later
  */
 
@@ -9,9 +9,6 @@ defined('_JEXEC') or die();
 
 $lang = JFactory::getLanguage();
 
-if(!class_exists('LiveUpdate')) {
-	require_once JPATH_ADMINISTRATOR.'/components/com_ats/liveupdate/liveupdate.php';
-}
 ?>
 <div id="cpanel">
 	<div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">
@@ -52,6 +49,4 @@ if(!class_exists('LiveUpdate')) {
 			</a>
 		</div>
 	</div>
-
-	<?php echo LiveUpdate::getIcon(); ?>
 </div>

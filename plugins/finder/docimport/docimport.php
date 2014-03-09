@@ -1,7 +1,7 @@
 <?php
 /**
  * @package ats
- * @copyright Copyright (c)2011-2013 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ * @copyright Copyright (c)2011-2014 Nicholas K. Dionysopoulos / AkeebaBackup.com
  * @license GNU GPL v3 or later
  */
 
@@ -209,7 +209,7 @@ class plgFinderDocimport extends FinderIndexerAdapter
 		$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
 
 		// Index the item.
-		FinderIndexer::index($item);
+		$this->indexer->index($item);
 	}
 
 	/**

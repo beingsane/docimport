@@ -1,7 +1,7 @@
 <?php
 /**
  *  @package DocImport
- *  @copyright Copyright (c)2010-2013 Nicholas K. Dionysopoulos
+ *  @copyright Copyright (c)2010-2014 Nicholas K. Dionysopoulos
  *  @license GNU General Public License version 3, or later
  */
 
@@ -14,8 +14,6 @@ class DocimportViewArticle extends FOFViewHtml
 	{
 		parent::onRead($tpl);
 		
-		$model = $this->getModel();
-		
 		$category = FOFModel::getTmpInstance('Category','DocimportModel')
 			->setId($this->item->docimport_category_id)
 			->getItem();
@@ -24,5 +22,9 @@ class DocimportViewArticle extends FOFViewHtml
 		if($category->process_plugins) {
 			$this->item->fulltext = JHTML::_('content.prepare', $this->item->fulltext);
 		}
+
+		// Pass page params
+		$params = JFactory::getApplication()->getParams();
+		$this->params = $params;
 	}
 }

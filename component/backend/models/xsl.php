@@ -1,7 +1,7 @@
 <?php
 /**
  *  @package DocImport
- *  @copyright Copyright (c)2010-2013 Nicholas K. Dionysopoulos
+ *  @copyright Copyright (c)2010-2014 Nicholas K. Dionysopoulos
  *  @license GNU General Public License version 3, or later
  */
 
@@ -233,10 +233,11 @@ class DocimportModelXsl extends FOFModel
 		// First pass: find articles pointing to files no longer existing
 		if(!empty($articles)) foreach($articles as $slug => $article) {
 			if(!in_array($slug, $slugs)) {
-				FOFModel::getTmpInstance('Article','DocimportModel')
+				FOFModel::getTmpInstance('Articles','DocimportModel')
 					->setId($article->id)
 					->save(array(
-						'enabled'	=> 0
+						'enabled'	=> 0,
+						'docimport_article_id' => $article->id,
 					));
 			}
 		}
