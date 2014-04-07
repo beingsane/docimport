@@ -158,6 +158,16 @@ class Com_DocimportInstallerScript
 	 */
 	function postflight( $type, $parent )
 	{
+		// Install or update database
+		$dbFilePath = JPATH_ADMINISTRATOR . '/components/' . $this->_akeeba_extension . '/sql';
+		if (!class_exists('AkeebaDatabaseInstaller'))
+		{
+			require_once $dbFilePath . '/dbinstaller.php';
+		}
+		$dbInstaller = new AkeebaDatabaseInstaller(JFactory::getDbo());
+		$dbInstaller->setXmlDirectory($dbFilePath . '/xml');
+		$dbInstaller->updateSchema();
+
 		// Install subextensions
 		$status = $this->_installSubextensions($parent);
 
@@ -202,6 +212,16 @@ class Com_DocimportInstallerScript
 	 */
 	function uninstall($parent)
 	{
+		// Remove the database tables
+		$dbFilePath = JPATH_ADMINISTRATOR . '/components/' . $this->_akeeba_extension . '/sql';
+		if (!class_exists('AkeebaDatabaseInstaller'))
+		{
+			require_once $dbFilePath . '/dbinstaller.php';
+		}
+		$dbInstaller = new AkeebaDatabaseInstaller(JFactory::getDbo());
+		$dbInstaller->setXmlDirectory($dbFilePath . '/xml');
+		$dbInstaller->removeSchema();
+
 		// Uninstall subextensions
 		$status = $this->_uninstallSubextensions($parent);
 
