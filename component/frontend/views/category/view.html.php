@@ -8,20 +8,20 @@
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
-class DocimportViewCategory extends FOFViewHtml
+class DocimportViewCategory extends F0FViewHtml
 {
 	public function onAdd($tpl = null)
 	{
 		parent::onAdd($tpl);
-		
+
 		$catid = $this->getModel()->getItem()->docimport_category_id;
 		// Look for an index article
-		$index = FOFModel::getTmpInstance('Articles','DocimportModel')
+		$index = F0FModel::getTmpInstance('Articles','DocimportModel')
 			->category($catid)
 			->slug('index')
 			->enabled(1)
 			->getFirstItem();
-		
+
 		if($index->docimport_article_id) {
 			$items = array();
 			if($this->item->process_plugins) {
@@ -29,7 +29,7 @@ class DocimportViewCategory extends FOFViewHtml
 			}
 		} else {
 			$index = null;
-			$items = FOFModel::getTmpInstance('Articles','DocimportModel')
+			$items = F0FModel::getTmpInstance('Articles','DocimportModel')
 				->category($catid)
 				->enabled(1)
 				->filter_order('ordering')
@@ -38,7 +38,7 @@ class DocimportViewCategory extends FOFViewHtml
 				->limitstart(0)
 				->getList();
 		}
-		
+
 		$this->assign('items', $items);
 		$this->assign('index', $index);
 

@@ -7,7 +7,7 @@
 
 defined('_JEXEC') or die();
 
-class DocimportModelXsl extends FOFModel
+class DocimportModelXsl extends F0FModel
 {
 	/**
 	 * Runs the XML to HTML file conversion step for a given category
@@ -18,7 +18,7 @@ class DocimportModelXsl extends FOFModel
 	public function processXML($category_id)
 	{
 		// Get the category record
-		$category = FOFModel::getTmpInstance('Categories','DocimportModel')
+		$category = F0FModel::getTmpInstance('Categories','DocimportModel')
 			->setId($category_id)
 			->getItem();
 
@@ -180,7 +180,7 @@ class DocimportModelXsl extends FOFModel
 	public function processFiles($category_id)
 	{
 		// Get the category record
-		$category = FOFModel::getTmpInstance('Categories','DocimportModel')
+		$category = F0FModel::getTmpInstance('Categories','DocimportModel')
 			->setId($category_id)
 			->getItem();
 
@@ -233,7 +233,7 @@ class DocimportModelXsl extends FOFModel
 		// First pass: find articles pointing to files no longer existing
 		if(!empty($articles)) foreach($articles as $slug => $article) {
 			if(!in_array($slug, $slugs)) {
-				FOFModel::getTmpInstance('Articles','DocimportModel')
+				F0FModel::getTmpInstance('Articles','DocimportModel')
 					->setId($article->id)
 					->save(array(
 						'enabled'	=> 0,
@@ -255,7 +255,7 @@ class DocimportModelXsl extends FOFModel
 				$filepath = $dir_output.'/'.$slug.'.html';
 				$filedata = $this->_getHTMLFileData($filepath);
 
-				FOFModel::getTmpInstance('Articles','DocimportModel')
+				F0FModel::getTmpInstance('Articles','DocimportModel')
 					->getTable()
 					->save(array(
 						'docimport_article_id'	=> 0,
@@ -288,7 +288,7 @@ class DocimportModelXsl extends FOFModel
 
 				$filedata = $this->_getHTMLFileData($filepath);
 
-				FOFModel::getTmpInstance('Articles','DocimportModel')
+				F0FModel::getTmpInstance('Articles','DocimportModel')
 					->setId($article->id)
 					->getItem()
 					->save(array(
@@ -347,7 +347,7 @@ class DocimportModelXsl extends FOFModel
 					}
 					// Only precess if this page is not already found
 					$originalslug = basename($href,'.html');
-					$slug = FOFStringUtils::toSlug($originalslug);
+					$slug = F0FStringUtils::toSlug($originalslug);
 					if(!array_key_exists($originalslug, $mapFilesToSlugs))
 					{
 						$mapFilesToSlugs[$originalslug] = $slug;
@@ -364,7 +364,7 @@ class DocimportModelXsl extends FOFModel
 		$allIds = array_values($mapSlugID);
 		if(!empty($allIds)) foreach($allIds as $id) {
 			// Load the article
-			$article = FOFModel::getTmpInstance('Articles','DocimportModel')
+			$article = F0FModel::getTmpInstance('Articles','DocimportModel')
 				->setId($id)
 				->getItem();
 			// Replace links
@@ -429,7 +429,7 @@ class DocimportModelXsl extends FOFModel
 		// If a subdirectory doesn't exist, create a new category
 		if(!empty($folders)) foreach($folders as $folder) {
 			if(!array_key_exists($folder, $categories)) {
-				FOFModel::getTmpInstance('Categories','DocimportModel')
+				F0FModel::getTmpInstance('Categories','DocimportModel')
 					->save(array(
 						'title'			=> JText::sprintf('COM_DOCIMPORT_XSL_DEFAULT_TITLE', $folder),
 						'slug'			=> $folder,

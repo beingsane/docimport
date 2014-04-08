@@ -13,7 +13,7 @@ defined('_JEXEC') or die();
  * The Control Panel model
  *
  */
-class DocimportModelCpanels extends FOFModel
+class DocimportModelCpanels extends F0FModel
 {
 	/**
 	 * Update the cached live site's URL for the front-end backup feature (altbackup.php)

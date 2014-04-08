@@ -11,12 +11,12 @@ defined('_JEXEC') or die();
 // Include the component versioning
 require_once JPATH_COMPONENT_ADMINISTRATOR.'/version.php';
 
-// Include FOF
-if(!defined('FOF_INCLUDED')) {
-	include_once JPATH_LIBRARIES.'/fof/include.php';
+// Include F0F
+if(!defined('F0F_INCLUDED')) {
+	include_once JPATH_LIBRARIES.'/f0f/include.php';
 }
 
-if(!defined('FOF_INCLUDED') || !class_exists('FOFForm', true)) {?>
+if(!defined('F0F_INCLUDED') || !class_exists('F0FForm', true)) {?>
 <h1>Akeeba Ticket System</h1>
 <h2>Incomplete installation detected</h2>
 <p>
@@ -41,4 +41,4 @@ if(!version_compare($version, '5.3.0', '>=')) {?>
 <?php return; }
 
 // Dispatch
-FOFDispatcher::getAnInstance('com_docimport')->dispatch();
+F0FDispatcher::getAnInstance('com_docimport')->dispatch();

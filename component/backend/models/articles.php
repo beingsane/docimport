@@ -7,7 +7,7 @@
 
 defined('_JEXEC') or die();
 
-class DocimportModelArticles extends FOFModel
+class DocimportModelArticles extends F0FModel
 {
 	public function buildQuery($overrideLimits = false)
 	{
@@ -29,28 +29,28 @@ class DocimportModelArticles extends FOFModel
 				$db->quoteName('a').'.'.$db->quoteName('title').' LIKE '.$db->quote('%'.$search.'%')
 			);
 		}
-		
+
 		$enabled = $this->getState('enabled',null,'cmd');
 		if(is_numeric($enabled) && ($enabled > 0)) {
 			$query->where(
 				$db->quoteName('a').'.'.$db->quoteName('enabled').' = '.$db->quote($enabled)
 			);
 		}
-		
+
 		$category = $this->getState('category',null,'cmd');
 		if(is_numeric($category) && ($category > 0)) {
 			$query->where(
 				$db->quoteName('a').'.'.$db->quoteName('docimport_category_id').' = '.$db->quote($category)
 			);
 		}
-		
+
 		$slug = $this->getState('slug',null,'string');
 		if(!empty($slug)) {
 			$query->where(
 				$db->quoteName('a').'.'.$db->quoteName('slug').' = '.$db->quote($slug)
 			);
 		}
-		
+
 		$language = $this->getState('language',null,'array');
 		if(empty($language)) $language = $this->getState('language',null,'string');
 		if(!empty($language) && (is_array($language) ? (!empty($language[0])) : true) ) {
@@ -68,7 +68,7 @@ class DocimportModelArticles extends FOFModel
 				);
 			}
 		}
-		
+
 		$order = $this->getState('filter_order', 'docimport_article_id', 'cmd');
 		if(!in_array($order, array_keys($this->getTable()->getData()))) $order = 'docimport_article_id';
 		$order = $db->quoteName('a').'.'.$db->quoteName($order);

@@ -8,6 +8,6 @@
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
-class DocimportViewCategories extends FOFViewHtml
+class DocimportViewCategories extends F0FViewHtml
 {
 }

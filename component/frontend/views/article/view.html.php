@@ -8,13 +8,13 @@
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
-class DocimportViewArticle extends FOFViewHtml
+class DocimportViewArticle extends F0FViewHtml
 {
 	protected function onRead($tpl = null)
 	{
 		parent::onRead($tpl);
-		
-		$category = FOFModel::getTmpInstance('Category','DocimportModel')
+
+		$category = F0FModel::getTmpInstance('Category','DocimportModel')
 			->setId($this->item->docimport_category_id)
 			->getItem();
 		JFactory::getDocument()->setTitle($category->title.' :: '.$this->item->title);

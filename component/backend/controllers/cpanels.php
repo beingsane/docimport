@@ -8,7 +8,7 @@
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
-class DocimportControllerCpanels extends FOFController
+class DocimportControllerCpanels extends F0FController
 {
 	public function execute($task) {
 		$task = 'browse';
@@ -23,7 +23,7 @@ class DocimportControllerCpanels extends FOFController
 			->checkAndFixDatabase()
 			->refreshUpdateSite();
 
-		FOFModel::getTmpInstance('Xsl','DocimportModel')
+		F0FModel::getTmpInstance('Xsl','DocimportModel')
 			->scanCategories();
 
 		return true;

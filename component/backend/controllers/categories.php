@@ -8,11 +8,11 @@
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
-class DocimportControllerCategories extends FOFController
+class DocimportControllerCategories extends F0FController
 {
 	public function rebuild($caching = false) {
 		$id = $this->input->getInt('id',0);
-		$model = FOFModel::getTmpInstance('Xsl','DocimportModel');
+		$model = F0FModel::getTmpInstance('Xsl','DocimportModel');
 		$status = $model->processXML($id);
 		if($status) $status = $model->processFiles($id);
 
