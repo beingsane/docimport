@@ -831,11 +831,11 @@ class Com_DocimportInstallerScript
 
 		if (!defined('JPATH_LIBRARIES'))
 		{
-			$target = JPATH_ROOT . '/libraries/fof';
+			$target = JPATH_ROOT . '/libraries/f0f';
 		}
 		else
 		{
-			$target = JPATH_LIBRARIES . '/fof';
+			$target = JPATH_LIBRARIES . '/f0f';
 		}
 
 		$haveToInstallFOF = false;

@@ -22,36 +22,11 @@
 		<filename>metadata.xml</filename>
 		<filename>router.php</filename>
 	</files>
-	
+
 	<languages folder="translations/frontend">
 		<language tag="en-GB">en-GB.com_docimport.ini</language>
 	</languages>
-	
-	<install>
-		<sql>
-			<file charset="utf8" driver="mysql">sql/install/mysql/install.sql</file>
-			<file charset="utf8" driver="mysqli">sql/install/mysql/install.sql</file>
-		</sql>
-	</install>
-	
-	<uninstall>
-		<sql>
-			<file charset="utf8" driver="mysql">sql/install/mysql/uninstall.sql</file>
-			<file charset="utf8" driver="mysqli">sql/install/mysql/uninstall.sql</file>
-		</sql>
-	</uninstall>
-	
-	<!-- SQL files to run on update -->
-	<!--
-	<update>
-		<schemas>
-			<schemapath type="mysql">sql/update/mysql</schemapath>
-			<schemapath type="sqlsrv">sql/update/sqlsrv</schemapath>
-			<schemapath type="sqlazure">sql/update/sqlazure</schemapath>
-		</schemas>
-	</update>
-	-->
-	
+
 	<media destination="com_docimport" folder="media">
 		<folder>admonition</folder>
 		<folder>css</folder>
@@ -71,7 +46,7 @@
 			<folder>sql</folder>
 			<folder>tables</folder>
 			<folder>views</folder>
-			
+
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
 			<filename>dispatcher.php</filename>
@@ -81,13 +56,13 @@
 			<filename>toolbar.php</filename>
 			<filename>version.php</filename>
 		</files>
-		
+
 		<languages folder="translations/backend">
 			<language tag="en-GB">en-GB.com_docimport.ini</language>
 			<language tag="en-GB">en-GB.com_docimport.sys.ini</language>
 		</languages>
 	</administration>
-	
+
 	<!-- Installation / uninstallation PHP scripts -->
 	<scriptfile>script.docimport.php</scriptfile>
 
