@@ -7,7 +7,7 @@
 
 defined('_JEXEC') or die();
 
-class DocimportModelCategories extends FOFModel
+class DocimportModelCategories extends F0FModel
 {
 	public function buildQuery($overrideLimits = false)
 	{
@@ -23,14 +23,14 @@ class DocimportModelCategories extends FOFModel
 				$db->quoteName('title').' LIKE '.$db->quote('%'.$search.'%')
 			);
 		}
-		
+
 		$enabled = $this->getState('enabled',null,'cmd');
 		if(is_numeric($enabled)) {
 			$query->where(
 				$db->quoteName('enabled').' = '.$db->quote($enabled)
 			);
 		}
-		
+
 		$language = $this->getState('language',null,'array');
 		if(empty($language)) $language = $this->getState('language',null,'string');
 		if(!empty($language) && (is_array($language) ? (!empty($language[0])) : true) ) {
@@ -48,37 +48,37 @@ class DocimportModelCategories extends FOFModel
 				);
 			}
 		}
-		
+
 		// Fix the ordering
 		$order = $this->getState('filter_order', 'docimport_category_id', 'cmd');
 		if(!in_array($order, array_keys($this->getTable()->getData()))) $order = 'docimport_category_id';
 		$dir = $this->getState('filter_order_Dir', 'DESC', 'cmd');
 		$query->order($order.' '.$dir);
-		
+
 		return $query;
 	}
-	
+
 	public function onProcessList(&$resultArray)
 	{
 		JLoader::import('joomla.filesystem.folder');
 		if(!empty($resultArray)) foreach($resultArray as $key => $item) {
 			$resultArray[$key]->status = 'missing';
-			
+
 			$folder = JPATH_ROOT.'/media/com_docimport/'.$item->slug;
 			if(!JFolder::exists($folder)) {
 				$resultArray[$key]->status = 'missing';
 				continue;
 			}
-			
+
 			$xmlfiles = JFolder::files($folder, '\.xml$', false, true);
 			if(empty($xmlfiles)) continue;
-			
+
 			$timestamp = 0;
 			foreach($xmlfiles as $filename) {
 				$my_timestamp = @filemtime($filename);
 				if($my_timestamp > $timestamp) $timestamp = $my_timestamp;
 			}
-			
+
 			if($timestamp != $item->last_timestamp) {
 				$resultArray[$key]->status = 'modified';
 			} else {

@@ -47,7 +47,7 @@ class DocimportHelperSelect
 
 		return self::genericlist($options, $id, $attribs, $selected, $id);
 	}
-	
+
 	public static function languages($selected = null, $id = 'language', $attribs = array() )
 	{
 		JLoader::import('joomla.language.helper');
@@ -59,13 +59,13 @@ class DocimportHelperSelect
 		{
 			$options[] = JHTML::_('select.option',$key,$lang->title);
 		}
-		
+
 		return self::genericlist($options, $id, $attribs, $selected, $id);
 	}
 
 	public static function categories($selected = null, $name = 'category', $attribs = array())
 	{
-		$model = FOFModel::getTmpInstance('Categories','DocimportModel');
+		$model = F0FModel::getTmpInstance('Categories','DocimportModel');
 		$items = $model->limit(0)->limitstart(0)->getItemList();
 
 		$options = array();

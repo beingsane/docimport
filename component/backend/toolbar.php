@@ -8,7 +8,7 @@
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
-class DocimportToolbar extends FOFToolbar
+class DocimportToolbar extends F0FToolbar
 {
 
 	public function onArticlesBrowse()

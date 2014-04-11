@@ -7,7 +7,7 @@
 
 defined('_JEXEC') or die();
 
-class DocimportTableCategory extends FOFTable
+class DocimportTableCategory extends F0FTable
 {
 	function check()
 	{

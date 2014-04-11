@@ -8,11 +8,11 @@
 // No direct access
 defined('_JEXEC') or die;
 
-class DocimportModelCategories extends FOFModel
+class DocimportModelCategories extends F0FModel
 {
    /**
     * This trick allows us to proxy the back-end CategoriesModelCategories
-    * model through a FOFModel instance
+    * model through a F0FModel instance
     *
     * @param type $overrideLimits
     * @return type
@@ -67,7 +67,7 @@ class DocimportModelCategories extends FOFModel
       }
 
       // Language filtering
-      list($isCli, $isAdmin) = FOFDispatcher::isCliAdmin();
+      list($isCli, $isAdmin) = F0FDispatcher::isCliAdmin();
       if ($language = $this->getState('language')) {
          $query->where("a.language IN ('".implode("','",$language)."') ");
       } elseif(!$isCli) {

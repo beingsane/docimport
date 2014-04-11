@@ -8,18 +8,18 @@
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
-if(!defined('FOF_INCLUDED')) {
-	include_once JPATH_LIBRARIES.'/fof/include.php';
+if(!defined('F0F_INCLUDED')) {
+	include_once JPATH_LIBRARIES.'/f0f/include.php';
 }
 
 function docimportBuildRoute(&$query)
 {
 	static $model = null;
-	
+
 	if(!is_object($model)) {
-		$model = FOFModel::getAnInstance('Urls','DocimportModel');
+		$model = F0FModel::getAnInstance('Urls','DocimportModel');
 	}
-	
+
 	$sef = $model->getSef($query);
 	if($sef === false) {
 		$oldQuery = $query;
@@ -48,11 +48,11 @@ function docimportBuildRoute(&$query)
 function docimportParseRoute(&$segments)
 {
 	static $model = null;
-	
+
 	if(!is_object($model)) {
-		$model = FOFModel::getAnInstance('Urls','DocimportModel');
+		$model = F0FModel::getAnInstance('Urls','DocimportModel');
 	}
-	
+
 	$menus = JMenu::getInstance('site');
 	$menu = $menus->getActive();
 	if($menu) {
@@ -60,9 +60,9 @@ function docimportParseRoute(&$segments)
 	} else {
 		$itemID = 0;
 	}
-	
+
 	$segments = DocimportRouterHelper::preconditionSegments($segments);
-	
+
 	$sef = $itemID.'/'.implode('/', $segments);
 	$nonsef = $model->getNonsef($sef);
 	if(is_array($nonsef)) {
@@ -76,7 +76,7 @@ function docimportParseRoute(&$segments)
 function docimportBuildRouteCLASSIC(&$query)
 {
 	$segments = array();
-	
+
 	//If there is only the option and Itemid, let Joomla! decide on the naming scheme
 	if( isset($query['option']) && isset($query['Itemid']) &&
 		!isset($query['view']) && !isset($query['task']) &&
@@ -84,16 +84,16 @@ function docimportBuildRouteCLASSIC(&$query)
 	{
 		return $segments;
 	}
-	
+
 	// Load the site's menus
 	$menus = JMenu::getInstance('site');
-	
+
 	// Get some interesting variables
 	$view = DocimportRouterHelper::getAndPop($query, 'view', 'categories');
 	$task = DocimportRouterHelper::getAndPop($query, 'task', 'browse');
 	$id = DocimportRouterHelper::getAndPop($query, 'id');
 	$queryItemid = DocimportRouterHelper::getAndPop($query, 'Itemid');
-	
+
 	// Fix the View/Task variables
 	switch($view) {
 		case 'category':
@@ -104,11 +104,11 @@ function docimportBuildRouteCLASSIC(&$query)
 				$task = 'browse';
 			}
 			break;
-			
+
 		case 'categories':
 			$task = 'browse';
 			break;
-		
+
 		case 'article':
 			if(empty($id)) {
 				$view = 'categories';
@@ -117,21 +117,21 @@ function docimportBuildRouteCLASSIC(&$query)
 				$task = 'read';
 			}
 			break;
-			
+
 		default:
 			$view = 'categories';
 			$task = 'browse';
 			break;
 	}
-	
+
 	$qoptions = array( 'view' => $view, 'id' => $id, 'option' => 'com_docimport' );
-	
+
 	switch($view) {
 		case 'categories':
 			// Find a suitable Itemid
 			$menu = DocimportRouterHelper::findMenu($qoptions);
 			$Itemid = empty($menu) ? null : $menu->id;
-			
+
 			if(!empty($Itemid))
 			{
 				// Joomla! will let the menu item naming work its magic
@@ -142,14 +142,14 @@ function docimportBuildRouteCLASSIC(&$query)
 					$mView = isset($menu->query['view']) ? $menu->query['view'] : 'categories';
 					// No, we have to find another root
 					if( ($mView != 'categories') ) $Itemid = null;
-				}				
+				}
 			}
-			
+
 			break;
-		
+
 		case 'category':
 			// Get category slug
-			$slug = FOFModel::getTmpInstance('Categories','DocimportModel')
+			$slug = F0FModel::getTmpInstance('Categories','DocimportModel')
 				->setId($id)
 				->getItem()
 				->slug;
@@ -184,8 +184,8 @@ function docimportBuildRouteCLASSIC(&$query)
 					$segments[] = $slug;
 				}
 			}
-			
-			
+
+
 			// Do we have a category menu?
 			if(empty($Itemid) && !empty($queryItemid))
 			{
@@ -203,18 +203,18 @@ function docimportBuildRouteCLASSIC(&$query)
 				}
 			}
 			break;
-		
+
 		case 'article':
 			// Get article info
-			$article = FOFModel::getTmpInstance('Articles','DocimportModel')
+			$article = F0FModel::getTmpInstance('Articles','DocimportModel')
 				->setId($id)
 				->getItem();
 			// Get slug
-			$slug = FOFModel::getTmpInstance('Categories','DocimportModel')
+			$slug = F0FModel::getTmpInstance('Categories','DocimportModel')
 				->setId($article->docimport_category_id)
 				->getItem()
 				->slug;
-			
+
 			// Try to find a category menu item
 			$options = array('view'=>'category', 'option' => 'com_docimport');
 			$params = array('catid'=>$article->docimport_category_id);
@@ -248,7 +248,7 @@ function docimportBuildRouteCLASSIC(&$query)
 					$segments[] = $article->slug;
 				}
 			}
-			
+
 			// Do we have a "category" menu?
 			if(!$Itemid && $queryItemid) {
 				$Itemid = $queryItemid;
@@ -270,10 +270,10 @@ function docimportBuildRouteCLASSIC(&$query)
 					}
 				}
 			}
-			
+
 			break;
 	}
-	
+
 	return $segments;
 }
 
@@ -282,7 +282,7 @@ function docimportParseRouteCLASSIC(&$segments)
 	$query = array();
 	$menus = JMenu::getInstance('site');
 	$menu = $menus->getActive();
-	
+
 	if(is_null($menu)) {
 		// No menu. The segments are categories/category_slug/article_slug
 		switch(count($segments)) {
@@ -291,7 +291,7 @@ function docimportParseRouteCLASSIC(&$segments)
 				$query['view'] = 'categories';
 				array_pop($segments); // Remove the "categories" thingy
 				break;
-			
+
 			case 2:
 				// Category view
 				$query['view'] = 'category';
@@ -299,7 +299,7 @@ function docimportParseRouteCLASSIC(&$segments)
 				array_pop($segments); // Remove the "categories" thingy
 
 				// Load the category
-				$category = FOFModel::getTmpInstance('Categories','DocimportModel')
+				$category = F0FModel::getTmpInstance('Categories','DocimportModel')
 					->slug($slug)
 					->getFirstItem();
 
@@ -312,21 +312,21 @@ function docimportParseRouteCLASSIC(&$segments)
 					$query['id'] = $category->docimport_category_id;
 				}
 				break;
-				
+
 			case 3:
 				// Article view
 				$query['view'] = 'article';
 				$slug_article = array_pop($segments);
 				$slug_category = array_pop($segments);
 				array_pop($segments); // Remove the "categories" thingy
-				
+
 				// Load the category
-				$category = FOFModel::getTmpInstance('Categories','DocimportModel')
+				$category = F0FModel::getTmpInstance('Categories','DocimportModel')
 					->slug($slug_category)
 					->getFirstItem();
-			
+
 				// Load the article
-				$article = FOFModel::getTmpInstance('Articles','DocimportModel')
+				$article = F0FModel::getTmpInstance('Articles','DocimportModel')
 					->category($category->docimport_category_id)
 					->slug($slug_article)
 					->getFirstItem();
@@ -347,7 +347,7 @@ function docimportParseRouteCLASSIC(&$segments)
 		$view = $menu->query['view'];
 		$slug_article = null;
 		$slug_category = null;
-		
+
 		$menuparams = $menu->params;
 		if(!($menuparams instanceof JRegistry)) {
 			$x = new JRegistry();
@@ -363,7 +363,7 @@ function docimportParseRouteCLASSIC(&$segments)
 		} else {
 			$catid = $menuparams->getValue('catid', null);
 		}
-		
+
 		if( empty($view) || ($view == 'categories') || ($view == 'category') )
 		{
 			switch(count($segments))
@@ -386,10 +386,10 @@ function docimportParseRouteCLASSIC(&$segments)
 		{
 			$query['view'] = 'article';
 		}
-		
+
 		if(!is_null($slug_article)) {
 			// Load the article
-			$article = FOFModel::getTmpInstance('Articles','DocimportModel')
+			$article = F0FModel::getTmpInstance('Articles','DocimportModel')
 				->category((int)$catid)
 				->slug($slug_article)
 				->getFirstItem();
@@ -405,10 +405,10 @@ function docimportParseRouteCLASSIC(&$segments)
 			}
 		} elseif( is_null($slug_article) ) {
 			// Load the category
-			$category = FOFModel::getTmpInstance('Categories','DocimportModel')
+			$category = F0FModel::getTmpInstance('Categories','DocimportModel')
 				->setId($catid)
 				->getItem();
-			
+
 			if(empty($category->docimport_category_id)) {
 				$query['view'] = 'categories';
 			} else {
@@ -448,11 +448,11 @@ class DocimportRouterHelper
 	static public function findMenu($qoptions = array(), $params = null)
 	{
 		static $joomla16 = null;
-		
+
 		if(is_null($joomla16)) {
 			$joomla16 = version_compare(JVERSION,'1.6.0','ge');
 		}
-		
+
 		// Convert $qoptions to an object
 		if(empty($qoptions) || !is_array($qoptions)) $qoptions = array();
 
