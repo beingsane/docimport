@@ -57,6 +57,10 @@ $lang = JFactory::getLanguage();
 	(function($) {
 		$(document).ready(function(){
 			$.ajax('index.php?option=com_docimport&view=cpanel&task=updateinfo&tmpl=component', {
+				// Get rid of junk before and after data
+				var match = msg.match(/###([\s\S]*?)###/);
+				data = match[1];
+
 				success: function(data, textStatus, jqXHR)
 				{
 					if (data.length)
