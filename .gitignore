@@ -29,9 +29,14 @@ build/AntBuild.xml
 /component/backend/liveupdate/liveupdate.php
 
 /component/media/akeebabackup/akeeba-backup-guide.xml
-/build/bin
-/build/buildlang
-/build/phingext
 /RELEASENOTES.html
 /DESCRIPTION.html
 /.idea/
+
+/build/templates/release*.json
+/build/bin
+/build/phingext
+/build/buildlang
+/build/epub
+/build/tools
+
