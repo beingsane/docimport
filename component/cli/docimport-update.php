@@ -279,8 +279,8 @@ ENDBLOCK;
 		$jlang = JFactory::getLanguage();
 		$jlang->load('com_docimport', JPATH_ADMINISTRATOR, 'en-GB', true);
 
-		// Load FOF
-		require_once JPATH_LIBRARIES . '/fof/include.php';
+		// Load F0F
+		require_once JPATH_LIBRARIES . '/f0f/include.php';
 
 		// Force-load the back-end Categories model (the front-end model doesn't work under CLI)
 		require_once JPATH_ADMINISTRATOR . '/components/com_docimport/models/categories.php';
@@ -294,11 +294,11 @@ ENDBLOCK;
 		}
 
 		// Scan for any missing categories
-		FOFModel::getTmpInstance('Xsl', 'DocimportModel', array('input' => array()))
+		F0FModel::getTmpInstance('Xsl', 'DocimportModel', array('input' => array()))
 			->scanCategories();
 
 		// List all categories
-		$categories = FOFModel::getTmpInstance('Categories', 'DocimportModel')
+		$categories = F0FModel::getTmpInstance('Categories', 'DocimportModel')
 			->limit(0)
 			->limitstart(0)
 			->enabled(1)
@@ -307,7 +307,7 @@ ENDBLOCK;
 		foreach ($categories as $cat)
 		{
 			$this->out("Processing \"$cat->title\"");
-			$model	 = FOFModel::getTmpInstance('Xsl', 'DocimportModel');
+			$model	 = F0FModel::getTmpInstance('Xsl', 'DocimportModel');
 			$this->out("\tProcessing XML to HTML...");
 			$status	 = $model->processXML($cat->docimport_category_id);
 			if ($status)
@@ -466,6 +466,7 @@ ENDBLOCK;
 		$sql		 = $db->getQuery(true)
 			->select($db->qn('params'))
 			->from($db->qn('#__extensions'))
+			->where($db->qn('type') . " = " . $db->q('component'))
 			->where($db->qn('element') . " = " . $db->q('com_docimport'));
 		$db->setQuery($sql);
 		$config_ini	 = $db->loadResult();

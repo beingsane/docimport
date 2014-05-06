@@ -22,7 +22,7 @@ class DocimportControllerUrls extends JoomlaCompatController
 {
 	public function nuke()
 	{
-		FOFModel::getAnInstance('Urls','DocimportModel')
+		F0FModel::getAnInstance('Urls','DocimportModel')
 			->nuke();
 
 		$this->setRedirect('index.php?option=com_docimport', JText::_('COM_DOCIMPORT_CPANEL_NUKEURLS_DONE'));

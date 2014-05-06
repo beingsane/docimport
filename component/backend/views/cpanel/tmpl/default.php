@@ -10,6 +10,8 @@ defined('_JEXEC') or die();
 $lang = JFactory::getLanguage();
 
 ?>
+<div id="updateNotice"></div>
+
 <div id="cpanel">
 	<div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">
 		<div class="icon">
@@ -50,3 +52,23 @@ $lang = JFactory::getLanguage();
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	(function($) {
+		$(document).ready(function(){
+			$.ajax('index.php?option=com_docimport&view=cpanel&task=updateinfo&tmpl=component', {
+				success: function(msg, textStatus, jqXHR)
+				{
+					// Get rid of junk before and after data
+					var match = msg.match(/###([\s\S]*?)###/);
+					data = match[1];
+
+					if (data.length)
+					{
+						$('#updateNotice').html(data);
+					}
+				}
+			})
+		});
+	})(akeeba.jQuery);
+</script>

@@ -7,7 +7,7 @@
 
 defined('_JEXEC') or die();
 
-class DocimportTableArticle extends FOFTable
+class DocimportTableArticle extends F0FTable
 {
 	protected function onBeforeStore($updateNulls)
 	{
@@ -47,10 +47,10 @@ class DocimportTableArticle extends FOFTable
 		if(property_exists($this, $title) && property_exists($this, $slug)) {
 			if(empty($this->$slug)) {
 				// Create a slug from the title
-				$this->$slug = FOFStringUtils::toSlug($this->$title);
+				$this->$slug = F0FStringUtils::toSlug($this->$title);
 			} else {
 				// Filter the slug for invalid characters
-				$this->$slug = FOFStringUtils::toSlug($this->$slug);
+				$this->$slug = F0FStringUtils::toSlug($this->$slug);
 			}
 
 			// Make sure we don't have a duplicate slug on this table
@@ -99,7 +99,7 @@ class DocimportTableArticle extends FOFTable
 
 		// Execute onBeforeStore<tablename> events in loaded plugins
 		if($this->_trigger_events){
-			$name = FOFInflector::pluralize($this->getKeyName());
+			$name = F0FInflector::pluralize($this->getKeyName());
 			$dispatcher = JDispatcher::getInstance();
 			return $dispatcher->trigger( 'onBeforeStore'.ucfirst($name), array( &$this, $updateNulls ) );
 		}

@@ -8,7 +8,7 @@
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
-class DocimportControllerCategories extends FOFController
+class DocimportControllerCategories extends F0FController
 {
 	public function onBeforeBrowse()
 	{

@@ -49,7 +49,7 @@ class plgFinderDocimport extends FinderIndexerAdapter
 	 * @var    string
 	 */
 	protected $table = '#__docimport_articles';
-	
+
 	/**
 	 * The field the published state is stored in.
 	 * @var    string
@@ -195,10 +195,10 @@ class plgFinderDocimport extends FinderIndexerAdapter
 		$item->state = $this->translateState($item->enabled, $item->cat_state);
 
 		$item->summary = $item->body;
-		
+
 		// Add the type taxonomy data.
 		$item->addTaxonomy('Type', 'Documentation Article');
-		
+
 		// Add the author taxonomy data.
 		if (!empty($item->author))
 		{
@@ -222,11 +222,11 @@ class plgFinderDocimport extends FinderIndexerAdapter
 	protected function setup()
 	{
 		// Load dependent classes.
-		if(!defined('FOF_INCLUDED')) {
-			include_once JPATH_LIBRARIES.'/fof/include.php';
+		if(!defined('F0F_INCLUDED')) {
+			include_once JPATH_LIBRARIES.'/f0f/include.php';
 		}
 		include_once JPATH_SITE . '/components/com_docimport/router.php';
-		
+
 		if(!defined('JDEBUG')) {
 			$config = new JConfig();
 			define('JDEBUG', $config->debug);
@@ -272,7 +272,7 @@ class plgFinderDocimport extends FinderIndexerAdapter
 
 		return $sql;
 	}
-	
+
 	/**
 	 * Method to get the URL for the item. The URL is how we look up the link
 	 * in the Finder index.
@@ -285,13 +285,13 @@ class plgFinderDocimport extends FinderIndexerAdapter
 	 */
 	protected function getURL($id, $extension, $view)
 	{
-		$ticket_id  = FOFModel::getTmpInstance('Posts', 'AtsModel')
+		$ticket_id  = F0FModel::getTmpInstance('Posts', 'AtsModel')
 			->getItem($id)
 			->ats_ticket_id;
 		$url = 'index.php?option=' . $extension . '&view=' . $view . '&id=' . $id;
 		return $url;
 	}
-	
+
 	/**
 	 * Method to get a content item to index.
 	 *

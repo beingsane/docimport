@@ -1,4 +1,20 @@
-CREATE TABLE IF NOT EXISTS `#__docimport_articles` (
+<?xml version="1.0" encoding="UTF-8"?>
+<schema>
+    <!-- Metadata -->
+    <meta>
+        <!-- Supported driver types -->
+        <drivers>
+            <driver>mysql</driver>
+            <driver>mysqli</driver>
+        </drivers>
+    </meta>
+
+    <!-- SQL commands to run on installation and update -->
+    <sql>
+        <action table="#__docimport_articles" canfail="0">
+            <condition type="missing" value="" />
+            <query><![CDATA[
+CREATE TABLE `#__docimport_articles` (
   `docimport_article_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `docimport_category_id` bigint(20) NOT NULL,
   `title` varchar(255) NOT NULL,
@@ -18,8 +34,13 @@ CREATE TABLE IF NOT EXISTS `#__docimport_articles` (
   PRIMARY KEY (`docimport_article_id`),
   FULLTEXT INDEX `fulltextindex` (`fulltext`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+            ]]></query>
+        </action>
 
-CREATE TABLE IF NOT EXISTS `#__docimport_categories` (
+        <action table="#__docimport_categories" canfail="0">
+            <condition type="missing" value="" />
+            <query><![CDATA[
+CREATE TABLE `#__docimport_categories` (
   `docimport_category_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `docimport_vgroup_id` int(11) NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL,
@@ -40,8 +61,17 @@ CREATE TABLE IF NOT EXISTS `#__docimport_categories` (
   `access` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`docimport_category_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+            ]]></query>
+        </action>
 
-CREATE TABLE IF NOT EXISTS `#__docimport_urls` (
+        <action table="#__docimport_urls" canfail="0">
+            <condition type="missing" value="" />
+            <query><![CDATA[
+CREATE TABLE `#__docimport_urls` (
   `nonsef` varchar(10240) NOT NULL DEFAULT '',
   `sef` varchar(10240) NOT NULL DEFAULT ''
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+            ]]></query>
+        </action>
+    </sql>
+</schema>

@@ -1,3 +1,9 @@
+DocImport 1.0.8
+================================================================================
++ Database table installation, uninstallation and update is now handled by our own code instead of the unreliable JInstaller code
++ Automatically repair the database tables in case of an update going wrong
+# [MEDIUM] Document generation in the CLI wouldn't get the correct URL to images
+
 DocImport 1.0.7
 ================================================================================
 + gh-6 Added sh404SEF plugin to create SEF url with that component

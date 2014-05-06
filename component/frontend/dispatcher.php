@@ -8,7 +8,7 @@
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
-class DocimportDispatcher extends FOFDispatcher
+class DocimportDispatcher extends F0FDispatcher
 {
 
 	public function __construct($config = array())
