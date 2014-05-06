@@ -114,7 +114,7 @@ class Com_DocimportInstallerScript extends F0FUtilsInstallscript
 			'cache/com_docimport.updates.ini',
 			'administrator/cache/com_docimport.updates.php',
 			'administrator/cache/com_docimport.updates.ini',
-
+			'components/com_docimport/controllers/article.php',
 		),
 		'folders' => array(
 		)
