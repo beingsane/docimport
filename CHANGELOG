@@ -1,3 +1,7 @@
+DocImport 1.0.9
+================================================================================
+# [MEDIUM] Fatal error when purging SEF URL cache
+
 DocImport 1.0.8
 ================================================================================
 + Database table installation, uninstallation and update is now handled by our own code instead of the unreliable JInstaller code
