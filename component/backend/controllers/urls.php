@@ -8,17 +8,7 @@
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
-JLoader::import('joomla.application.component.controller');
-
-if(!class_exists('JoomlaCompatController')) {
-	if(interface_exists('JController')) {
-		abstract class JoomlaCompatController extends JControllerLegacy {}
-	} else {
-		class JoomlaCompatController extends JController {}
-	}
-}
-
-class DocimportControllerUrls extends JoomlaCompatController
+class DocimportControllerUrls extends F0FController
 {
 	public function nuke()
 	{
