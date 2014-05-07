@@ -1,5 +1,6 @@
 DocImport 1.0.9
 ================================================================================
++ Added support for automatic update notification and installation
 # [MEDIUM] Fatal error when purging SEF URL cache
 
 DocImport 1.0.8
