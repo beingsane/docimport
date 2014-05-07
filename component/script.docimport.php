@@ -127,6 +127,7 @@ class Com_DocimportInstallerScript extends F0FUtilsInstallscript
 	 */
 	protected $cliScriptFiles = array(
 		'docimport-update.php',
+		'docimport-upgrade.php',
 	);
 
 	/**
