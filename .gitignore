@@ -40,3 +40,5 @@ build/AntBuild.xml
 /build/epub
 /build/tools
 
+
+/component/media/solo/
