@@ -74,6 +74,11 @@
             <xsl:value-of select="@width"/>
           </xsl:attribute>
         </xsl:if>
+        <xsl:if test="@language != ''">
+          <xsl:attribute name="data-language">
+            <xsl:value-of select="@language"/>
+          </xsl:attribute>
+        </xsl:if>
         <xsl:choose>
           <xsl:when test="$highlight.source != 0">
             <xsl:call-template name="apply-highlighting"/>

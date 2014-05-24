@@ -22,3 +22,23 @@ $menu = $menus->getActive();
 
 	<?php echo $this->item->fulltext; ?>
 </div>
+
+<script type="text/javascript">
+	(function($) {
+		$(document).ready(function(){
+			$('pre.programlisting').each(function(i, e){
+				language = $(e).attr('data-language');
+				content = $(e).text();
+
+				if (!language)
+				{
+					return;
+				}
+
+				result = hljs.highlight(language, content);
+				$(e).html(result.value);
+			});
+		});
+	})(akeeba.jQuery);
+
+</script>
