@@ -147,7 +147,8 @@ class DocimportModelXsl extends F0FModel
 				'admon.graphics'      => 1,
 				'use.id.as.filename'  => 1,
 				'toc.section.depth'   => 5,
-				'chunk.section.depth' => 3
+				'chunk.section.depth' => 3,
+				'highlight.source'	  => 1,
 			);
 			$xslt = new XSLTProcessor();
 			$xslt->importStylesheet($xslDoc);

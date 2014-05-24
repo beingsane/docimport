@@ -3,6 +3,7 @@ DocImport 1.0.9
 ! CLI scripts were not being copied over
 + Added support for automatic update notification and installation
 + Allow you to put books inside /media/com_docimport/books for better organisation
+~ Updating DBXSL stylesheets to 1.78.1
 # [MEDIUM] Fatal error when purging SEF URL cache
 
 DocImport 1.0.8
