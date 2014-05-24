@@ -517,15 +517,17 @@
         DocBook XML articles.</para>
 
         <para>Each category has its own folder under the
-        <filename>media/com_docimport</filename> directory. In the root of
-        each category directory you place the XML file(s) of your DocBook XML
-        book or articles. Images used in your book must be located under the
-        <filename>images</filename> subdirectory. The intermediate results of
-        the DocBook to HTML conversion will be located in the
-        <filename>output</filename> subdirectory. If DocImport cannot create
-        this directory it will not be able to generate the articles. In this
-        case, please create this subdirectory manually and make sure that it
-        is writable by Joomla!.</para>
+        <filename>media/com_docimport</filename> directory. Since DocImport
+        1.0.9 each category can be its own folder under the
+        <filename>media/com_docimport/books</filename> directory for better
+        organisation. In the root of each category directory you place the XML
+        file(s) of your DocBook XML book or articles. Images used in your book
+        must be located under the <filename>images</filename> subdirectory.
+        The intermediate results of the DocBook to HTML conversion will be
+        located in the <filename>output</filename> subdirectory. If DocImport
+        cannot create this directory it will not be able to generate the
+        articles. In this case, please create this subdirectory manually and
+        make sure that it is writable by Joomla!.</para>
 
         <para>Whenever you upload a new XML file or an updated version of an
         XML file to a category you need to rebuild the articles of that
@@ -663,9 +665,9 @@
             <listitem>
               <para>This is a double purpose field. The value in here will be
               used as the URL slug when showing the category. It is also the
-              name of the <filename>media/com_docimport</filename>
-              subdirectory where the files of this category will be
-              stored.</para>
+              name of the <filename>media/com_docimport</filename> or
+              <filename>media/com_docimport/books</filename> subdirectory
+              where the files of this category will be stored.</para>
             </listitem>
           </varlistentry>
 
@@ -722,9 +724,9 @@
             <listitem>
               <para>This is a double purpose field. The value in here will be
               used as the URL slug when showing the category. It is also the
-              name of the <filename>media/com_docimport</filename>
-              subdirectory where the files of this category will be
-              stored.</para>
+              name of the <filename>media/com_docimport</filename> or
+              <filename>media/com_docimport/books</filename> subdirectory
+              where the files of this category will be stored.</para>
 
               <important>
                 <para>The directory must already exist when you are creating a

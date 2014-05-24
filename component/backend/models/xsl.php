@@ -540,7 +540,7 @@ class DocimportModelXsl extends F0FModel
 		JLoader::import('joomla.filesystem.folder');
 		$path = JPATH_ROOT . '/media/com_docimport';
 
-		$folders_bare = JFolder::folders($path, '.', false, false, array('admonition', 'css', 'js', 'images'));
+		$folders_bare = JFolder::folders($path, '.', false, false, array('admonition', 'css', 'js', 'images', 'books'));
 		$folders_bare = (empty($folders_bare) || !is_array($folders_bare)) ? array() : $folders_bare;
 
 		if (JFolder::exists($path . '/books'))
