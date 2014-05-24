@@ -1,9 +1,9 @@
 <?php
 
 /**
- * @package DocImport
+ * @package   DocImport
  * @copyright Copyright (c)2010-2014 Nicholas K. Dionysopoulos
- * @license GNU General Public License version 3, or later
+ * @license   GNU General Public License version 3, or later
  */
 // Protect from unauthorized access
 defined('_JEXEC') or die();
@@ -24,12 +24,13 @@ class DocimportDispatcher extends F0FDispatcher
 			if (!JFactory::getUser()->authorise('core.manage', 'com_docimport'))
 			{
 				JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+
 				return false;
 			}
 
 			// Language loading
-			$paths	 = array(JPATH_ROOT, JPATH_ADMINISTRATOR);
-			$jlang	 = JFactory::getLanguage();
+			$paths = array(JPATH_ROOT, JPATH_ADMINISTRATOR);
+			$jlang = JFactory::getLanguage();
 			// -- Component
 			$jlang->load($this->component, $paths[0], 'en-GB', true);
 			$jlang->load($this->component, $paths[0], null, true);
@@ -47,6 +48,7 @@ class DocimportDispatcher extends F0FDispatcher
 			AkeebaStrapper::jQueryUI();
 			AkeebaStrapper::addCSSfile('media://com_docimport/css/backend.css');
 		}
+
 		return $result;
 	}
 }
