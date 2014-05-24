@@ -38,6 +38,12 @@ class DocimportModelXsl extends F0FModel
 
 		if (!JFolder::exists($dir_src))
 		{
+			$dir_src = JPATH_ROOT . '/media/com_docimport/books/' . $category->slug;
+			$dir_output = JPATH_ROOT . '/media/com_docimport/books/' . $category->slug . '/output';
+		}
+
+		if (!JFolder::exists($dir_src))
+		{
 			$this->setError(JText::sprintf('COM_DOCIMPORT_XSL_ERROR_NOFOLDER', $category->slug));
 
 			return false;
@@ -112,6 +118,7 @@ class DocimportModelXsl extends F0FModel
 		}
 
 		$timestamp = 0;
+
 		foreach ($xmlfiles as $file_xml)
 		{
 			// Load the XML document
@@ -135,7 +142,7 @@ class DocimportModelXsl extends F0FModel
 			$rootURI = defined('DOCIMPORT_SITEURL') ? DOCIMPORT_SITEURL : JURI::root(true);
 			$parameters = array(
 				'base.dir'            => rtrim($dir_output, '/') . '/' . (empty($filesprefix) ? '' : $filesprefix . '-'),
-				'img.src.path'        => $rootURI . "/media/com_docimport/{$category->slug}/",
+				'img.src.path'        => rtrim($dir_src, '/') . '/',
 				'admon.graphics.path' => '/media/com_docimport/admonition/',
 				'admon.graphics'      => 1,
 				'use.id.as.filename'  => 1,
@@ -144,6 +151,7 @@ class DocimportModelXsl extends F0FModel
 			);
 			$xslt = new XSLTProcessor();
 			$xslt->importStylesheet($xslDoc);
+
 			if (!$xslt->setParameter('', $parameters))
 			{
 				$this->setError(JText::_('COM_DOCIMPORT_XSL_ERROR_NOLOADPARAMETERS'));
@@ -239,6 +247,12 @@ class DocimportModelXsl extends F0FModel
 		$dir_output = JPATH_ROOT . '/media/com_docimport/' . $category->slug . '/output';
 
 		JLoader::import('joomla.filesystem.folder');
+
+		if (!JFolder::exists($dir_src))
+		{
+			$dir_src = JPATH_ROOT . '/media/com_docimport/books/' . $category->slug;
+			$dir_output = JPATH_ROOT . '/media/com_docimport/books/' . $category->slug . '/output';
+		}
 
 		if (!JFolder::exists($dir_src))
 		{
@@ -525,7 +539,21 @@ class DocimportModelXsl extends F0FModel
 		// Get a list of subdirectories, except the built-in ones
 		JLoader::import('joomla.filesystem.folder');
 		$path = JPATH_ROOT . '/media/com_docimport';
-		$folders = JFolder::folders($path, '.', false, false, array('admonition', 'css', 'js', 'images'));
+
+		$folders_bare = JFolder::folders($path, '.', false, false, array('admonition', 'css', 'js', 'images'));
+		$folders_bare = (empty($folders_bare) || !is_array($folders_bare)) ? array() : $folders_bare;
+
+		if (JFolder::exists($path . '/books'))
+		{
+			$folders_books = JFolder::folders($path . '/books', '.', false, false, array('admonition', 'css', 'js', 'images'));
+			$folders_books = (empty($folders_books) || !is_array($folders_books)) ? array() : $folders_books;
+		}
+		else
+		{
+			$folders_books = array();
+		}
+
+		$folders = array_merge($folders_bare, $folders_books);
 
 		// If a subdirectory doesn't exist, create a new category
 		if (!empty($folders))

@@ -74,6 +74,7 @@ class DocimportModelCategories extends F0FModel
 	public function onProcessList(&$resultArray)
 	{
 		JLoader::import('joomla.filesystem.folder');
+
 		if (!empty($resultArray))
 		{
 			foreach ($resultArray as $key => $item)
@@ -81,6 +82,11 @@ class DocimportModelCategories extends F0FModel
 				$resultArray[$key]->status = 'missing';
 
 				$folder = JPATH_ROOT . '/media/com_docimport/' . $item->slug;
+
+				if (!JFolder::exists($folder))
+				{
+					$folder = JPATH_ROOT . '/media/com_docimport/books/' . $item->slug;
+				}
 
 				if (!JFolder::exists($folder))
 				{
