@@ -14,12 +14,20 @@ class DocimportViewArticle extends F0FViewHtml
 	{
 		parent::onRead($tpl);
 
+		$document = JFactory::getDocument();
+
+		// Load highlight.js
+		$document->addScript('http://yandex.st/highlightjs/8.0/highlight.min.js', 'text/javascript', false, false);
+		//$document->addStyleSheet('http://yandex.st/highlightjs/8.0/styles/default.min.css');
+		$document->addStyleSheet('http://yandex.st/highlightjs/8.0/styles/idea.min.css');
+
 		$category = F0FModel::getTmpInstance('Category','DocimportModel')
 			->setId($this->item->docimport_category_id)
 			->getItem();
-		JFactory::getDocument()->setTitle($category->title.' :: '.$this->item->title);
+		$document->setTitle($category->title.' :: '.$this->item->title);
 
-		if($category->process_plugins) {
+		if($category->process_plugins)
+		{
 			$this->item->fulltext = JHTML::_('content.prepare', $this->item->fulltext);
 		}
 

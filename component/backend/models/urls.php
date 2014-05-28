@@ -1,18 +1,26 @@
 <?php
 /**
- *  @package DocImport
- *  @copyright Copyright (c)2010-2014 Nicholas K. Dionysopoulos
- *  @license GNU General Public License version 3, or later
+ * @package   DocImport
+ * @copyright Copyright (c)2010-2014 Nicholas K. Dionysopoulos
+ * @license   GNU General Public License version 3, or later
  */
 
 defined('_JEXEC') or die();
 
 JLoader::import('joomla.application.component.model');
-if(!class_exists('JoomlaCompatModel')) {
-	if(interface_exists('JModel')) {
-		abstract class JoomlaCompatModel extends JModelLegacy {}
-	} else {
-		class JoomlaCompatModel extends JModel {}
+if (!class_exists('JoomlaCompatModel'))
+{
+	if (interface_exists('JModel'))
+	{
+		abstract class JoomlaCompatModel extends JModelLegacy
+		{
+		}
+	}
+	else
+	{
+		class JoomlaCompatModel extends JModel
+		{
+		}
 	}
 }
 
@@ -20,7 +28,8 @@ class DocimportModelUrls extends JoomlaCompatModel
 {
 	private $urls = array();
 
-	public function __construct($config = array()) {
+	public function __construct($config = array())
+	{
 		parent::__construct($config);
 
 		$this->load();
@@ -28,10 +37,14 @@ class DocimportModelUrls extends JoomlaCompatModel
 
 	public function normaliseQuery($query)
 	{
-		if(empty($query)) {
+		if (empty($query))
+		{
 			return '';
-		} else {
+		}
+		else
+		{
 			ksort($query);
+
 			return json_encode($query);
 		}
 	}
@@ -49,29 +62,40 @@ class DocimportModelUrls extends JoomlaCompatModel
 	public function getSef($nonsef)
 	{
 		$nonsef = $this->normaliseQuery($nonsef);
-		if(array_key_exists($nonsef, $this->urls)) {
+		if (array_key_exists($nonsef, $this->urls))
+		{
 			return $this->urls[$nonsef];
-		} else {
+		}
+		else
+		{
 			return false;
 		}
 	}
 
 	public function getNonSef($sef)
 	{
-		if(is_array($sef)) $sef = implode('/', $sef);
+		if (is_array($sef))
+		{
+			$sef = implode('/', $sef);
+		}
 		$result = array_search($sef, $this->urls);
-		if($result !== false) {
+		if ($result !== false)
+		{
 			$result = json_decode($result, true);
 		}
+
 		return $result;
 	}
 
 	public function saveQuery($nonsef, $sef)
 	{
 		$key = $this->normaliseQuery($nonsef);
-		if(is_array($sef)) {
+		if (is_array($sef))
+		{
 			$value = implode('/', $sef);
-		} else {
+		}
+		else
+		{
 			$value = $sef;
 		}
 
@@ -79,25 +103,30 @@ class DocimportModelUrls extends JoomlaCompatModel
 		$this->urls[$key] = $value;
 
 		$db = $this->getDbo();
-		if($existing) {
+		if ($existing)
+		{
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__docimport_urls'))
 				->set(
-					$db->quoteName('sef').' = '.$db->quote($value)
+					$db->quoteName('sef') . ' = ' . $db->quote($value)
 				)->where(
-					$db->quoteName('nonsef').' = '.$db->quote($key)
+					$db->quoteName('nonsef') . ' = ' . $db->quote($key)
 				);
 			$db->setQuery($query);
+
 			return $db->execute();
-		} else {
+		}
+		else
+		{
 			$query = $db->getQuery(true)
 				->insert($db->quoteName('#__docimport_urls'))
 				->columns(array(
 					$db->quoteName('nonsef'),
 					$db->quoteName('sef')
 				))
-				->values($db->quote($key).','.$db->quote($value));
+				->values($db->quote($key) . ',' . $db->quote($value));
 			$db->setQuery($query);
+
 			return $db->execute();
 		}
 	}
@@ -106,7 +135,8 @@ class DocimportModelUrls extends JoomlaCompatModel
 	{
 		$db = $this->getDbo();
 		$this->urls = array();
-		$db->setQuery('TRUNCATE TABLE '.$db->quoteName('#__docimport_urls'));
+		$db->setQuery('TRUNCATE TABLE ' . $db->quoteName('#__docimport_urls'));
+
 		return $db->execute();
 	}
 }
