@@ -30,7 +30,10 @@
 		<include name="cli**" />
 		<include name="frontend**" />
 		<include name="fof**" />
-		<include name="strapper**" />
+
+        <include name="strapper**" />
+        <exclude name="strapper/sources**" />
+
 		<include name="media/admonition**" />
 		<include name="media/css**" />
 		<include name="media/images**" />
