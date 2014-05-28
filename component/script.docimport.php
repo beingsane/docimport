@@ -115,19 +115,6 @@ class Com_DocimportInstallerScript extends F0FUtilsInstallscript
 			'administrator/cache/com_docimport.updates.php',
 			'administrator/cache/com_docimport.updates.ini',
 			'components/com_docimport/controllers/article.php',
-
-			// Obsolete Akeeba Strapper files
-			'media/akeeba_strapper/css/bootstrap.j25.css',
-			'media/akeeba_strapper/css/bootstrap.j3.css',
-			'media/akeeba_strapper/css/bootstrap.j32.css',
-			'media/akeeba_strapper/css/bootstrap.min.css',
-			'media/akeeba_strapper/css/strapper.css',
-			'media/akeeba_strapper/css/smoothness/theme.css',
-			'media/akeeba_strapper/js/akeebajq.js',
-			'media/akeeba_strapper/js/akeebajqui.js',
-			'media/akeeba_strapper/js/akjqmigrate.js',
-			'media/akeeba_strapper/js/bootstrap.js',
-			'media/akeeba_strapper/js/namespace.js',
 		),
 		'folders' => array(
 		)
