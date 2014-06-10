@@ -4,13 +4,10 @@ nbproject/
 old-component/
 /xsltest/
 build/build.properties
-/component/media/akeebabackup/
-component/docimport.xml
-component/fof
-component/strapper
-/component/media/jmanual/
-/component/media/coding-standards/
-/component/media/manual/
+/component/media/books/
+/component/docimport.xml
+/component/fof
+/component/strapper
 
 /component/backend/version.php
 
@@ -40,3 +37,5 @@ build/AntBuild.xml
 /build/epub
 /build/tools
 
+
+/component/media/solo/

@@ -1,3 +1,12 @@
+DocImport 1.0.9
+================================================================================
+! CLI scripts were not being copied over
++ Added support for automatic update notification and installation
++ Allow you to put books inside /media/com_docimport/books for better organisation
++ Allow syntax highlighting in programlisting via the language attribute. See https://github.com/isagalaev/highlight.js/tree/master/src/languages for supported language names (php, bash, css, apache, nginx, xml, diff, ini, json, markdown and sql are among them).
+~ Updating DBXSL stylesheets to 1.78.1
+# [MEDIUM] Fatal error when purging SEF URL cache
+
 DocImport 1.0.8
 ================================================================================
 + Database table installation, uninstallation and update is now handled by our own code instead of the unreliable JInstaller code
