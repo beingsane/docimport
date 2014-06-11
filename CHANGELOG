@@ -1,3 +1,7 @@
+DocImport 1.0.10
+================================================================================
+! Images not shown in generated articles due to changes in the upgraded DocBook XSL stylesheets
+
 DocImport 1.0.9
 ================================================================================
 ! CLI scripts were not being copied over
