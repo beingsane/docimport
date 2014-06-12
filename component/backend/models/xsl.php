@@ -140,9 +140,16 @@ class DocimportModelXsl extends F0FModel
 
 			// Setup the XSLT processor
 			$rootURI = defined('DOCIMPORT_SITEURL') ? DOCIMPORT_SITEURL : JURI::root(true);
+
+			$path_src = substr($dir_src, strlen(JPATH_ROOT));
+			$path_src = trim($path_src, '/');
+			$path_src = str_replace('\\','/', $path_src);
+			$path_src = rtrim($rootURI, '/') . '/' . $path_src . '/';
+			$path_src = '/' . ltrim($path_src, '/');
+
 			$parameters = array(
 				'base.dir'            => rtrim($dir_output, '/') . '/' . (empty($filesprefix) ? '' : $filesprefix . '-'),
-				'img.src.path'        => rtrim($dir_src, '/') . '/',
+				'img.src.path'        => $path_src,
 				'admon.graphics.path' => '/media/com_docimport/admonition/',
 				'admon.graphics'      => 1,
 				'use.id.as.filename'  => 1,
