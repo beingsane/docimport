@@ -33,6 +33,7 @@ class DocimportModelCpanels extends F0FModel
 
 		// Update magic parameters
 		$params->set('siteurl', str_replace('/administrator', '', JURI::base()));
+		$params->set('sitepath', str_replace('/administrator', '', JURI::base(true)));
 
 		// Save parameters
 		$db = JFactory::getDBO();

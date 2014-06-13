@@ -292,6 +292,12 @@ ENDBLOCK;
 			$rootURL = rtrim($rootURL, '/') . '/';
 			define('DOCIMPORT_SITEURL', $rootURL);
 		}
+		$rootPath = $this->getOptionValue('sitepath', '');
+		if (!empty($rootPath))
+		{
+			$rootPath = rtrim($rootPath, '/') . '/';
+			define('DOCIMPORT_SITEPATH', $rootPath);
+		}
 
 		// Scan for any missing categories
 		F0FModel::getTmpInstance('Xsl', 'DocimportModel', array('input' => array()))
