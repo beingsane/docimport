@@ -144,8 +144,7 @@ class DocimportModelXsl extends F0FModel
 			$path_src = substr($dir_src, strlen(JPATH_ROOT));
 			$path_src = trim($path_src, '/');
 			$path_src = str_replace('\\','/', $path_src);
-			$path_src = rtrim($rootURI, '/') . '/' . $path_src . '/';
-			$path_src = '/' . ltrim($path_src, '/');
+			$path_src = '/' . ltrim($path_src, '/') . '/';
 
 			$parameters = array(
 				'base.dir'            => rtrim($dir_output, '/') . '/' . (empty($filesprefix) ? '' : $filesprefix . '-'),
