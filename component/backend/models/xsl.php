@@ -139,13 +139,12 @@ class DocimportModelXsl extends F0FModel
 			}
 
 			// Setup the XSLT processor
-			$rootURI = defined('DOCIMPORT_SITEURL') ? DOCIMPORT_SITEURL : JURI::root(true);
+			$rootURI = defined('DOCIMPORT_SITEPATH') ? DOCIMPORT_SITEPATH : JURI::root(true);
 
 			$path_src = substr($dir_src, strlen(JPATH_ROOT));
 			$path_src = trim($path_src, '/');
 			$path_src = str_replace('\\','/', $path_src);
-			$path_src = rtrim($rootURI, '/') . '/' . $path_src . '/';
-			$path_src = '/' . ltrim($path_src, '/');
+			$path_src = '/' . ltrim($path_src, '/') . '/';
 
 			$parameters = array(
 				'base.dir'            => rtrim($dir_output, '/') . '/' . (empty($filesprefix) ? '' : $filesprefix . '-'),

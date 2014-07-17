@@ -23,6 +23,8 @@
             >
         <field name="siteurl" type="hidden" default=""
                label="" />
+        <field name="sitepath" type="hidden" default=""
+               label="" />
 
       <field name="autoupdateCli" type="list" default="1"
              label="CONFIG_AUTOUPDATE_SETTINGS_LABEL"
