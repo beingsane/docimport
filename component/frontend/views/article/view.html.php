@@ -17,9 +17,9 @@ class DocimportViewArticle extends F0FViewHtml
 		$document = JFactory::getDocument();
 
 		// Load highlight.js
-		$document->addScript('http://yandex.st/highlightjs/8.0/highlight.min.js', 'text/javascript', false, false);
-		//$document->addStyleSheet('http://yandex.st/highlightjs/8.0/styles/default.min.css');
-		$document->addStyleSheet('http://yandex.st/highlightjs/8.0/styles/idea.min.css');
+		$document->addScript('https://yandex.st/highlightjs/8.0/highlight.min.js', 'text/javascript', false, false);
+		//$document->addStyleSheet('https://yandex.st/highlightjs/8.0/styles/default.min.css');
+		$document->addStyleSheet('https://yandex.st/highlightjs/8.0/styles/idea.min.css');
 
 		$category = F0FModel::getTmpInstance('Category','DocimportModel')
 			->setId($this->item->docimport_category_id)
