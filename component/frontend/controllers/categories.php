@@ -80,6 +80,16 @@ class DocimportControllerCategories extends F0FController
 			$this->input->set('id', $id);
 		}
 
+        if($id)
+        {
+            $cat = $this->getThisModel()->getItem($id);
+            
+            if(!$cat->enabled)
+            {
+                return false;
+            }
+        }
+
 		return true;
 	}
 }
