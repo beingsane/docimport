@@ -27,6 +27,12 @@ class DocimportControllerArticles extends F0FController
         $user = JFactory::getUser();
         $views = $user->getAuthorisedViewLevels();
 
+        // Is the category enabled?
+        if(!$cat->enabled)
+        {
+            return false;
+        }
+
         return in_array($cat->access, $views);
 	}
 }
