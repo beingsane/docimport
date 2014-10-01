@@ -65,6 +65,19 @@ function docimportParseRoute(&$segments)
 
 	$sef = $itemID.'/'.implode('/', $segments);
 	$nonsef = $model->getNonsef($sef);
+
+	if($nonsef === false)
+	{
+		if(version_compare(JVERSION, '3.0', 'ge'))
+		{
+			throw new Exception(JText::_('JGLOBAL_RESOURCE_NOT_FOUND'), 404);
+		}
+		else
+		{
+			JError::raiseError(404, JText::_('JGLOBAL_RESOURCE_NOT_FOUND'));
+		}
+	}
+
 	if(is_array($nonsef)) {
 		$segments = array();
 		return $nonsef;
