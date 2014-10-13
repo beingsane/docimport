@@ -67,7 +67,19 @@ class DocimportModelXsl extends F0FModel
 			else
 			{
 				JLoader::import('joomla.filesystem.file');
-				$content = "order deny,allow\ndeny from all\allow from none\n";
+				$content = <<< HTACCESS
+<IfModule !mod_authz_core.c>
+Order deny,allow
+Deny from all
+</IfModule>
+<IfModule mod_authz_core.c>
+  <RequireAll>
+    Require all denied
+  </RequireAll>
+</IfModule>
+
+HTACCESS;
+
 				JFile::write($dir_output . '/.htaccess', $content);
 			}
 		}
