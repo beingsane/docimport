@@ -28,7 +28,7 @@ class DocimportModelCpanels extends F0FModel
 		}
 		else
 		{
-			$params = new JParameter($component->params);
+			$params = new JRegistry($component->params);
 		}
 
 		// Update magic parameters
