@@ -287,12 +287,15 @@ ENDBLOCK;
 
 		// Force the server root URL
 		$rootURL = $this->getOptionValue('siteurl', '');
+
 		if (!empty($rootURL))
 		{
 			$rootURL = rtrim($rootURL, '/') . '/';
 			define('DOCIMPORT_SITEURL', $rootURL);
 		}
+
 		$rootPath = $this->getOptionValue('sitepath', '');
+
 		if (!empty($rootPath))
 		{
 			$rootPath = rtrim($rootPath, '/') . '/';
@@ -313,14 +316,19 @@ ENDBLOCK;
 		foreach ($categories as $cat)
 		{
 			$this->out("Processing \"$cat->title\"");
+
 			$model	 = F0FModel::getTmpInstance('Xsl', 'DocimportModel');
+
 			$this->out("\tProcessing XML to HTML...");
+
 			$status	 = $model->processXML($cat->docimport_category_id);
+
 			if ($status)
 			{
 				$this->out("\tGenerating articles...");
 				$status = $model->processFiles($cat->docimport_category_id);
 			}
+
 			if ($status)
 			{
 				$this->out("\tSuccess!");

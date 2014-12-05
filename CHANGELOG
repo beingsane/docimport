@@ -1,8 +1,9 @@
 DocImport 1.0.13
 ================================================================================
++ Compatibility with Joomla! 3.4
 ~ Changed the .htaccess files to be compatible with Apache 2.4
-~ Removing references to JParameter (it was removed in Joomla! 3.4 alpha)
 # [LOW] Raise a 404 error if requesting an article that doesn't exist
+# [MEDIUM] DocBook cross-references without a .html suffix were not replaced, leading to broken links
 
 DocImport 1.0.12
 ================================================================================

@@ -20,8 +20,8 @@ class DocimportModelXsl extends F0FModel
 	{
 		// Get the category record
 		$category = F0FModel::getTmpInstance('Categories', 'DocimportModel')
-			->setId($category_id)
-			->getItem();
+							->setId($category_id)
+							->getItem();
 
 		if ($category->docimport_category_id != $category_id)
 		{
@@ -31,18 +31,18 @@ class DocimportModelXsl extends F0FModel
 		}
 
 		// Check if directories exist
-		$dir_src = JPATH_ROOT . '/media/com_docimport/' . $category->slug;
+		$dir_src    = JPATH_ROOT . '/media/com_docimport/' . $category->slug;
 		$dir_output = JPATH_ROOT . '/media/com_docimport/' . $category->slug . '/output';
 
 		JLoader::import('joomla.filesystem.folder');
 
-		if (!JFolder::exists($dir_src))
+		if ( !JFolder::exists($dir_src))
 		{
-			$dir_src = JPATH_ROOT . '/media/com_docimport/books/' . $category->slug;
+			$dir_src    = JPATH_ROOT . '/media/com_docimport/books/' . $category->slug;
 			$dir_output = JPATH_ROOT . '/media/com_docimport/books/' . $category->slug . '/output';
 		}
 
-		if (!JFolder::exists($dir_src))
+		if ( !JFolder::exists($dir_src))
 		{
 			$this->setError(JText::sprintf('COM_DOCIMPORT_XSL_ERROR_NOFOLDER', $category->slug));
 
@@ -54,11 +54,13 @@ class DocimportModelXsl extends F0FModel
 		{
 			JFolder::delete($dir_output);
 		}
+
 		// Regenerate the output directory
-		if (!JFolder::exists($dir_output))
+		if ( !JFolder::exists($dir_output))
 		{
 			$result = JFolder::create($dir_output);
-			if (!$result)
+
+			if ( !$result)
 			{
 				$this->setError(JText::sprintf('COM_DOCIMPORT_XSL_ERROR_CANTCREATEFOLDER', $category->slug . '/output'));
 
@@ -90,21 +92,25 @@ HTACCESS;
 		// If we have many files, let's filter out only articles and books
 		if (count($xmlfiles) > 1)
 		{
-			$files = $xmlfiles;
+			$files    = $xmlfiles;
 			$xmlfiles = array();
+
 			foreach ($files as $file_xml)
 			{
 				$xmlDoc = new DOMDocument();
-				if (!$xmlDoc->load($file_xml))
+
+				if ( !$xmlDoc->load($file_xml))
 				{
 					continue;
 				}
 
 				$tagName = $xmlDoc->documentElement->tagName;
+
 				if (in_array($tagName, array('article', 'book')))
 				{
 					$xmlfiles[] = $file_xml;
 				}
+
 				unset($xmlDoc);
 			}
 		}
@@ -122,7 +128,8 @@ HTACCESS;
 
 		// Load the XSLT filters
 		$xslDoc = new DOMDocument();
-		if (!$xslDoc->load($file_xsl))
+
+		if ( !$xslDoc->load($file_xsl))
 		{
 			$this->setError(JText::_('COM_DOCIMPORT_XSL_ERROR_NOLOADXSL'));
 
@@ -135,16 +142,19 @@ HTACCESS;
 		{
 			// Load the XML document
 			$xmlDoc = new DOMDocument();
-			if (!$xmlDoc->load($file_xml, LIBXML_DTDATTR | LIBXML_NOENT | LIBXML_NONET | LIBXML_XINCLUDE))
+
+			if ( !$xmlDoc->load($file_xml, LIBXML_DTDATTR | LIBXML_NOENT | LIBXML_NONET | LIBXML_XINCLUDE))
 			{
 				$this->setError(JText::_('COM_DOCIMPORT_XSL_ERROR_NOLOADXML'));
 
 				return false;
 			}
+
 			//$xmlDoc->documentURI = $file_xml;
 			$xmlDoc->xinclude(LIBXML_DTDATTR | LIBXML_NOENT | LIBXML_NONET | LIBXML_XINCLUDE);
 
 			$filesprefix = '';
+
 			if (count($xmlfiles) > 1)
 			{
 				$filesprefix = basename($file_xml, '.xml');
@@ -155,7 +165,7 @@ HTACCESS;
 
 			$path_src = substr($dir_src, strlen(JPATH_ROOT));
 			$path_src = trim($path_src, '/');
-			$path_src = str_replace('\\','/', $path_src);
+			$path_src = str_replace('\\', '/', $path_src);
 			$path_src = '/' . ltrim($path_src, '/') . '/';
 
 			$parameters = array(
@@ -166,12 +176,12 @@ HTACCESS;
 				'use.id.as.filename'  => 1,
 				'toc.section.depth'   => 5,
 				'chunk.section.depth' => 3,
-				'highlight.source'	  => 1,
+				'highlight.source'    => 1,
 			);
-			$xslt = new XSLTProcessor();
+			$xslt       = new XSLTProcessor();
 			$xslt->importStylesheet($xslDoc);
 
-			if (!$xslt->setParameter('', $parameters))
+			if ( !$xslt->setParameter('', $parameters))
 			{
 				$this->setError(JText::_('COM_DOCIMPORT_XSL_ERROR_NOLOADPARAMETERS'));
 
@@ -182,6 +192,7 @@ HTACCESS;
 			set_time_limit(0);
 
 			$errorsetting = error_reporting(0);
+
 			if (version_compare(PHP_VERSION, '5.4', "<"))
 			{
 				$oldval = ini_set("xsl.security_prefs", XSL_SECPREF_NONE);
@@ -194,6 +205,7 @@ HTACCESS;
 			$result = $xslt->transformToXml($xmlDoc);
 
 			error_reporting($errorsetting);
+
 			if (version_compare(PHP_VERSION, '5.4', "<"))
 			{
 				ini_set("xsl.security_prefs", $oldval);
@@ -202,6 +214,7 @@ HTACCESS;
 			{
 				$xslt->setSecurityPrefs($oldval);
 			}
+
 			unset($xslt);
 
 			if ($result === false)
@@ -211,15 +224,17 @@ HTACCESS;
 			else
 			{
 				$timestamp_local = @filemtime($file_xml);
+
 				if ($timestamp_local > $timestamp)
 				{
 					$timestamp = $timestamp_local;
 				}
 
-				if (!empty($filesprefix))
+				if ( !empty($filesprefix))
 				{
-					$fname = rtrim($dir_output, '/') . "/$filesprefix-index.html";
+					$fname   = rtrim($dir_output, '/') . "/$filesprefix-index.html";
 					$renamed = rtrim($dir_output, '/') . "/$filesprefix.html";
+
 					if (@file_exists($fname))
 					{
 						JFile::move($fname, $renamed);
@@ -251,8 +266,8 @@ HTACCESS;
 	{
 		// Get the category record
 		$category = F0FModel::getTmpInstance('Categories', 'DocimportModel')
-			->setId($category_id)
-			->getItem();
+							->setId($category_id)
+							->getItem();
 
 		if ($category->docimport_category_id != $category_id)
 		{
@@ -262,25 +277,25 @@ HTACCESS;
 		}
 
 		// Check if directories exist
-		$dir_src = JPATH_ROOT . '/media/com_docimport/' . $category->slug;
+		$dir_src    = JPATH_ROOT . '/media/com_docimport/' . $category->slug;
 		$dir_output = JPATH_ROOT . '/media/com_docimport/' . $category->slug . '/output';
 
 		JLoader::import('joomla.filesystem.folder');
 
-		if (!JFolder::exists($dir_src))
+		if ( !JFolder::exists($dir_src))
 		{
-			$dir_src = JPATH_ROOT . '/media/com_docimport/books/' . $category->slug;
+			$dir_src    = JPATH_ROOT . '/media/com_docimport/books/' . $category->slug;
 			$dir_output = JPATH_ROOT . '/media/com_docimport/books/' . $category->slug . '/output';
 		}
 
-		if (!JFolder::exists($dir_src))
+		if ( !JFolder::exists($dir_src))
 		{
 			$this->setError(JText::sprintf('COM_DOCIMPORT_XSL_ERROR_NOFOLDER', $category->slug));
 
 			return false;
 		}
 
-		if (!JFolder::exists($dir_output))
+		if ( !JFolder::exists($dir_output))
 		{
 			$this->setError(JText::sprintf('COM_DOCIMPORT_XSL_ERROR_NOFOLDER', $category->slug . '/output'));
 
@@ -288,18 +303,19 @@ HTACCESS;
 		}
 
 		// Load the list of articles in this category
-		$db = $this->getDBO();
+		$db    = $this->getDBO();
 		$query = $db->getQuery(true)
-			->from($db->quoteName('#__docimport_articles'))
-			->select(array(
-				$db->quoteName('docimport_article_id') . ' AS ' . $db->quoteName('id'),
-				$db->quoteName('slug'),
-				$db->quoteName('last_timestamp'),
-				$db->quoteName('enabled')
-			))
-			->where($db->quoteName('docimport_category_id') . ' = ' . $db->quote($category_id));
+					->from($db->quoteName('#__docimport_articles'))
+					->select(array(
+						$db->quoteName('docimport_article_id') . ' AS ' . $db->quoteName('id'),
+						$db->quoteName('slug'),
+						$db->quoteName('last_timestamp'),
+						$db->quoteName('enabled')
+					))
+					->where($db->quoteName('docimport_category_id') . ' = ' . $db->quote($category_id));
 		$db->setQuery($query);
 		$articles = $db->loadObjectList('slug');
+
 		if (empty($articles))
 		{
 			$articles = array();
@@ -310,7 +326,8 @@ HTACCESS;
 
 		// And now, turn the files into a list of slugs
 		$slugs = array();
-		if (!empty($files))
+
+		if ( !empty($files))
 		{
 			foreach ($files as $filename)
 			{
@@ -319,34 +336,35 @@ HTACCESS;
 		}
 
 		// First pass: find articles pointing to files no longer existing
-		if (!empty($articles))
+		if ( !empty($articles))
 		{
 			foreach ($articles as $slug => $article)
 			{
-				if (!in_array($slug, $slugs))
+				if ( !in_array($slug, $slugs))
 				{
 					F0FModel::getTmpInstance('Articles', 'DocimportModel')
-						->setId($article->id)
-						->save(array(
-							'enabled'              => 0,
-							'docimport_article_id' => $article->id,
-						));
+							->setId($article->id)
+							->save(array(
+								'enabled'              => 0,
+								'docimport_article_id' => $article->id,
+							));
 				}
 			}
 		}
 
 		// Second pass: add articles which are not already there
-		if (!empty($slugs))
+		if ( !empty($slugs))
 		{
 			foreach ($slugs as $slug)
 			{
-				if (!array_key_exists($slug, $articles))
+				if ( !array_key_exists($slug, $articles))
 				{
 					JLoader::import('joomla.utilities.date');
 
 					$jNow = new JDate();
 
 					$user_id = JFactory::getUser()->id;
+
 					if (empty($user_id))
 					{
 						$user_id = 42;
@@ -356,25 +374,25 @@ HTACCESS;
 					$filedata = $this->_getHTMLFileData($filepath);
 
 					F0FModel::getTmpInstance('Articles', 'DocimportModel')
-						->getTable()
-						->save(array(
-							'docimport_article_id'  => 0,
-							'docimport_category_id' => $category_id,
-							'title'                 => $filedata->title,
-							'slug'                  => $slug,
-							'fulltext'              => $filedata->contents,
-							'last_timestamp'        => $filedata->timestamp,
-							'enabled'               => 1,
-							'created_on'            => $jNow->toSql(),
-							'created_by'            => $user_id
+							->getTable()
+							->save(array(
+								'docimport_article_id'  => 0,
+								'docimport_category_id' => $category_id,
+								'title'                 => $filedata->title,
+								'slug'                  => $slug,
+								'fulltext'              => $filedata->contents,
+								'last_timestamp'        => $filedata->timestamp,
+								'enabled'               => 1,
+								'created_on'            => $jNow->toSql(),
+								'created_by'            => $user_id
 
-						));
+							));
 				}
 			}
 		}
 
 		// Third pass: update existing articles
-		if (!empty($slugs) && !empty($articles))
+		if ( !empty($slugs) && !empty($articles))
 		{
 			foreach ($articles as $article)
 			{
@@ -382,6 +400,7 @@ HTACCESS;
 				{
 					// Do we have to update?
 					$filepath = $dir_output . '/' . $article->slug . '.html';
+
 					if (@filemtime($filepath) == $article->last_timestamp)
 					{
 						continue;
@@ -392,6 +411,7 @@ HTACCESS;
 					$jNow = new JDate();
 
 					$user_id = JFactory::getUser()->id;
+
 					if (empty($user_id))
 					{
 						$user_id = 42;
@@ -400,60 +420,66 @@ HTACCESS;
 					$filedata = $this->_getHTMLFileData($filepath);
 
 					F0FModel::getTmpInstance('Articles', 'DocimportModel')
-						->setId($article->id)
-						->getItem()
-						->save(array(
-							'title'          => $filedata->title,
-							'fulltext'       => $filedata->contents,
-							'last_timestamp' => $filedata->timestamp,
-							'enabled'        => 1,
-							'locked_on'      => '0000-00-00 00:00:00',
-							'locked_by'      => 0,
-							'modified_on'    => $jNow->toSql(),
-							'modified_by'    => $user_id
-						));
+							->setId($article->id)
+							->getItem()
+							->save(array(
+								'title'          => $filedata->title,
+								'fulltext'       => $filedata->contents,
+								'last_timestamp' => $filedata->timestamp,
+								'enabled'        => 1,
+								'locked_on'      => '0000-00-00 00:00:00',
+								'locked_by'      => 0,
+								'modified_on'    => $jNow->toSql(),
+								'modified_by'    => $user_id
+							));
 				}
 			}
 		}
 
 		// Fourth pass: Load a list of enabled articles (IDs and slugs)
-		$db = $this->getDBO();
+		$db    = $this->getDBO();
 		$query = $db->getQuery(true)
-			->from($db->quoteName('#__docimport_articles'))
-			->select(array(
-				$db->quoteName('docimport_article_id') . ' AS ' . $db->quoteName('id'),
-				$db->quoteName('slug')
-			))
-			->where($db->quoteName('docimport_category_id') . ' = ' . $db->quote($category_id))
-			->where($db->quoteName('enabled') . ' = ' . $db->quote(1));
+					->from($db->quoteName('#__docimport_articles'))
+					->select(array(
+						$db->quoteName('docimport_article_id') . ' AS ' . $db->quoteName('id'),
+						$db->quoteName('slug')
+					))
+					->where($db->quoteName('docimport_category_id') . ' = ' . $db->quote($category_id))
+					->where($db->quoteName('enabled') . ' = ' . $db->quote(1));
 		$db->setQuery($query);
-		$rawlist = $db->loadObjectList();
+		$rawlist   = $db->loadObjectList();
+
 		$mapSlugID = array();
-		if (!empty($rawlist))
+
+		if ( !empty($rawlist))
 		{
 			foreach ($rawlist as $rawItem)
 			{
 				$mapSlugID[$rawItem->slug] = $rawItem->id;
 			}
 		}
+
 		unset($rawlist);
 
 		// Fifth pass: Load the index page and determine ordering of slugs
-		$mapSlugOrder = array();
+		$mapSlugOrder    = array();
 		$mapFilesToSlugs = array();
-		$maxOrder = 0;
+		$maxOrder        = 0;
+
 		if (JFile::exists($dir_output . '/index.html'))
 		{
 			$file_data = JFile::read($dir_output . '/index.html');
-			$domdoc = new DOMDocument();
-			$success = $domdoc->loadXML($file_data);
+			$domdoc    = new DOMDocument();
+			$success   = $domdoc->loadXML($file_data);
+
 			unset($file_data);
 
 			if ($success)
 			{
 				// Get a list of anchor elements (<a href="...">)
 				$anchors = $domdoc->getElementsByTagName('a');
-				if (!empty($anchors))
+
+				if ( !empty($anchors))
 				{
 					foreach ($anchors as $anchor)
 					{
@@ -461,21 +487,26 @@ HTACCESS;
 						$href = $anchor->getAttribute('href');
 						// Kill any page anchors from the URL, e.g. #some-anchor
 						$hashlocation = strpos($href, '#');
+
 						if ($hashlocation !== false)
 						{
 							$href = substr($href, 0, $hashlocation);
 						}
+
 						// Only precess if this page is not already found
 						$originalslug = basename($href, '.html');
-						$slug = F0FStringUtils::toSlug($originalslug);
-						if (!array_key_exists($originalslug, $mapFilesToSlugs))
+						$slug         = F0FStringUtils::toSlug($originalslug);
+
+						if ( !array_key_exists($originalslug, $mapFilesToSlugs))
 						{
 							$mapFilesToSlugs[$originalslug] = $slug;
 						}
-						if (!array_key_exists($slug, $mapSlugID))
+
+						if ( !array_key_exists($slug, $mapSlugID))
 						{
 							continue;
 						}
+
 						if (array_key_exists($slug, $mapSlugOrder))
 						{
 							continue;
@@ -489,22 +520,23 @@ HTACCESS;
 
 		// Sixth pass: Load each article, replace links and modify ordering
 		$allIds = array_values($mapSlugID);
-		if (!empty($allIds))
+		if ( !empty($allIds))
 		{
 			foreach ($allIds as $id)
 			{
 				// Load the article
 				$article = F0FModel::getTmpInstance('Articles', 'DocimportModel')
-					->setId($id)
-					->getItem();
+								   ->setId($id)
+								   ->getItem();
 				// Replace links
 				$fulltext = $article->fulltext;
+
 				foreach ($mapFilesToSlugs as $realfile => $slug)
 				{
 					if (empty($realfile) || empty($slug))
 					{
 						$realfile = 'index';
-						$slug = 'index';
+						$slug     = 'index';
 					}
 
 					if ($slug == 'index')
@@ -513,24 +545,35 @@ HTACCESS;
 					}
 					else
 					{
-						$id = $mapSlugID[$slug];
+						$id  = $mapSlugID[$slug];
 						$url = 'index.php?option=com_docimport&view=article&id=' . $id;
 					}
 
+					// With .html, without leading slash
 					$fulltext = str_replace('href="' . $realfile . '.html', 'href="' . $url . '', $fulltext);
+					// With .html, with leading slash
 					$fulltext = str_replace('href="/' . $realfile . '.html', 'href="' . $url . '', $fulltext);
+					// Without .html, without leading slash
+					$fulltext = str_replace('href="' . $realfile, 'href="' . $url . '', $fulltext);
+					// Without .html, with leading slash
+					$fulltext = str_replace('href="/' . $realfile, 'href="' . $url . '', $fulltext);
 				}
+
 				// Replace ordering
+
 				$ordering = $article->ordering;
+
 				if (array_key_exists($article->slug, $mapSlugOrder))
 				{
 					$ordering = $mapSlugOrder[$article->slug];
 				}
+
 				// Apply changes
 				$article->save(array(
 					'fulltext' => $fulltext,
 					'ordering' => $ordering
 				));
+
 				unset($fulltext);
 				unset($article);
 			}
@@ -545,13 +588,13 @@ HTACCESS;
 	public function scanCategories()
 	{
 		// Load a list of categories
-		$db = $this->getDBO();
+		$db    = $this->getDBO();
 		$query = $db->getQuery(true)
-			->from($db->quoteName('#__docimport_categories'))
-			->select(array(
-				$db->quoteName('docimport_category_id') . ' AS ' . $db->quoteName('id'),
-				$db->quoteName('slug')
-			));
+					->from($db->quoteName('#__docimport_categories'))
+					->select(array(
+						$db->quoteName('docimport_category_id') . ' AS ' . $db->quoteName('id'),
+						$db->quoteName('slug')
+					));
 		$db->setQuery($query);
 		$categories = $db->loadObjectList('slug');
 
@@ -575,19 +618,19 @@ HTACCESS;
 		$folders = array_merge($folders_bare, $folders_books);
 
 		// If a subdirectory doesn't exist, create a new category
-		if (!empty($folders))
+		if ( !empty($folders))
 		{
 			foreach ($folders as $folder)
 			{
-				if (!array_key_exists($folder, $categories))
+				if ( !array_key_exists($folder, $categories))
 				{
 					F0FModel::getTmpInstance('Categories', 'DocimportModel')
-						->save(array(
-							'title'       => JText::sprintf('COM_DOCIMPORT_XSL_DEFAULT_TITLE', $folder),
-							'slug'        => $folder,
-							'description' => JText::_('COM_DOCIMPORT_XSL_DEFAULT_DESCRIPTION'),
-							'ordering'    => 0
-						));
+							->save(array(
+								'title'       => JText::sprintf('COM_DOCIMPORT_XSL_DEFAULT_TITLE', $folder),
+								'slug'        => $folder,
+								'description' => JText::_('COM_DOCIMPORT_XSL_DEFAULT_DESCRIPTION'),
+								'ordering'    => 0
+							));
 				}
 			}
 		}
@@ -614,13 +657,13 @@ HTACCESS;
 		$filedata = JFile::read($filepath);
 
 		$startOfTitle = strpos($filedata, '<title>') + 7;
-		$endOfTitle = strpos($filedata, '</title>');
-		$ret->title = substr($filedata, $startOfTitle, $endOfTitle - $startOfTitle);
+		$endOfTitle   = strpos($filedata, '</title>');
+		$ret->title   = substr($filedata, $startOfTitle, $endOfTitle - $startOfTitle);
 
 		// Extract the body
 		$startOfContent = strpos($filedata, '<body>') + 6;
-		$endOfContent = strpos($filedata, '</body>');
-		$ret->contents = substr($filedata, $startOfContent, $endOfContent - $startOfContent);
+		$endOfContent   = strpos($filedata, '</body>');
+		$ret->contents  = substr($filedata, $startOfContent, $endOfContent - $startOfContent);
 
 		return $ret;
 	}
