@@ -103,6 +103,7 @@
 
     <target name="relink" description="Project relinker">
         <exec command="php ../buildfiles/tools/relink.php ${site} ${application.startdir}/.." dir="${application.startdir}/.." passthru="true" />
+        <exec command="php ../buildfiles/tools/relinklang.php ${site} ${application.startdir}/.." dir="${application.startdir}/.." passthru="true" />
     </target>
 
 	<!--
