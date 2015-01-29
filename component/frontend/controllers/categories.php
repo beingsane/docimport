@@ -12,11 +12,7 @@ class DocimportControllerCategories extends F0FController
 {
 	public function onBeforeBrowse()
 	{
-		if(version_compare(JVERSION, '1.6.0', 'ge')) {
-			$enableTranslation = JFactory::getApplication()->getLanguageFilter();
-		} else {
-			$enableTranslation = false;
-		}
+		$enableTranslation = JFactory::getApplication()->getLanguageFilter();
 
 		if($enableTranslation) {
 			$lang = JFactory::getLanguage()->getTag();
@@ -29,17 +25,9 @@ class DocimportControllerCategories extends F0FController
 				if(!is_object($params)) {
 					$originalParams = $params;
 					$params = new JRegistry;
-					if(version_compare(JVERSION, '3.0', 'ge')) {
-						$params->loadString($originalParams, 'JSON');
-					} else {
-						$params->loadJSON($originalParams);
-					}
+					$params->loadString($originalParams, 'JSON');
 				}
-				if(version_compare(JVERSION, '3.0', 'ge')) {
-					$lang = $params->get('language','');
-				} else {
-					$lang = $params->getValue('language','');
-				}
+				$lang = $params->get('language','');
 			}
 			if(empty($lang)) {
 				$lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
@@ -65,18 +53,10 @@ class DocimportControllerCategories extends F0FController
 			$menuparams = $menu->params;
 			if(!($menuparams instanceof JRegistry)) {
 				$x = new JRegistry();
-				if(version_compare(JVERSION, '3.0', 'ge')) {
-					$x->loadString($menuparams, 'INI');
-				} else {
-					$x->loadINI($menuparams);
-				}
+				$x->loadString($menuparams, 'INI');
 				$menuparams = $x;
 			}
-			if(version_compare(JVERSION, '3.0', 'ge')) {
-				$id = $menuparams->get('catid', 0);
-			} else {
-				$id = $menuparams->getValue('catid', 0);
-			}
+			$id = $menuparams->get('catid', 0);
 			$this->input->set('id', $id);
 		}
 

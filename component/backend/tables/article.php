@@ -28,28 +28,14 @@ class DocimportTableArticle extends F0FTable
 				$this->$created_by = JFactory::getUser()->id;
 				JLoader::import('joomla.utilities.date');
 				$date = new JDate();
-				if (version_compare(JVERSION, '3.0', 'ge'))
-				{
-					$this->$created_on = $date->toSql();
-				}
-				else
-				{
-					$this->$created_on = $date->toMysql();
-				}
+				$this->$created_on = $date->toSql();
 			}
 			elseif (property_exists($this, $modified_on) && property_exists($this, $modified_by))
 			{
 				$this->$modified_by = JFactory::getUser()->id;
 				JLoader::import('joomla.utilities.date');
 				$date = new JDate();
-				if (version_compare(JVERSION, '3.0', 'ge'))
-				{
-					$this->$modified_on = $date->toSql();
-				}
-				else
-				{
-					$this->$modified_on = $date->toMysql();
-				}
+				$this->$modified_on = $date->toSql();
 			}
 		}
 
@@ -69,24 +55,12 @@ class DocimportTableArticle extends F0FTable
 
 			// Make sure we don't have a duplicate slug on this table
 			$db = $this->getDbo();
-			if (version_compare(JVERSION, '3.0', 'ge'))
-			{
-				$query = $db->getQuery(true)
-					->select($db->qn($slug))
-					->from($this->_tbl)
-					->where($db->qn($slug) . ' = ' . $db->q($this->$slug))
-					->where('NOT ' . $db->qn($this->_tbl_key) . ' = ' . $db->q($this->{$this->_tbl_key}))
-					->where($db->qn('docimport_category_id') . ' = ' . $db->q($this->docimport_category_id));
-			}
-			else
-			{
-				$query = $db->getQuery(true)
-					->select($db->quoteName($slug))
-					->from($this->_tbl)
-					->where($db->quoteName($slug) . ' = ' . $db->quote($this->$slug))
-					->where('NOT ' . $db->quoteName($this->_tbl_key) . ' = ' . $db->quote($this->{$this->_tbl_key}))
-					->where($db->qn('docimport_category_id') . ' = ' . $db->q($this->docimport_category_id));
-			}
+			$query = $db->getQuery(true)
+			            ->select($db->qn($slug))
+			            ->from($this->_tbl)
+			            ->where($db->qn($slug) . ' = ' . $db->q($this->$slug))
+			            ->where('NOT ' . $db->qn($this->_tbl_key) . ' = ' . $db->q($this->{$this->_tbl_key}))
+			            ->where($db->qn('docimport_category_id') . ' = ' . $db->q($this->docimport_category_id));
 			$db->setQuery($query);
 			$existingItems = $db->loadAssocList();
 
@@ -96,22 +70,11 @@ class DocimportTableArticle extends F0FTable
 			{
 				$count++;
 				$newSlug = $this->$slug . '-' . $count;
-				if (version_compare(JVERSION, '3.0', 'ge'))
-				{
-					$query = $db->getQuery(true)
-						->select($db->qn($slug))
-						->from($this->_tbl)
-						->where($db->qn($slug) . ' = ' . $db->q($newSlug))
-						->where($db->qn($this->_tbl_key) . ' = ' . $db->q($this->{$this->_tbl_key}), 'AND NOT');
-				}
-				else
-				{
-					$query = $db->getQuery(true)
-						->select($db->quoteName($slug))
-						->from($this->_tbl)
-						->where($db->quoteName($slug) . ' = ' . $db->quote($newSlug))
-						->where($db->quoteName($this->_tbl_key) . ' = ' . $db->quote($this->{$this->_tbl_key}), 'AND NOT');
-				}
+				$query = $db->getQuery(true)
+				            ->select($db->qn($slug))
+				            ->from($this->_tbl)
+				            ->where($db->qn($slug) . ' = ' . $db->q($newSlug))
+				            ->where($db->qn($this->_tbl_key) . ' = ' . $db->q($this->{$this->_tbl_key}), 'AND NOT');
 				$db->setQuery($query);
 				$existingItems = $db->loadAssocList();
 			}

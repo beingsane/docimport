@@ -49,11 +49,7 @@ $editor = JFactory::getEditor();
 	
 	<div class="control-group">
 		<label for="enabled" class="control-label">
-			<?php if(version_compare(JVERSION,'1.6.0','ge')): ?>
 			<?php echo JText::_('JPUBLISHED'); ?>
-			<?php else: ?>
-			<?php echo JText::_('PUBLISHED'); ?>
-			<?php endif; ?>
 		</label>
 		<div class="controls">
 			<?php echo JHTML::_('select.booleanlist', 'enabled', null, $this->item->enabled); ?>

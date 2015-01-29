@@ -38,19 +38,6 @@ $lang = JFactory::getLanguage();
 			</a>
 		</div>
 	</div>
-
-	<div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">
-		<div class="icon">
-			<a href="index.php?option=com_docimport&view=urls&task=nuke">
-				<img
-				src="<?php echo rtrim(JURI::base(),'/'); ?>/../media/com_docimport/images/nuke.png"
-				border="0" alt="<?php echo JText::_('COM_DOCIMPORT_CPANEL_NUKEURLS') ?>" />
-				<span>
-					<?php echo JText::_('COM_DOCIMPORT_CPANEL_NUKEURLS') ?><br/>
-				</span>
-			</a>
-		</div>
-	</div>
 </div>
 
 <script type="text/javascript">

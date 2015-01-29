@@ -64,15 +64,5 @@ CREATE TABLE `#__docimport_categories` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
             ]]></query>
         </action>
-
-        <action table="#__docimport_urls" canfail="0">
-            <condition type="missing" value="" />
-            <query><![CDATA[
-CREATE TABLE `#__docimport_urls` (
-  `nonsef` varchar(10240) NOT NULL DEFAULT '',
-  `sef` varchar(10240) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-            ]]></query>
-        </action>
     </sql>
 </schema>

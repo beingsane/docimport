@@ -12,11 +12,8 @@ $this->loadHelper('format');
 
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
-if (version_compare(JVERSION, '3.0', 'gt'))
-{
-	JHtml::_('dropdown.init');
-	JHtml::_('formbehavior.chosen', 'select');
-}
+JHtml::_('dropdown.init');
+JHtml::_('formbehavior.chosen', 'select');
 
 $hasAjaxOrderingSupport = $this->hasAjaxOrderingSupport();
 
@@ -30,23 +27,21 @@ $sortFields = array(
 );
 ?>
 
-<?php if (version_compare(JVERSION, '3.0', 'ge')): ?>
-	<script type="text/javascript">
-		Joomla.orderTable = function() {
-			table = document.getElementById("sortTable");
-			direction = document.getElementById("directionTable");
-			order = table.options[table.selectedIndex].value;
-			if (order != '$order')
-			{
-				dirn = 'asc';
-			}
-			else {
-				dirn = direction.options[direction.selectedIndex].value;
-			}
-			Joomla.tableOrdering(order, dirn);
+<script type="text/javascript">
+	Joomla.orderTable = function() {
+		table = document.getElementById("sortTable");
+		direction = document.getElementById("directionTable");
+		order = table.options[table.selectedIndex].value;
+		if (order != '$order')
+		{
+			dirn = 'asc';
 		}
-	</script>
-<?php endif; ?>
+		else {
+			dirn = direction.options[direction.selectedIndex].value;
+		}
+		Joomla.tableOrdering(order, dirn);
+	}
+</script>
 
 <form action="index.php" method="post" name="adminForm" id="adminForm">
 <input type="hidden" name="option" value="com_docimport" />
@@ -58,11 +53,10 @@ $sortFields = array(
 <input type="hidden" name="filter_order_Dir" id="filter_order_Dir" value="<?php echo $this->lists->order_Dir ?>" />
 <input type="hidden" name="<?php echo JFactory::getSession()->getToken();?>" value="1" />
 
-<?php if(version_compare(JVERSION, '3.0', 'gt')): ?>
 	<div id="filter-bar" class="btn-toolbar">
 		<div class="btn-group pull-right hidden-phone">
 			<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC') ?></label>
-				<?php echo $this->getModel()->getPagination()->getLimitBox(); ?>
+			<?php echo $this->getModel()->getPagination()->getLimitBox(); ?>
 		</div>
 		<?php
 		$asc_sel	= ($this->getLists()->order_Dir == 'asc') ? 'selected="selected"' : '';
@@ -85,7 +79,6 @@ $sortFields = array(
 		</div>
 	</div>
 	<div class="clearfix"> </div>
-<?php endif; ?>
 
 <table class="table table-striped" width="100%" id="itemsList">
 	<thead>
@@ -121,11 +114,9 @@ $sortFields = array(
 			<th width="8%">
 				<?php echo JHTML::_('grid.sort', 'COM_DOCIMPORT_COMMON_FIELD_ENABLED', 'enabled', $this->lists->order_Dir, $this->lists->order, 'browse') ?>
 			</th>
-			<?php if(version_compare(JVERSION, '1.6.0', 'ge')):?>
 			<th width="8%">
 				<?php echo JHTML::_('grid.sort', 'COM_DOCIMPORT_COMMON_FIELD_LANGUAGE', 'language', $this->lists->order_Dir, $this->lists->order, 'browse') ?>
 			</th>
-			<?php endif; ?>
 		</tr>
 		<tr>
 			<?php if($hasAjaxOrderingSupport !== false): ?>
@@ -155,11 +146,9 @@ $sortFields = array(
 			<td>
 				<?php echo DocimportHelperSelect::published($this->getModel()->getState('enabled',''), 'enabled', array('onchange'=>'this.form.submit();', 'class' => 'input-small')) ?>
 			</td>
-			<?php if(version_compare(JVERSION, '1.6.0', 'ge')):?>
 			<td>
 				<?php echo DocimportHelperSelect::languages($this->getModel()->getState('language',''), 'language', array('onchange'=>'this.form.submit();', 'class' => 'input-small')) ?>
 			</td>
-			<?php endif; ?>
 		</tr>
 	</thead>
 	<tfoot>
@@ -252,11 +241,9 @@ $sortFields = array(
 			<td align="center">
 				<?php echo JHTML::_('grid.published', $item, $i); ?>
 			</td>
-			<?php if(version_compare(JVERSION, '1.6.0', 'ge')):?>
 			<td>
 				<?php echo DocimportHelperFormat::language($item->language) ?>
 			</td>
-			<?php endif; ?>
 		</tr>
 		<?php endforeach;?>
 		<?php else: ?>

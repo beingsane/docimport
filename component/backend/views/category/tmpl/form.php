@@ -63,21 +63,13 @@ $editor = JFactory::getEditor();
 					<?php echo JText::_('COM_DOCIMPORT_COMMON_FIELD_ACCESS'); ?>
 				</label>
 				<div class="controls">
-					<?php if(version_compare(JVERSION, '3.0', 'gt')): ?>
 					<?php echo JHTML::_('access.level', 'access', $this->item->access); ?>
-					<?php else: ?>
-					<?php echo JHTML::_('list.accesslevel', $this->item); ?>
-					<?php endif; ?>
 				</div>
 			</div>
 			
 			<div class="control-group">
 				<label for="enabled" class="control-label">
-					<?php if(version_compare(JVERSION,'1.6.0','ge')): ?>
 					<?php echo JText::_('JPUBLISHED'); ?>
-					<?php else: ?>
-					<?php echo JText::_('PUBLISHED'); ?>
-					<?php endif; ?>
 				</label>
 				<div class="controls">
 					<?php echo JHTML::_('select.booleanlist', 'enabled', null, $this->item->enabled); ?>
