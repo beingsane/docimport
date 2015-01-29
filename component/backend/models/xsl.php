@@ -520,6 +520,12 @@ HTACCESS;
 
 		// Sixth pass: Load each article, replace links and modify ordering
 		$allIds = array_values($mapSlugID);
+
+		// Reverse sort the slugs. Think about href="foobar.html" and slugs "foo" and "foobar". We need this to
+		// be handled by slug "foobar", NOT by slug "foo". This is only possible with reverse alpha sorting of the
+		// slugs.
+		arsort($mapFilesToSlugs, SORT_STRING);
+
 		if ( !empty($allIds))
 		{
 			foreach ($allIds as $id)
