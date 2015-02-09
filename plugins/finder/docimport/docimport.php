@@ -212,13 +212,8 @@ class plgFinderDocimport extends FinderIndexerAdapter
 		// Add the category taxonomy data.
 		$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
 
-		// Index the item.  Allow for Joomla 2.5 and Joomla 3.x
-                $jversion = new JVersion();
-                if ( version_compare( $jversion->getShortVersion(), '3.1', 'ge' ) ) {
-                  $this->indexer->index($item);
-                } else {
-                   FinderIndexer::index($item);  // J2.5
-                }
+		// Index the item.
+		$this->indexer->index($item);
 	}
 
 	/**
