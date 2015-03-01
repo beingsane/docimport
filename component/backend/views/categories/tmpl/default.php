@@ -84,7 +84,7 @@ $sortFields = array(
 	<thead>
 		<tr>
 			<?php if($hasAjaxOrderingSupport !== false): ?>
-			<th width="20px">
+			<th width="55px">
 				<?php echo JHtml::_('grid.sort', '<i class="icon-menu-2"></i>', 'ordering', $this->lists->order_Dir, $this->lists->order, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
 				<a href="javascript:saveorder(<?php echo count($this->items) - 1 ?>, 'saveorder')" rel="tooltip"
 				   class="btn btn-micro pull-right" title="<?php echo JText::_('JLIB_HTML_SAVE_ORDER') ?>">

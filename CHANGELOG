@@ -3,6 +3,7 @@ DocImport 1.1.0
 - Dropped Joomla! 2.5 compatibility
 - Removed dysfunctional URL cache
 + Check for obsolete PHP versions and printing a warning
+# [LOW] Improved display of back-end lists
 # [HIGH] Problems when artcile slugs begin with the same string, e.g. "foo" and "foobar"
 
 DocImport 1.0.13
