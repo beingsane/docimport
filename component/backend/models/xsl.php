@@ -668,8 +668,13 @@ HTACCESS;
 			{
 				if ( !array_key_exists($folder, $categories))
 				{
-					F0FModel::getTmpInstance('Categories', 'DocimportModel')
-							->save(array(
+					/** @var DocimportModelCategories $model */
+					$model = F0FModel::getTmpInstance('Categories', 'DocimportModel');
+					/** @var DocimportTableCategory $table */
+					$table = $model->getTable()->getClone();
+					$table->reset();
+					$table->save(array(
+								'docimport_category_id' => null,
 								'title'       => JText::sprintf('COM_DOCIMPORT_XSL_DEFAULT_TITLE', $folder),
 								'slug'        => $folder,
 								'description' => JText::_('COM_DOCIMPORT_XSL_DEFAULT_DESCRIPTION'),

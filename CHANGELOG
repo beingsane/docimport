@@ -4,6 +4,7 @@ DocImport 1.1.0
 - Removed dysfunctional URL cache
 + Check for obsolete PHP versions and printing a warning
 + You can configure an alternate directory for your XML books
+# [LOW] Only one new category is added while folders are scanned when visiting the control panle
 # [LOW] Improved display of back-end lists
 # [HIGH] Problems when artcile slugs begin with the same string, e.g. "foo" and "foobar"
 
