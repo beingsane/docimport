@@ -31,10 +31,22 @@ class DocimportModelXsl extends F0FModel
 		}
 
 		// Check if directories exist
-		$dir_src    = JPATH_ROOT . '/media/com_docimport/' . $category->slug;
-		$dir_output = JPATH_ROOT . '/media/com_docimport/' . $category->slug . '/output';
-
 		JLoader::import('joomla.filesystem.folder');
+
+		JLoader::import('cms.component.helper');
+		$cparams = JComponentHelper::getParams('com_docimport');
+		$configuredRoot = $cparams->get('mediaroot', 'com_docimport/books');
+		$configuredRoot = trim($configuredRoot, " \t\n\r/\\");
+		$configuredRoot = empty($configuredRoot) ? 'com_docimport/books' : $configuredRoot;
+
+		$dir_src    = JPATH_ROOT . '/media/' . $configuredRoot . '/' . $category->slug;
+		$dir_output = JPATH_ROOT . '/media/' . $configuredRoot . '/' . $category->slug . '/output';
+
+		if ( !JFolder::exists($dir_src))
+		{
+			$dir_src    = JPATH_ROOT . '/media/com_docimport/' . $category->slug;
+			$dir_output = JPATH_ROOT . '/media/com_docimport/' . $category->slug . '/output';
+		}
 
 		if ( !JFolder::exists($dir_src))
 		{
@@ -277,10 +289,22 @@ HTACCESS;
 		}
 
 		// Check if directories exist
-		$dir_src    = JPATH_ROOT . '/media/com_docimport/' . $category->slug;
-		$dir_output = JPATH_ROOT . '/media/com_docimport/' . $category->slug . '/output';
-
 		JLoader::import('joomla.filesystem.folder');
+
+		JLoader::import('cms.component.helper');
+		$cparams = JComponentHelper::getParams('com_docimport');
+		$configuredRoot = $cparams->get('mediaroot', 'com_docimport/books');
+		$configuredRoot = trim($configuredRoot, " \t\n\r/\\");
+		$configuredRoot = empty($configuredRoot) ? 'com_docimport/books' : $configuredRoot;
+
+		$dir_src    = JPATH_ROOT . '/media/' . $configuredRoot . '/' . $category->slug;
+		$dir_output = JPATH_ROOT . '/media/' . $configuredRoot . '/' . $category->slug . '/output';
+
+		if ( !JFolder::exists($dir_src))
+		{
+			$dir_src    = JPATH_ROOT . '/media/com_docimport/' . $category->slug;
+			$dir_output = JPATH_ROOT . '/media/com_docimport/' . $category->slug . '/output';
+		}
 
 		if ( !JFolder::exists($dir_src))
 		{
@@ -606,11 +630,24 @@ HTACCESS;
 
 		// Get a list of subdirectories, except the built-in ones
 		JLoader::import('joomla.filesystem.folder');
-		$path = JPATH_ROOT . '/media/com_docimport';
 
+		// -- Configured root
+		JLoader::import('cms.component.helper');
+		$cparams = JComponentHelper::getParams('com_docimport');
+		$configuredRoot = $cparams->get('mediaroot', 'com_docimport/books');
+		$configuredRoot = trim($configuredRoot, " \t\n\r/\\");
+		$configuredRoot = empty($configuredRoot) ? 'com_docimport/books' : $configuredRoot;
+
+		$path = JPATH_ROOT . '/media/' . $configuredRoot;
+		$folders = JFolder::folders($path, '.', false, false);
+		$folders = (empty($folders) || !is_array($folders)) ? array() : $folders;
+
+		// -- media/com_docimport (legacy, very early versions)
+		$path = JPATH_ROOT . '/media/com_docimport';
 		$folders_bare = JFolder::folders($path, '.', false, false, array('admonition', 'css', 'js', 'images', 'books'));
 		$folders_bare = (empty($folders_bare) || !is_array($folders_bare)) ? array() : $folders_bare;
 
+		// -- media/com_docimport/books (legacy)
 		if (JFolder::exists($path . '/books'))
 		{
 			$folders_books = JFolder::folders($path . '/books', '.', false, false, array('admonition', 'css', 'js', 'images'));
@@ -621,7 +658,8 @@ HTACCESS;
 			$folders_books = array();
 		}
 
-		$folders = array_merge($folders_bare, $folders_books);
+		$folders = array_merge($folders, $folders_bare, $folders_books);
+		$folders = array_unique($folders);
 
 		// If a subdirectory doesn't exist, create a new category
 		if ( !empty($folders))

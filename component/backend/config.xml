@@ -16,15 +16,28 @@
 			section="component" />
 	</fieldset>
 
+	<fieldset
+			name="basic"
+			label="COM_DOCIMPORT_CONFIG_BASIC_LABEL"
+			description="COM_DOCIMPORT_CONFIG_BASIC_DESC"
+			>
+
+		<field name="mediaroot" type="text" default="com_docimport/books"
+			   label="COM_DOCIMPORT_CONFIG_MEDIAROOT_LABEL"
+			   description="COM_DOCIMPORT_CONFIG_MEDIAROOT_DESC"
+		/>
+
+		<field name="siteurl" type="hidden" default=""
+			   label="" />
+		<field name="sitepath" type="hidden" default=""
+			   label="" />
+	</fieldset>
+
     <fieldset
             name="updates"
             label="COM_DOCIMPORT_CONFIG_UPDATES_LABEL"
             description="COM_DOCIMPORT_CONFIG_UPDATES_DESC"
             >
-        <field name="siteurl" type="hidden" default=""
-               label="" />
-        <field name="sitepath" type="hidden" default=""
-               label="" />
 
       <field name="autoupdateCli" type="list" default="1"
              label="CONFIG_AUTOUPDATE_SETTINGS_LABEL"

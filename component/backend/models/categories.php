@@ -75,13 +75,25 @@ class DocimportModelCategories extends F0FModel
 	{
 		JLoader::import('joomla.filesystem.folder');
 
+		// First get the configured root directory
+		JLoader::import('cms.component.helper');
+		$cparams = JComponentHelper::getParams('com_docimport');
+		$configuredRoot = $cparams->get('mediaroot', 'com_docimport/books');
+		$configuredRoot = trim($configuredRoot, " \t\n\r/\\");
+		$configuredRoot = empty($configuredRoot) ? 'com_docimport/books' : $configuredRoot;
+
 		if (!empty($resultArray))
 		{
 			foreach ($resultArray as $key => $item)
 			{
 				$resultArray[$key]->status = 'missing';
 
-				$folder = JPATH_ROOT . '/media/com_docimport/' . $item->slug;
+				$folder = JPATH_ROOT . '/media/' . $configuredRoot . '/' . $item->slug;
+
+				if (!JFolder::exists($folder))
+				{
+					$folder = JPATH_ROOT . '/media/com_docimport/' . $item->slug;
+				}
 
 				if (!JFolder::exists($folder))
 				{

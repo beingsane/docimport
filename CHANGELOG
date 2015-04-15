@@ -3,6 +3,7 @@ DocImport 1.1.0
 - Dropped Joomla! 2.5 compatibility
 - Removed dysfunctional URL cache
 + Check for obsolete PHP versions and printing a warning
++ You can configure an alternate directory for your XML books
 # [LOW] Improved display of back-end lists
 # [HIGH] Problems when artcile slugs begin with the same string, e.g. "foo" and "foobar"
 
