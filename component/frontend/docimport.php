@@ -32,11 +32,11 @@ if(defined('PHP_VERSION')) {
 } else {
 	$version = '5.0.0'; // all bets are off!
 }
-if(!version_compare($version, '5.3.0', '>=')) {?>
+if(!version_compare($version, '5.3.4', '>=')) {?>
 <h1>Akeeba DocImport<sup>3</sup></h1>
 <h2>Incompatible PHP version</h2>
 <p>
-	You need PHP 5.3.0 or later to run this component
+	You need PHP 5.3.4 or later to run this component
 </p>
 <?php return; }
 

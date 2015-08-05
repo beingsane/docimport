@@ -30,7 +30,7 @@ define('AKEEBAENGINE', 1);
 // Required by the CMS
 define('DS', DIRECTORY_SEPARATOR);
 
-$minphp = '5.3.1';
+$minphp = '5.3.4';
 if (version_compare(PHP_VERSION, $minphp, 'lt'))
 {
 	$curversion = PHP_VERSION;
