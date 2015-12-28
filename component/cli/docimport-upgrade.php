@@ -227,7 +227,7 @@ class AppDocupgrade extends JApplicationCli
 		$this->set('cwd', getcwd());
 
 		// Work around Joomla! 3.4.7's JSession bug
-		if (version_compare(JVERSION, '3.4.7', 'ge'))
+		if (version_compare(JVERSION, '3.4.7', 'eq'))
 		{
 			JFactory::getSession()->restart();
 		}
