@@ -35,6 +35,8 @@ function docimportBuildRoute(&$query)
 	$id          = DocimportRouterHelper::getAndPop($query, 'id');
 	$queryItemid = DocimportRouterHelper::getAndPop($query, 'Itemid');
 
+	$catSlugs = DocimportRouterHelper::getCategorySlugs();
+
 	// Fix the View/Task variables
 	switch ($view)
 	{
@@ -104,10 +106,7 @@ function docimportBuildRoute(&$query)
 
 		case 'category':
 			// Get category slug
-			$slug = F0FModel::getTmpInstance('Categories', 'DocimportModel')
-			                ->setId($id)
-			                ->getItem()
-				->slug;
+			$slug = array_key_exists($id, $catSlugs) ? $catSlugs[$id] : '';
 
 			// Try to find a menu item for this category
 			$options = $qoptions;
@@ -162,18 +161,24 @@ function docimportBuildRoute(&$query)
 
 		case 'article':
 			// Get article info
-			$article = F0FModel::getTmpInstance('Articles', 'DocimportModel')
-			                   ->setId($id)
-			                   ->getItem();
+			$articleSlugs = DocimportRouterHelper::getArticleSlugs();
+
+			$catId = 0;
+			$articleSlug = '';
+
+			if (isset($articleSlugs[$id]))
+			{
+				$article = $articleSlugs[$id];
+				$catId = $article['catid'];
+				$articleSlug = $article['slug'];
+			}
+
 			// Get slug
-			$slug = F0FModel::getTmpInstance('Categories', 'DocimportModel')
-			                ->setId($article->docimport_category_id)
-			                ->getItem()
-				->slug;
+			$slug = array_key_exists($catId, $catSlugs) ? $catSlugs[$catId] : '';
 
 			// Try to find a category menu item
 			$options = array('view' => 'category', 'option' => 'com_docimport');
-			$params  = array('catid' => $article->docimport_category_id);
+			$params  = array('catid' => $catId);
 			$menu    = DocimportRouterHelper::findMenu($options, $params);
 			$Itemid  = null;
 			if (!empty($menu))
@@ -181,7 +186,7 @@ function docimportBuildRoute(&$query)
 				// Found it! Just append the article slug
 				$Itemid          = $menu->id;
 				$query['Itemid'] = $menu->id;
-				$segments[]      = $article->slug;
+				$segments[]      = $articleSlug;
 			}
 			else
 			{
@@ -194,14 +199,14 @@ function docimportBuildRoute(&$query)
 					$Itemid          = $menu->id;
 					$query['Itemid'] = $menu->id;
 					$segments[]      = $slug;
-					$segments[]      = $article->slug;
+					$segments[]      = $articleSlug;
 				}
 				else
 				{
 					// I must add the full path
 					$segments[] = 'categories';
 					$segments[] = $slug;
-					$segments[] = $article->slug;
+					$segments[] = $articleSlug;
 				}
 			}
 
@@ -220,7 +225,7 @@ function docimportBuildRoute(&$query)
 				{
 					// Yes! Is it the category we want?
 					$params = ($menu->params instanceof JRegistry) ? $menu->params : $menus->getParams($Itemid);
-					if ($params->get('catid', 0) == $article->docimport_category_id)
+					if ($params->get('catid', 0) == $catId)
 					{
 						// Cool! Just append the article slug
 						$query['Itemid'] = $Itemid;
@@ -330,6 +335,7 @@ function docimportParseRoute(&$segments)
 					// Category view
 					$query['view'] = 'category';
 					$view          = 'category';
+					$slug_category = array_pop($segments);
 					break;
 
 				case 2:
@@ -340,8 +346,7 @@ function docimportParseRoute(&$segments)
 					break;
 			}
 		}
-
-		if (empty($view) || ($view == 'category'))
+		elseif (empty($view) || count($segments))
 		{
 			switch (count($segments))
 			{
@@ -364,10 +369,21 @@ function docimportParseRoute(&$segments)
 			$query['view'] = 'article';
 		}
 
+		if (!is_null($slug_category))
+		{
+			$categoriesModel = F0FModel::getTmpInstance('Categories', 'DocimportModel');
+			$category        = $categoriesModel
+				->slug($slug_category)
+				->getFirstItem();
+			$catid = $category->getId();
+		}
+
 		if (!is_null($slug_article))
 		{
 			// Load the article
-			$article = F0FModel::getTmpInstance('Articles', 'DocimportModel')
+			/** @var DocimportModelArticles $articlesModel */
+			$articlesModel = F0FModel::getTmpInstance('Articles', 'DocimportModel');
+			$article       = $articlesModel
 			                   ->category((int) $catid)
 			                   ->slug($slug_article)
 			                   ->getFirstItem();
@@ -382,10 +398,12 @@ function docimportParseRoute(&$segments)
 				$query['id'] = $article->docimport_article_id;
 			}
 		}
-		elseif (is_null($slug_article))
+		elseif ($view != 'categories')
 		{
 			// Load the category
-			$category = F0FModel::getTmpInstance('Categories', 'DocimportModel')
+			/** @var DocimportModelCategories $categoriesModel */
+			$categoriesModel = F0FModel::getTmpInstance('Categories', 'DocimportModel');
+			$category        = $categoriesModel
 			                    ->setId($catid)
 			                    ->getItem();
 
@@ -410,6 +428,43 @@ function docimportParseRoute(&$segments)
 
 class DocimportRouterHelper
 {
+	static function getCategorySlugs()
+	{
+		static $cache = null;
+
+		if (is_null($cache))
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select(array(
+					$db->qn('docimport_category_id') . ' AS ' . $db->qn('id'),
+					$db->qn('slug')
+				))->from($db->qn('#__docimport_categories'));
+			$cache = $db->setQuery($query)->loadAssocList('id', 'slug');
+		}
+
+		return $cache;
+	}
+
+	static function getArticleSlugs()
+	{
+		static $cache = null;
+
+		if (is_null($cache))
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select(array(
+					$db->qn('docimport_article_id') . ' AS ' . $db->qn('id'),
+					$db->qn('slug'),
+					$db->qn('docimport_category_id') . ' AS ' . $db->qn('catid')
+				))->from($db->qn('#__docimport_articles'));
+			$cache = $db->setQuery($query)->loadAssocList('id');
+		}
+
+		return $cache;
+	}
+
 	static function getAndPop(&$query, $key, $default = null)
 	{
 		if (isset($query[ $key ]))
