@@ -1,22 +1,15 @@
-/.buildpath
 /.idea
-/.project
-/.settings
 
 /build/bin
 /build/buildlang
-/build/build.properties
 /build/epub
 /build/phingext
-/build/templates/release*.json
 /build/tools
 
 /component/docimport.xml
 /component/fof
 /component/strapper
 /component/backend/version.php
-
-/component/media/jsonapi
 
 /documentation/*.xml~
 

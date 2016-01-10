@@ -1,23 +1,6 @@
 <?xml version="1.0"?>
 <project name="DocImport" description="DocImport for Joomla!" default="all" >
-	<property file="./build.properties" />
-	<!-- Default properties, set only if not already assigned in the build.properties file -->
-	<property name="dirs.root" value="../" />
-	<property name="dirs.component" value="../component" />
-	<property name="dirs.modules" value="../modules" />
-	<property name="dirs.plugins" value="../plugins" />
-	<property name="dirs.release" value="../release" />
-	<property name="version" value="git" />
-
-	<property name="dirs.bin" value="bin" />
-	<property name="dirs.bin.libxml" value="${dirs.bin}/libxml" />
-	<property name="dirs.bin.fop" value="${dirs.bin}/fop" />
-	<property name="dirs.bin.dbxsl" value="${dirs.bin}/dbxsl" />
-	<property name="dirs.bin.release" value="../release" />
-	<property name="dirs.documentation" value="../documentation" />	
-
-	<taskdef name="zipme" classname="phingext.ZipmeTask" />
-	<taskdef name="gitversion" classname="phingext.GitVersionTask" />
+	<import file="${phing.dir}/../../buildfiles/phing/common.xml" />
 
 	<!--
 	====================================================================================================
@@ -25,7 +8,7 @@
 	====================================================================================================
 	-->
 	
-	<fileset dir="${dirs.component}" id="component">
+	<fileset dir="${dirs.component}" id="component-core" expandsymboliclinks="true">
 		<include name="backend**" />
 		<include name="cli**" />
 		<include name="frontend**" />
@@ -53,58 +36,9 @@
 	====================================================================================================
 	-->
 	
-	<target name="all" description="Makes everything"
-		depends="git,documentation">
-	</target>
-	
 	<target name="documentation" description="Creates the documentation packages"
 		depends="doc-j-pdf">
 	</target>		
-
-	<target name="git" description="Makes only packages, not the documentation"
-		depends="new-release,setup-properties,component-package">
-	</target>
-
-	<target name="new-release" description="Recreate the release directory">
-		<delete dir="${dirs.release}" quiet="yes" includeemptydirs="true" />
-		<mkdir dir="${dirs.release}" />
-	</target>
-	
-	<target name="setup-properties" description="Set up version and build properties">
-		<!-- Initialize the build.date timestamp -->
-		<tstamp>
-			<format property="build.date" pattern="%Y-%m-%d" />
-		</tstamp>
-
-		<!-- Initialize the version if it's not set -->
-		<if>
-			<equals arg1="${version}" arg2="git" />
-			<then>
-				<gitversion workingcopy="${dirs.root}" propertyname="git.lastrevision" />
-				<property name="version" value="rev${git.lastrevision}" override="true" />
-			</then>
-		</if>
-	</target>
-
-    <!--
-    ====================================================================================================
-    Tasks - Project management
-    ====================================================================================================
-    -->
-
-    <target name="lang" description="Generate and upload language files">
-        <exec command="php ./buildlang.php ${application.startdir}/build.properties ${application.startdir}/.. ${version}" dir="buildlang" passthru="true" />
-    </target>
-
-    <target name="link" description="Internal linker">
-        <exec command="php ../buildfiles/tools/link.php ${application.startdir}/.." dir="${application.startdir}/.." passthru="true" />
-        <exec command="php ../buildfiles/tools/langlink.php ${application.startdir}/.." dir="${application.startdir}/.." passthru="true" />
-    </target>
-
-    <target name="relink" description="Project relinker">
-        <exec command="php ../buildfiles/tools/relink.php ${site} ${application.startdir}/.." dir="${application.startdir}/.." passthru="true" />
-        <exec command="php ../buildfiles/tools/relinklang.php ${site} ${application.startdir}/.." dir="${application.startdir}/.." passthru="true" />
-    </target>
 
 	<!--
 	====================================================================================================
@@ -152,45 +86,6 @@
 			</fileset>
 		</zipme>
 	</target>
-	
-	<target name="ftpdeploy" depends="git">
-		<gitversion workingcopy="${dirs.root}" propertyname="git.lastrevision" />
-		<echo>Uploading release</echo>
-		<ftpdeploy
-			host="${ftp.host}"
-			port="${ftp.port}"
-			username="${ftp.username}"
-			password="${ftp.password}"
-			dir="${ftp.dir}/docimport/${git.lastrevision}"
-			mode="${ftp.mode}"
-			passive="true"
-			level="debug">
-			<fileset dir="${dirs.root}">
-				<include name="CHANGELOG"/>
-			</fileset>			
-			<fileset dir="${dirs.release}">
-				<include name="com_docimport-*.zip"/>
-			</fileset>			
-		</ftpdeploy>
-		<echo>All done. Have a cup of coffee and relax :)</echo>
-	</target>
-
-	<target name="release" depends="setup-properties" description="Upload the release to AkeebaBackup.com">
-		<copy file="./templates/release.json" tofile="${dirs.root}/release.json" overwrite="true">
-			<filterchain id="standard-tokens">
-				<replacetokens begintoken="##" endtoken="##">
-					<token key="DATE" value="${build.date}" />
-					<token key="VERSION" value="${version}" />
-					<token key="RELEASEDIR" value="${phing.dir}/${dirs.release}" />
-					<token key="REPODIR" value="${phing.dir}/${dirs.root}" />
-				</replacetokens>
-			</filterchain>
-		</copy>
-
-		<exec command="php ${project.basedir}/../../releasemaker/releasemaker/index.php ${project.basedir}/../release.json" dir="${project.basedir}" passthru="true" />
-
-		<delete file="${dirs.root}/release.json" quiet="yes" />
-	</target>
 
 	<!--
 	====================================================================================================
@@ -199,26 +94,25 @@
 	-->
 	
 	<target name="doc-j-pdf" description="Documentation for Joomla! in PDF format">
-		<exec command="xsltproc --nonet --xinclude --novalid --stringparam body.start.indent 0 --stringparam variablelist.term.break.after 1 --stringparam variablelist.term.separator &quot;&quot; --stringparam variablelist.max.termlength 12 --stringparam section.autolabel 1 --stringparam toc.section.depth 5 --stringparam fop1.extensions 1  --output ${dirs.bin.release}/docimport-guide.fo ${dirs.bin.dbxsl}/fo/docbook.xsl ${dirs.documentation}/docimport-guide.xml" dir="${project.basedir}" />
-		<exec command="${dirs.bin.fop}/fop -fo ${dirs.bin.release}/docimport-guide.fo -pdf ${dirs.bin.release}/docimport-guide.pdf" logoutput="true" />
-		<delete file="${dirs.release}docimpport-guide.fo" quiet="yes" />
+		<phingcall target="docbook-pdf">
+			<property name="docs.input" value="docimport-guide.xml" />
+		</phingcall>
 	</target>
-	
-	<target name="docsdeploy">
-		<!-- English manual -->
-		<echo>Uploading DocImport documentation</echo>
-		<ftpdeploy
-			host="${ftp.host}"
-			port="${ftp.port}"
-			username="${ftp.username}"
-			password="${ftp.password}"
-			dir="${ftp.dir.docs}/docimport"
-			mode="${ftp.mode}"
-			passive="true"
-			level="debug">
-			<fileset dir="${dirs.documentation}">
-				<include name="*.xml"/>
-			</fileset>			
-		</ftpdeploy>
+
+	<target name="doc-epub" description="Documentation for Joomla! in ePub format">
+		<phingcall target="docbook-epub">
+			<property name="docs.input" value="docimport-guide.xml" />
+		</phingcall>
+	</target>
+
+	<target name="docsdeploy" depends="docsdeploy-docimport">
+		<echo>All DocImport documentation has been uploaded</echo>
+	</target>
+
+	<target name="docsdeploy-docimport">
+		<phingcall target="docbook-deploy">
+			<property name="docsdeploy.path.source" value="" />
+			<property name="docsdeploy.path.target" value="docimport" />
+		</phingcall>
 	</target>	
 </project>
