@@ -1,7 +1,7 @@
 <?php
 /**
  *  @package	docimport
- *  @copyright	Copyright (c)2010-2014 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ *  @copyright	Copyright (c)2010-2016 Nicholas K. Dionysopoulos / AkeebaBackup.com
  *  @license	GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -133,6 +133,7 @@ class Com_DocimportInstallerScript extends F0FUtilsInstallscript
 			'cache/com_docimport.updates.php',
 			'cache/com_docimport.updates.ini',
 			'administrator/components/com_docimport/controllers/urls.php',
+			'administrator/components/com_docimport/helpers/jsonlib.php',
 			'administrator/components/com_docimport/models/urls.php',
 			'administrator/cache/com_docimport.updates.php',
 			'administrator/cache/com_docimport.updates.ini',

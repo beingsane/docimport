@@ -1,7 +1,7 @@
 <?php
 /**
  *  @package DocImport3
- *  @copyright Copyright (c)2010-2014 Nicholas K. Dionysopoulos
+ *  @copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
  *  @license GNU General Public License version 3, or later
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -122,12 +122,6 @@ else
 	require_once JPATH_LIBRARIES . '/import.php';
 }
 require_once JPATH_LIBRARIES . '/cms.php';
-
-// You can't fix stupid… but you can try working around it
-if( (!function_exists('json_encode')) || (!function_exists('json_decode')) )
-{
-	require_once JPATH_ADMINISTRATOR . '/components/com_admintools/helpers/jsonlib.php';
-}
 
 // Load the JApplicationCli class
 JLoader::import('joomla.application.cli');

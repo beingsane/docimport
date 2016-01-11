@@ -2,7 +2,7 @@
 
 /**
  * @package   DocImport
- * @copyright Copyright (c)2010-2014 Nicholas K. Dionysopoulos
+ * @copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
  * @license   GNU General Public License version 3, or later
  */
 // Protect from unauthorized access
@@ -13,12 +13,6 @@ class DocimportDispatcher extends F0FDispatcher
 
 	public function onBeforeDispatch()
 	{
-		// You can't fix stupid… but you can try working around it
-		if ((!function_exists('json_encode')) || (!function_exists('json_decode')))
-		{
-			require_once JPATH_ADMINISTRATOR . '/components/' . $this->component . '/helpers/jsonlib.php';
-		}
-
 		if ($result = parent::onBeforeDispatch())
 		{
 			if (!JFactory::getUser()->authorise('core.manage', 'com_docimport'))

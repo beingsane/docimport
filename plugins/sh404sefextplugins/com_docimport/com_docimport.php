@@ -2,11 +2,8 @@
 /**
  * SEF module for Joomla!
  *
- * @author      $Author: shumisha $
- * @copyright   Yannick Gaultier - 2007-2010
- * @package     sh404SEF-15
+ * @copyright   (c) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd
  * @license     http://www.gnu.org/copyleft/gpl.html GNU/GPL
- * @version     $Id: default.php 1762 2011-02-01 12:59:44Z silianacom-svn $
  */
 
 defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
