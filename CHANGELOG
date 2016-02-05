@@ -1,5 +1,6 @@
 DocImport 1.1.1
 ================================================================================
+! Joomla! 3.5 breaks CLI scripts, workaround applied
 ~ Disable CLI script workaround necessary only under Joomla! 3.4.7 on all other versions of Joomla!
 # [HIGH] Wrong routing with very high query usage
 

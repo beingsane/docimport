@@ -126,6 +126,12 @@ require_once JPATH_LIBRARIES . '/cms.php';
 // Load the JApplicationCli class
 JLoader::import('joomla.application.cli');
 
+if (version_compare(JVERSION, '3.4.9999', 'ge'))
+{
+	// Joomla! 3.5 and later does not load the configuration.php unless you explicitly tell it to.
+	JFactory::getConfig(JPATH_CONFIGURATION . '/configuration.php');
+}
+
 class AppDocupdate extends JApplicationCli
 {
 	/**
