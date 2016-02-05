@@ -35,7 +35,11 @@
 	Tasks - General
 	====================================================================================================
 	-->
-	
+
+	<target name="git" description="Makes only packages, not the documentation"
+			depends="new-release,setup-properties,component-package">
+	</target>
+
 	<target name="documentation" description="Creates the documentation packages"
 		depends="doc-j-pdf">
 	</target>		
@@ -67,18 +71,16 @@
 				</replacetokens>
 			</filterchain>
 		</copy>
-		
+
 		<zipme basedir="${dirs.component}" destfile="${dirs.release}/com_docimport-${version}.zip" includeemptydirs="true">
-			<fileset refid="component" />
+			<fileset refid="component-core" />
 		</zipme>
 
-		<!--
 		<zipme basedir="${dirs.modules}" destfile="${dirs.release}/com_docimport-${version}.zip" includeemptydirs="true">
 			<fileset dir="${dirs.modules}">
 				<include name="**" />
 			</fileset>
 		</zipme>
-		-->
 
 		<zipme basedir="${dirs.plugins}" prefix="plugins/" destfile="${dirs.release}/com_docimport-${version}.zip" includeemptydirs="true">
 			<fileset dir="${dirs.plugins}">
