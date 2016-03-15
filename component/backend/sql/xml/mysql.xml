@@ -34,7 +34,7 @@ CREATE TABLE `#__docimport_articles` (
    `ordering` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`docimport_article_id`),
   FULLTEXT INDEX `fulltextindex` (`fulltext`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT COLLATE utf8mb4_unicode_ci;
             ]]></query>
         </action>
 
@@ -61,7 +61,7 @@ CREATE TABLE `#__docimport_categories` (
   `language` varchar(255) NOT NULL DEFAULT '*',
   `access` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`docimport_category_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT COLLATE utf8mb4_unicode_ci;
             ]]></query>
         </action>
     </sql>
