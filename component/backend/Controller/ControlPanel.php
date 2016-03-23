@@ -8,10 +8,10 @@
 namespace Akeeba\DocImport\Admin\Controller;
 
 // Protect from unauthorized access
+defined('_JEXEC') or die();
+
 use FOF30\Container\Container;
 use FOF30\Controller\Controller;
-
-defined('_JEXEC') or die();
 
 class ControlPanel extends Controller
 {

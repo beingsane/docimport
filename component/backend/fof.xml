@@ -8,7 +8,7 @@
     <common>
         <container>
             <option name="componentNamespace">Akeeba\DocImport</option>
-            <option name="factoryClass">FOF30\Factory\MagicFactory</option>
+            <option name="factoryClass">FOF30\Factory\BasicFactory</option>
             <option name="scaffolding">0</option>
         </container>
     </common>
@@ -24,7 +24,6 @@
 
     <frontend>
         <container>
-            <option name="factoryClass">FOF30\Factory\BasicFactory</option>
             <option name="scaffolding">0</option>
         </container>
     </frontend>
