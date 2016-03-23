@@ -26,8 +26,6 @@ In order to build the installation packages of this component you will need to h
 
 You will also need the following path structure inside a folder on your system
 
-You will also need the following path structure on your system
-
 * **docimport**		This repository
 * **buildfiles**	[Akeeba Build Tools](https://github.com/akeeba/buildfiles)
 * **fof**			[Framework on Framework 2.x](https://github.com/akeeba/fof/tree/fof-2.x)
