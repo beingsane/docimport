@@ -9,6 +9,7 @@ namespace Akeeba\DocImport\Admin\Model;
 
 use FOF30\Container\Container;
 use FOF30\Model\DataModel;
+use JComponentHelper, JLoader, JFolder;
 
 defined('_JEXEC') or die();
 
@@ -72,9 +73,14 @@ class Categories extends DataModel
 
 		// Set up relations
 		$this->hasMany('articles', 'Articles', 'docimport_category_id', 'docimport_category_id');
+
+		// Calculated fields
+		$this->addKnownField('status', 0, 'int');
 	}
 
 	/**
+	 * Apply custom filters
+	 *
 	 * @param   \JDatabaseQuery  $query
 	 */
 	protected function onBeforeBuildQuery(\JDatabaseQuery &$query)
@@ -100,6 +106,122 @@ class Categories extends DataModel
 		}
 	}
 
+	/**
+	 * Runs after loading a new record. Populates calculated fields
+	 *
+	 * @param   bool   $result  Did the load succeed?
+	 * @param   mixed  $keys    The PK we were asked to load or an associative array of (filter) keys
+	 *
+	 * @return  void
+	 */
+	protected function onAfterLoad($result, &$keys)
+	{
+		if (!$result)
+		{
+			return;
+		}
+
+		$this->setFieldValue('status', $this->getStatusFor($this));
+	}
+
+	/**
+	 * Post process the items to get the values of the calculated fields
+	 *
+	 * @param   Categories[]  $items
+	 */
+	protected function onAfterGetItemsArray(array &$items)
+	{
+		foreach ($items as $item)
+		{
+			$item->status = $this->getStatusFor($item);
+		}
+	}
+
+	/**
+	 * Determine the status for a given item
+	 *
+	 * @param   Categories  $item
+	 *
+	 * @return  string
+	 */
+	protected function getStatusFor(Categories $item)
+	{
+		$status = 'missing';
+
+		// First get the configured root directory
+		JLoader::import('joomla.filesystem.folder');
+		JLoader::import('cms.component.helper');
+		$cparams        = JComponentHelper::getParams('com_docimport');
+		$configuredRoot = $cparams->get('mediaroot', 'com_docimport/books');
+		$configuredRoot = trim($configuredRoot, " \t\n\r/\\");
+		$configuredRoot = empty($configuredRoot) ? 'com_docimport/books' : $configuredRoot;
+
+		$folder = JPATH_ROOT . '/media/' . $configuredRoot . '/' . $item->slug;
+
+		if (!JFolder::exists($folder))
+		{
+			$folder = JPATH_ROOT . '/media/com_docimport/' . $item->slug;
+		}
+
+		if (!JFolder::exists($folder))
+		{
+			$folder = JPATH_ROOT . '/media/com_docimport/books/' . $item->slug;
+		}
+
+		if (!JFolder::exists($folder))
+		{
+			return $status;
+		}
+
+		$xmlfiles = JFolder::files($folder, '\.xml$', false, true);
+
+		if (empty($xmlfiles))
+		{
+			return $status;
+		}
+
+		$timestamp = 0;
+
+		foreach ($xmlfiles as $filename)
+		{
+			clearstatcache($filename);
+			$my_timestamp = @filemtime($filename);
+
+			if ($my_timestamp > $timestamp)
+			{
+				$timestamp = $my_timestamp;
+			}
+		}
+
+		if ($timestamp != $item->last_timestamp)
+		{
+			return 'modified';
+		}
+
+		return 'unmodified';
+	}
+
+	/**
+	 * Runs before saving data. We use it to remove the computed fields.
+	 *
+	 * @param  $data
+	 *
+	 * @return  void
+	 */
+	protected function onBeforeSave(&$data)
+	{
+		// This is just a fake record field, it must not be present when saving the record
+		if (isset($this->recordData['status']))
+		{
+			unset($this->recordData['status']);
+		}
+	}
+
+	/**
+	 * Sanitize data before save
+	 *
+	 * @return  void
+	 */
 	public function check()
 	{
 		// Create a new or sanitise an existing slug

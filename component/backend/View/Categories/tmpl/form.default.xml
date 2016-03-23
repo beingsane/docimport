@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form type="browse" show_header="1" show_filters="1" show_pagination="1"
+      norows_placeholder="COM_DOCIMPORT_COMMON_NORECORDS">
+
+    <headerset>
+        <header name="ordering"
+                type="Ordering"
+                label="COM_DOCIMPORT_COMMON_FIELD_ORDERING"
+                sortable="true"
+                tdwidth="1%"
+        />
+
+        <header name="docimport_category_id"
+                type="RowSelect"
+                label="#"
+                sortable="true"
+                tdwidth="20"
+        />
+
+        <header name="title"
+                type="Searchable"
+                label="COM_DOCIMPORT_CATEGORIES_FIELD_TITLE"
+        />
+
+        <header name="status"
+                type="Field"
+                label="COM_DOCIMPORT_CATEGORIES_FIELD_STATUS"
+        />
+
+        <header name="description"
+                type="Searchable"
+                label="COM_DOCIMPORT_CATEGORIES_FIELD_DESCRIPTION"
+                sortable="true"
+        />
+
+        <header name="enabled"
+                type="Published"
+                label="COM_DOCIMPORT_COMMON_FIELD_ENABLED"
+                sortable="true"/>
+
+        <header name="language"
+                type="Language"
+                label="COM_DOCIMPORT_COMMON_FIELD_LANGUAGE"
+                sortable="true"/>
+
+        <header name="access"
+                type="AccessLevel"
+                label="COM_DOCIMPORT_COMMON_FIELD_ACCESS"
+                sortable="true"/>
+    </headerset>
+
+    <fieldset name="items">
+        <field name="ordering"
+               type="Ordering"
+               class="input-mini input-sm"
+        />
+
+        <field name="docimport_category_id"
+               type="SelectRow"
+        />
+
+        <field name="title"
+               type="Sortable"
+               url="index.php?option=com_docimport&amp;view=Category&amp;id=[ITEM:ID]&amp;[TOKEN]=1"
+        />
+
+        <field name="status"
+               type="ViewTemplate"
+               source="admin:com_docimport/Categories/rebuild"
+        />
+
+        <field name="description"
+               type="Editor"
+        />
+
+        <field name="enabled"
+               type="Actions" label="COM_DOCIMPORT_CATEGORIES_ENABLED_LBL"
+        />
+
+        <field name="language"
+               type="Language"
+               none="*"
+        />
+
+        <field name="access"
+               type="AccessLevel"
+        />
+    </fieldset>
+</form>
