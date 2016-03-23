@@ -41,7 +41,6 @@
 		<files folder="backend">
 			<folder>assets</folder>
 			<folder>Controller</folder>
-			<folder>Helper</folder>
 			<folder>Model</folder>
 			<folder>sql</folder>
 			<folder>View</folder>
