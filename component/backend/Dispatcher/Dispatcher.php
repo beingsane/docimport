@@ -28,7 +28,7 @@ class Dispatcher extends \FOF30\Dispatcher\Dispatcher
 		}
 
 		// Render submenus as drop-down navigation bars powered by Bootstrap
-		$this->container->renderer->setOption('linkbar_style', 'classic');
+		//$this->container->renderer->setOption('linkbar_style', 'classic');
 
 		// Load common CSS and JavaScript
 		\JHtml::_('jquery.framework');

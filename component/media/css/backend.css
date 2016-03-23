@@ -4,13 +4,8 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
  */
 
-.icon-48-docimport {
-	background: transparent url(../images/docimport-48.png) no-repeat !important;
-}
-
-.container_16 .icon-48-docimport {
-	padding-right: 20px;
-	background: transparent url(../images/docimport-16.png) 5px right no-repeat !important;
+.icon-docimport {
+	background: transparent url(../images/docimport-16.png) no-repeat !important;
 }
 
 fieldset label { float: left; margin-right: 0.2em !important; }

@@ -15,6 +15,16 @@ defined('_JEXEC') or die;
 
 class Toolbar extends \FOF30\Toolbar\Toolbar
 {
+	/**
+	 * Renders the toolbar for the component's Control Panel page
+	 *
+	 * @return  void
+	 */
+	public function onControlPanelsMain()
+	{
+		parent::onCpanelsBrowse();
+	}
+
 	public function onArticlesBrowse()
 	{
 		// Set toolbar title
