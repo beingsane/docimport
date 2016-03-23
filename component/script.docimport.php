@@ -138,6 +138,9 @@ class Com_DocimportInstallerScript extends F0FUtilsInstallscript
 			'administrator/cache/com_docimport.updates.php',
 			'administrator/cache/com_docimport.updates.ini',
 			'components/com_docimport/controllers/article.php',
+
+			// Upgrade to FOF 3
+			'administrator/components/com_docimport/dispatcher.php',
 		),
 		'folders' => array(
 		)
