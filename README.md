@@ -2,90 +2,97 @@
 
 The simplest way to integrate DocBook XML documentation in your Joomla! site.
 
+## NO SUPPORT
+
+This software is provided **WITHOUT ANY KIND OF SUPPORT WHATSOEVER**. We have disabled Issues on this repository to stress this. Kindly note that any requests sent to us about this software will not be replied.
+ 
+## THIS REPOSITORY IS FOR DEVELOPERS ONLY
+
+No installable ZIP packages will be provided for this software since March 2016. You can build one from the source following the developer instructions in this README.
+
+## INTERNAL PROJECT
+
+This is meant to be an internal software development project for use with our site, akeebabackup.com. As such, future versions of this software will drop any features we do not wish to maintain because we do not intend or anticipate to use on our site.
+
 ## Prerequisites
 
-In order to build the installation packages of this components you need to have
-the following tools:
+In order to build the installation packages of this component you will need to have the following tools:
 
-* A command line environment. bash under Linux / Mac OS X works best. On Windows
-  you will need to run most tools using an elevated privileges (administrator)
-  command prompt.
+* A command line environment. Using Bash under Linux / Mac OS X works best. On Windows you will need to run most tools through an elevated privileges (administrator) command prompt on an NTFS filesystem due to the use of symlinks. Press WIN-X and click on "Command Prompt (Admin)" to launch an elevated command prompt.
+* A PHP CLI binary in your path
+* Command line Git executables
+* PEAR and Phing installed, with the Net_FTP and VersionControl_SVN PEAR packages installed
+* (Optional) libxml and libsxlt command-line tools, only if you intend on building the documentation PDF files
 
-* The PHP CLI binary in your path
-
-* Command line Git binaries
-
-* Phing, with the Net_FTP and VersionControl_SVN PEAR packages installed
-
-* libxml and libxslt tools if you intend to build the documentation PDF files
+You will also need the following path structure inside a folder on your system
 
 You will also need the following path structure on your system
 
 * **docimport**		This repository
-* **buildfiles**	Akeeba Build Tools (https://github.com/akeeba/buildfiles)
-* **fof**			Framework on Framework (https://github.com/akeeba/fof)
-* **usagestats**	Usage statistics (https://github.com/akeeba/usagestats)
+* **buildfiles**	[Akeeba Build Tools](https://github.com/akeeba/buildfiles)
+* **fof**			[Framework on Framework 2.x](https://github.com/akeeba/fof/tree/fof-2.x)
 
 You will need to use the exact folder names specified here.
 
-## Initialising the working copy
+### Initialising the repository
 
-All of the following commands are to be run from the MAIN directory. Lines
-starting with `$` indicate a Mac OS X / Linux / other UNIX system commands. Lines
-starting with `>` indicate Windows commands. The starting character (`$` or `>`) MUST
-NOT be typed.
+All of the following commands are to be run from the MAIN directory.
 
-1. You will first need to do the initial link with Akeeba Build Tools, running
-   the following command (Mac OS X, Linux, other UNIX systems):
+1. You will first need to do the initial link with Akeeba Build Tools, running the following command
 
-        $ php ../buildfiles/tools/link.php `pwd`
-
-   or, on Windows:
-
-        > php ../buildfiles/tools/link.php %CD%
-
+		php ../buildfiles/tools/link.php `pwd`
+		
+	or, on Windows:
+	
+		php ../buildfiles/tools/link.php %CD%
+		
 2. After the initial linking takes place, go inside the build directory:
 
-        $ cd build
+		cd build
+		
+	and run the Phing task called link:
+	
+		phing link
+		
+	If you are on Windows make sure that you are running an elevated command prompt (run cmd.exe as Administrator)
+	
+### Useful Phing tasks
 
-   and run the link phing task:
+All of the following commands are to be run build directory inside the MAIN directory.
 
-        $ phing link
+#### Symlinking to a Joomla! installation
+This will create symlinks and hardlinks from your working directory to a locally installed Joomla! site. Any changes you perform to the repository files will be instantly reflected to the site, without the need to deploy your changes.
 
-## Useful Phing tasks
+	phing relink -Dsite=/path/to/site/root
+	
+or, on Windows:
 
-All of the following commands are to be run from the MAIN/build directory.
-Lines starting with `$` indicate a Mac OS X / Linux / other UNIX system commands.
-Lines starting with `>` indicate Windows commands. The starting character (`$` or `>`)
-MUST NOT be typed!
+	phing relink -Dsite=c:\path\to\site\root
+	
+**Examples**
 
-1. Symlinking to a Joomla! installation
+	phing relink -Dsite=/var/www/html/joomla
+	
+or, on Windows:
+	
+	phing relink -Dsite=c:\path\to\site\root\joomla
 
-   This will create symlinks and hardlinks from your working directory to a locally installed Joomla! site. Any changes you perform to the repository files will be instantly reflected to the site, without the need to deploy your changes.
+#### Relinking internal files
 
-		$ phing relink -Dsite=/path/to/site/root
-		> phing relink -Dsite=c:\path\to\site\root
+This is required after every major upgrade in the component and/or when new plugins and modules are installed. It will create symlinks from the various external repositories to the MAIN directory.
 
-	Examples
+	phing link
+	
+#### Creating a dev release installation package
 
-		$ phing relink -Dsite=/var/www/html/joomla
-		> phing relink -Dsite=c:\xampp\htdocs\joomla
+This creates the installable ZIP packages of the component inside the MAIN/release directory.
 
-2. Relinking internal files
+	phing git
 
-   This is required after every major upgrade in the component and/or when new plugins and modules are installed. It will create symlinks from the various external repositories to the MAIN directory.
+Please note that it's necessary to do a package build for FOF and Strapper with `git pull` and `phing git` commands in your copy of the FOF and Strapper repositories before building an Akeeba Subscriptions package. For more details see the package build instructions on the [FOF page](https://github.com/akeeba/fof) and [Strapper page](https://github.com/akeeba/strapper). Failure to do so will either result in a failure to create a package, an uninstallable package or will end up overwriting the already installed FOF and/or Strapper on your site with an older version, resulting in potentially severe issues in other FOF-based and Strapper-based components.
+	
+#### Build the documentation in PDF format
 
-		$ phing link
-		> phing link
+This builds the documentation in PDF format using the DocBook XML sources found in the documentation directory.
 
-3. Creating a dev release installation package
-
-   This creates the installable ZIP packages of the component inside the MAIN/release directory.
-
-		$ phing git
-		> phing git
-
-4. Build the documentation in PDF format
-
-		$ phing documentation
-		> phing documentation
+	phing documentation
