@@ -144,6 +144,11 @@ class Com_DocimportInstallerScript extends F0FUtilsInstallscript
 			'administrator/components/com_docimport/toolbar.php',
 		),
 		'folders' => array(
+			'administrator/components/com_docimport/controllers',
+			'administrator/components/com_docimport/models',
+			'administrator/components/com_docimport/helpers',
+			'administrator/components/com_docimport/tables',
+			'administrator/components/com_docimport/views',
 		)
 	);
 

@@ -40,20 +40,17 @@
 			img="../media/com_docimport/images/docimport-16.png">COM_DOCIMPORT</menu>
 		<files folder="backend">
 			<folder>assets</folder>
-			<folder>controllers</folder>
-			<folder>helpers</folder>
-			<folder>models</folder>
+			<folder>Controller</folder>
+			<folder>Helper</folder>
+			<folder>Model</folder>
 			<folder>sql</folder>
-			<folder>tables</folder>
-			<folder>views</folder>
+			<folder>View</folder>
 
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
-			<filename>dispatcher.php</filename>
 			<filename>docimport.php</filename>
 			<filename>fof.xml</filename>
 			<filename>index.html</filename>
-			<filename>toolbar.php</filename>
 			<filename>version.php</filename>
 		</files>
 
