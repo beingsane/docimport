@@ -141,6 +141,7 @@ class Com_DocimportInstallerScript extends F0FUtilsInstallscript
 
 			// Upgrade to FOF 3
 			'administrator/components/com_docimport/dispatcher.php',
+			'administrator/components/com_docimport/toolbar.php',
 		),
 		'folders' => array(
 		)
