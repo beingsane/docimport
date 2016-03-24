@@ -20,17 +20,12 @@
         <header name="title"
                 type="Searchable"
                 label="COM_DOCIMPORT_CATEGORIES_FIELD_TITLE"
+                tdwidth="40%"
         />
 
         <header name="status"
                 type="Field"
                 label="COM_DOCIMPORT_CATEGORIES_FIELD_STATUS"
-        />
-
-        <header name="description"
-                type="Searchable"
-                label="COM_DOCIMPORT_CATEGORIES_FIELD_DESCRIPTION"
-                sortable="true"
         />
 
         <header name="enabled"
@@ -60,17 +55,14 @@
         />
 
         <field name="title"
-               type="Sortable"
+               type="Title"
                url="index.php?option=com_docimport&amp;view=Category&amp;id=[ITEM:ID]&amp;[TOKEN]=1"
+               slug_format="&lt;code&gt;%s&lt;/code&gt;"
         />
 
         <field name="status"
                type="ViewTemplate"
                source="admin:com_docimport/Categories/rebuild"
-        />
-
-        <field name="description"
-               type="Editor"
         />
 
         <field name="enabled"
