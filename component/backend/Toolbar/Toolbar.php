@@ -28,8 +28,8 @@ class Toolbar extends \FOF30\Toolbar\Toolbar
 	public function onArticlesBrowse()
 	{
 		// Set toolbar title
-		$subtitle_key = $this->input->getCmd('option', 'com_foobar') . '_TITLE_' . strtoupper($this->input->getCmd('view', 'cpanel'));
-		JToolBarHelper::title(JText::_($this->input->getCmd('option', 'com_foobar')) . ' &ndash; <small>' . JText::_($subtitle_key) . '</small>', str_replace('com_', '', $this->input->getCmd('option', 'com_foobar')));
+		$subtitle_key = $this->container->componentName . '_TITLE_ARTICLES';
+		JToolBarHelper::title(JText::_($this->container->componentName) . ' &ndash; <small>' . JText::_($subtitle_key) . '</small>', $this->container->bareComponentName);
 
 		// Add toolbar buttons
 		if ($this->perms->edit)

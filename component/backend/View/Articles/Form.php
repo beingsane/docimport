@@ -5,6 +5,12 @@
  *  @license GNU General Public License version 3, or later
  */
 
+namespace Akeeba\DocImport\Admin\View\Articles;
+
 defined('_JEXEC') or die();
 
-echo $this->loadAnyTemplate('admin:com_docimport/article/form');
+use FOF30\View\DataView\Form as BaseView;
+
+class Form extends BaseView
+{
+}
