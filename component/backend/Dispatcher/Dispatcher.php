@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 class Dispatcher extends \FOF30\Dispatcher\Dispatcher
 {
 	/** @var   string  The name of the default view, in case none is specified */
-	public $defaultView = 'ControlPanel';
+	public $defaultView = 'Categories';
 
 	public function onBeforeDispatch()
 	{
@@ -26,6 +26,23 @@ class Dispatcher extends \FOF30\Dispatcher\Dispatcher
 			define('DOCIMPORT_VERSION', 'dev');
 			define('DOCIMPORT_DATE', date('Y-m-d'));
 		}
+
+		/** @var \Akeeba\DocImport\Admin\Model\ControlPanel $model */
+		$model = $this->container->factory->model('ControlPanel');
+
+		// Update the db structure if necessary (once per session at most)
+		$lastVersion = $this->container->session->get('magicParamsUpdateVersion', null, 'com_docimport');
+
+		if ($lastVersion != DOCIMPORT_VERSION)
+		{
+			$model->checkAndFixDatabase();
+			$this->container->session->set('magicParamsUpdateVersion', DOCIMPORT_VERSION, 'com_docimport');
+		}
+
+		// Update magic parameters if necessary
+		$model
+			->updateMagicParameters();
+
 
 		// Render submenus as drop-down navigation bars powered by Bootstrap
 		//$this->container->renderer->setOption('linkbar_style', 'classic');
