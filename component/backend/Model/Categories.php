@@ -39,7 +39,7 @@ defined('_JEXEC') or die();
  *
  * Relations:
  *
- * @property-read  Articles[]	 $articles  The Articles of this DocImport Category
+ * @property-read  DataModel\Collection	 $articles  The Articles of this DocImport Category
  */
 class Categories extends DataModel
 {
@@ -215,6 +215,19 @@ class Categories extends DataModel
 		{
 			unset($this->recordData['status']);
 		}
+	}
+
+	/**
+	 * Cascade deletion of category to its included articles
+	 *
+	 * @param   int  $id  The ID of the category being deleted
+	 */
+	protected function onAfterDelete(&$id)
+	{
+		$this->articles->each(function($item){
+			/** @var Articles $item */
+			$item->delete();
+		});
 	}
 
 	/**
