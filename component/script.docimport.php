@@ -143,6 +143,7 @@ class Com_DocimportInstallerScript extends F0FUtilsInstallscript
 			'cli/docimport-upgrade.php',
 			'administrator/components/com_docimport/dispatcher.php',
 			'administrator/components/com_docimport/toolbar.php',
+			'components/com_docimport/dispatcher.php',
 		),
 		'folders' => array(
 			'administrator/components/com_docimport/controllers',

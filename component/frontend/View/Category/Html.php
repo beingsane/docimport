@@ -1,0 +1,17 @@
+<?php
+/**
+ *  @package DocImport
+ *  @copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+ *  @license GNU General Public License version 3, or later
+ */
+
+namespace Akeeba\DocImport\Site\View\Category;
+
+// Protect from unauthorized access
+defined('_JEXEC') or die();
+
+use FOF30\View\DataView\Html as BaseView;
+
+class Html extends BaseView
+{
+}
