@@ -149,7 +149,9 @@ class Com_DocimportInstallerScript extends F0FUtilsInstallscript
 			'administrator/components/com_docimport/models',
 			'administrator/components/com_docimport/helpers',
 			'administrator/components/com_docimport/tables',
-			'administrator/components/com_docimport/views',
+			'administrator/components/com_docimport/views/article',
+			'administrator/components/com_docimport/views/categories',
+			'administrator/components/com_docimport/views/category',
 		)
 	);
 

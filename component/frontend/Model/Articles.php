@@ -11,8 +11,17 @@ namespace Akeeba\DocImport\Site\Model;
 defined('_JEXEC') or die();
 
 use Akeeba\DocImport\Admin\Model\Articles as AdminArticles;
+use FOF30\Container\Container;
 
 class Articles extends AdminArticles
 {
-	
+	public function __construct(Container $container, array $config)
+	{
+		parent::__construct($container, $config);
+
+		$this->addBehaviour('Enabled');
+
+		$this->with(['category']);
+	}
+
 }
