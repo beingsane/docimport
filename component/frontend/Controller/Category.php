@@ -41,4 +41,16 @@ class Category extends DataController
 			$this->input->set('id', $id);
 		}
 	}
+
+	protected function getCrudTask()
+	{
+		$task = parent::getCrudTask();
+
+		if ($task == 'edit')
+		{
+			$task = 'read';
+		}
+
+		return $task;
+	}
 }

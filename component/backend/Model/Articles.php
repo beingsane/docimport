@@ -39,6 +39,7 @@ defined('_JEXEC') or die();
  * @method  $this  docimport_article_id()   docimport_article_id(int $v)
  * @method  $this  docimport_category_id()  docimport_category_id(int $v)
  * @method  $this  category()               category(int $v)
+ * @method  $this  slug()            		slug(int $v)
  * @method  $this  title()                  title(string $v)
  * @method  $this  search()                 search(string $v)
  * @method  $this  language()               language(array $v)

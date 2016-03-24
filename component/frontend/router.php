@@ -8,9 +8,9 @@
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
-if (!defined('F0F_INCLUDED'))
+if (!defined('FOF30_INCLUDED') && !@include_once(JPATH_LIBRARIES . '/fof30/include.php'))
 {
-	include_once JPATH_LIBRARIES . '/f0f/include.php';
+	throw new RuntimeException('FOF 3.0 is not installed', 500);
 }
 
 function docimportBuildRoute(&$query)
@@ -30,7 +30,7 @@ function docimportBuildRoute(&$query)
 	$menus = JMenu::getInstance('site');
 
 	// Get some interesting variables
-	$view        = DocimportRouterHelper::getAndPop($query, 'view', 'categories');
+	$view        = DocimportRouterHelper::getAndPop($query, 'view', 'Categories');
 	$task        = DocimportRouterHelper::getAndPop($query, 'task', 'browse');
 	$id          = DocimportRouterHelper::getAndPop($query, 'id');
 	$queryItemid = DocimportRouterHelper::getAndPop($query, 'Itemid');
@@ -41,25 +41,28 @@ function docimportBuildRoute(&$query)
 	switch ($view)
 	{
 		case 'category':
+		case 'Category':
 			if (($task == 'browse') && !empty($id))
 			{
 				$task = 'read';
 			}
 			elseif (empty($id))
 			{
-				$view = 'categories';
+				$view = 'Categories';
 				$task = 'browse';
 			}
 			break;
 
+		case 'Categories':
 		case 'categories':
 			$task = 'browse';
 			break;
 
 		case 'article':
+		case 'Article':
 			if (empty($id))
 			{
-				$view = 'categories';
+				$view = 'Categories';
 				$task = 'browse';
 			}
 			else
@@ -69,7 +72,7 @@ function docimportBuildRoute(&$query)
 			break;
 
 		default:
-			$view = 'categories';
+			$view = 'Categories';
 			$task = 'browse';
 			break;
 	}
@@ -78,10 +81,18 @@ function docimportBuildRoute(&$query)
 
 	switch ($view)
 	{
+		case 'Categories':
 		case 'categories':
 			// Find a suitable Itemid
 			$menu   = DocimportRouterHelper::findMenu($qoptions);
 			$Itemid = empty($menu) ? null : $menu->id;
+
+			if (empty($Itemid))
+			{
+				$qoptions['view'] = strtolower($qoptions['view']);
+				$menu   = DocimportRouterHelper::findMenu($qoptions);
+				$Itemid = empty($menu) ? null : $menu->id;
+			}
 
 			if (!empty($Itemid))
 			{
@@ -93,9 +104,9 @@ function docimportBuildRoute(&$query)
 				if ($queryItemid)
 				{
 					$menu  = $menus->getItem($queryItemid);
-					$mView = isset($menu->query['view']) ? $menu->query['view'] : 'categories';
+					$mView = isset($menu->query['view']) ? $menu->query['view'] : 'Categories';
 					// No, we have to find another root
-					if (($mView != 'categories'))
+					if (!in_array($menu, ['categories', 'Categories']))
 					{
 						$Itemid = null;
 					}
@@ -105,6 +116,7 @@ function docimportBuildRoute(&$query)
 			break;
 
 		case 'category':
+		case 'Category':
 			// Get category slug
 			$slug = array_key_exists($id, $catSlugs) ? $catSlugs[$id] : '';
 
@@ -115,6 +127,13 @@ function docimportBuildRoute(&$query)
 			$menu   = DocimportRouterHelper::findMenu($options, $params);
 			$Itemid = empty($menu) ? null : $menu->id;
 
+			if (empty($itemId))
+			{
+				$options['view'] = strtolower($options['view']);
+				$menu   = DocimportRouterHelper::findMenu($options, $params);
+				$Itemid = empty($menu) ? null : $menu->id;
+			}
+
 			if (!empty($Itemid))
 			{
 				// A category menu item found, use it
@@ -123,9 +142,18 @@ function docimportBuildRoute(&$query)
 			else
 			{
 				// Not found. Try fetching a browser menu item
-				$options = array('view' => 'categories', 'option' => 'com_docimport');
+				$options = array('view' => 'Categories', 'option' => 'com_docimport');
 				$menu    = DocimportRouterHelper::findMenu($options);
 				$Itemid  = empty($menu) ? null : $menu->id;
+
+				// Legacy menu item search
+				if (empty($Itemid))
+				{
+					$options = array('view' => 'categories', 'option' => 'com_docimport');
+					$menu    = DocimportRouterHelper::findMenu($options);
+					$Itemid  = empty($menu) ? null : $menu->id;
+				}
+
 				if (!empty($Itemid))
 				{
 					// Push the Itemid and category alias
@@ -135,7 +163,7 @@ function docimportBuildRoute(&$query)
 				else
 				{
 					// Push the browser layout and category alias
-					$segments[] = 'categories';
+					$segments[] = 'Categories';
 					$segments[] = $slug;
 				}
 			}
@@ -146,9 +174,9 @@ function docimportBuildRoute(&$query)
 			{
 				$itemId = $queryItemid;
 				$menu   = $menus->getItem($Itemid);
-				$mView  = isset($menu->query['view']) ? $menu->query['view'] : 'categories';
+				$mView  = isset($menu->query['view']) ? $menu->query['view'] : 'Categories';
 				// No, we have to find another root
-				if (($mView == 'category'))
+				if (($mView == 'category') || ($mView == 'Category'))
 				{
 					$params = ($menu->params instanceof JRegistry) ? $menu->params : $menus->getParams($Itemid);
 					if ($params->get('catid', 0) == $id)
@@ -160,6 +188,7 @@ function docimportBuildRoute(&$query)
 			break;
 
 		case 'article':
+		case 'Article':
 			// Get article info
 			$articleSlugs = DocimportRouterHelper::getArticleSlugs();
 
@@ -177,10 +206,18 @@ function docimportBuildRoute(&$query)
 			$slug = array_key_exists($catId, $catSlugs) ? $catSlugs[$catId] : '';
 
 			// Try to find a category menu item
-			$options = array('view' => 'category', 'option' => 'com_docimport');
+			$options = array('view' => 'Category', 'option' => 'com_docimport');
 			$params  = array('catid' => $catId);
 			$menu    = DocimportRouterHelper::findMenu($options, $params);
 			$Itemid  = null;
+
+			if (empty($menu))
+			{
+				$options['view'] = strtolower($options['view']);
+				$menu    = DocimportRouterHelper::findMenu($options, $params);
+				$Itemid  = null;
+			}
+
 			if (!empty($menu))
 			{
 				// Found it! Just append the article slug
@@ -191,8 +228,15 @@ function docimportBuildRoute(&$query)
 			else
 			{
 				// Nah. Let's find a categories menu item.
-				$options = array('view' => 'categories', 'option' => 'com_docimport');
+				$options = array('view' => 'Categories', 'option' => 'com_docimport');
 				$menu    = DocimportRouterHelper::findMenu($options);
+
+				if (empty($menu))
+				{
+					$options = array('view' => 'categories', 'option' => 'com_docimport');
+					$menu    = DocimportRouterHelper::findMenu($options);
+				}
+
 				if (!empty($menu))
 				{
 					// We must add the category and article slug.
@@ -204,7 +248,7 @@ function docimportBuildRoute(&$query)
 				else
 				{
 					// I must add the full path
-					$segments[] = 'categories';
+					$segments[] = 'Categories';
 					$segments[] = $slug;
 					$segments[] = $articleSlug;
 				}
@@ -215,13 +259,14 @@ function docimportBuildRoute(&$query)
 			{
 				$Itemid = $queryItemid;
 				$menu   = $menus->getItem($Itemid);
-				$mView  = isset($menu->query['view']) ? $menu->query['view'] : 'categories';
-				if (($mView == 'categories'))
+				$mView  = isset($menu->query['view']) ? $menu->query['view'] : 'Categories';
+
+				if (in_array($mView, ['categories', 'Categories']))
 				{
 					// No. It is a categories menu item. We must add the category and article slug.
 					$query['Itemid'] = $Itemid;
 				}
-				elseif (($mView == 'category'))
+				if (in_array($mView, ['category', 'Category']))
 				{
 					// Yes! Is it the category we want?
 					$params = ($menu->params instanceof JRegistry) ? $menu->params : $menus->getParams($Itemid);
@@ -254,24 +299,24 @@ function docimportParseRoute(&$segments)
 		{
 			case 1:
 				// Categories view
-				$query['view'] = 'categories';
+				$query['view'] = 'Categories';
 				array_pop($segments); // Remove the "categories" thingy
 				break;
 
 			case 2:
 				// Category view
-				$query['view'] = 'category';
+				$query['view'] = 'Category';
 				$slug          = array_pop($segments);
 				array_pop($segments); // Remove the "categories" thingy
 
 				// Load the category
-				$category = F0FModel::getTmpInstance('Categories', 'DocimportModel')
-				                    ->slug($slug)
-				                    ->getFirstItem();
+				/** @var \Akeeba\DocImport\Site\Model\Categories $category */
+				$category = FOF30\Container\Container::getInstance('com_docimport')->factory->model('Categories');
+				$category->slug($slug)->firstOrNew();
 
 				if (empty($category))
 				{
-					$query['view'] = 'browse';
+					$query['view'] = 'Categories';
 				}
 				else
 				{
@@ -281,25 +326,27 @@ function docimportParseRoute(&$segments)
 
 			case 3:
 				// Article view
-				$query['view'] = 'article';
+				$query['view'] = 'Article';
 				$slug_article  = array_pop($segments);
 				$slug_category = array_pop($segments);
-				array_pop($segments); // Remove the "categories" thingy
+				array_pop($segments); // Remove the "Categories" thingy
 
 				// Load the category
-				$category = F0FModel::getTmpInstance('Categories', 'DocimportModel')
-				                    ->slug($slug_category)
-				                    ->getFirstItem();
+				/** @var \Akeeba\DocImport\Site\Model\Categories $category */
+				$category = FOF30\Container\Container::getInstance('com_docimport')->factory->model('Categories');
+				$category->slug($slug_category)->firstOrNew();
 
 				// Load the article
-				$article = F0FModel::getTmpInstance('Articles', 'DocimportModel')
-				                   ->category($category->docimport_category_id)
-				                   ->slug($slug_article)
-				                   ->getFirstItem();
+				/** @var \Akeeba\DocImport\Site\Model\Articles $article */
+				$article = FOF30\Container\Container::getInstance('com_docimport')->factory->model('Articles');
+				$article
+					->category($category->docimport_category_id)
+				    ->slug($slug_article)
+				    ->firstOrNew();
 
 				if (empty($article->docimport_article_id))
 				{
-					$query['view'] = 'categories';
+					$query['view'] = 'Categories';
 				}
 				else
 				{
@@ -327,21 +374,21 @@ function docimportParseRoute(&$segments)
 
 		$catid = $menuparams->get('catid', null);
 
-		if ($view == 'categories')
+		if (($view == 'Categories') || ($view == 'categories'))
 		{
 			switch (count($segments))
 			{
 				case 1:
 					// Category view
-					$query['view'] = 'category';
-					$view          = 'category';
+					$query['view'] = 'Category';
+					$view          = 'Category';
 					$slug_category = array_pop($segments);
 					break;
 
 				case 2:
 					// Article view
-					$query['view'] = 'article';
-					$view          = 'article';
+					$query['view'] = 'Article';
+					$view          = 'Article';
 					$slug_article  = array_pop($segments);
 					break;
 			}
@@ -352,45 +399,47 @@ function docimportParseRoute(&$segments)
 			{
 				case 0:
 					// Category view
-					$query['view'] = 'category';
-					$view          = 'category';
+					$query['view'] = 'Category';
+					$view          = 'Category';
 					break;
 
 				case 1:
 					// Article view
-					$query['view'] = 'article';
-					$view          = 'article';
+					$query['view'] = 'Article';
+					$view          = 'Article';
 					$slug_article  = array_pop($segments);
 					break;
 			}
 		}
 		else
 		{
-			$query['view'] = 'article';
+			$query['view'] = 'Article';
 		}
 
 		if (!is_null($slug_category))
 		{
-			$categoriesModel = F0FModel::getTmpInstance('Categories', 'DocimportModel');
+			/** @var \Akeeba\DocImport\Site\Model\Categories $categoriesModel */
+			$categoriesModel = FOF30\Container\Container::getInstance('com_docimport')->factory->model('Categories');
 			$category        = $categoriesModel
 				->slug($slug_category)
-				->getFirstItem();
+				->firstOrNew();
 			$catid = $category->getId();
 		}
 
 		if (!is_null($slug_article))
 		{
 			// Load the article
-			/** @var DocimportModelArticles $articlesModel */
-			$articlesModel = F0FModel::getTmpInstance('Articles', 'DocimportModel');
+
+			/** @var \Akeeba\DocImport\Site\Model\Articles $articlesModel */
+			$articlesModel = FOF30\Container\Container::getInstance('com_docimport')->factory->model('Articles');
 			$article       = $articlesModel
 			                   ->category((int) $catid)
 			                   ->slug($slug_article)
-			                   ->getFirstItem();
+			                   ->firstOrNew();
 
 			if (empty($article->docimport_article_id))
 			{
-				$query['view'] = 'category';
+				$query['view'] = 'Category';
 				$query['id']   = $catid;
 			}
 			else
@@ -398,28 +447,26 @@ function docimportParseRoute(&$segments)
 				$query['id'] = $article->docimport_article_id;
 			}
 		}
-		elseif ($view != 'categories')
+		elseif (!in_array($view, ['categories', 'Categories']))
 		{
 			// Load the category
-			/** @var DocimportModelCategories $categoriesModel */
-			$categoriesModel = F0FModel::getTmpInstance('Categories', 'DocimportModel');
-			$category        = $categoriesModel
-			                    ->setId($catid)
-			                    ->getItem();
+			/** @var \Akeeba\DocImport\Site\Model\Categories $categoriesModel */
+			$categoriesModel = FOF30\Container\Container::getInstance('com_docimport')->factory->model('Categories');
+			$category        = $categoriesModel->find($catid);
 
 			if (empty($category->docimport_category_id))
 			{
-				$query['view'] = 'categories';
+				$query['view'] = 'Categories';
 			}
 			else
 			{
-				$query['view'] = 'category';
+				$query['view'] = 'Category';
 				$query['id']   = $catid;
 			}
 		}
 		else
 		{
-			$query['view'] = 'categories';
+			$query['view'] = 'Categories';
 		}
 	}
 
