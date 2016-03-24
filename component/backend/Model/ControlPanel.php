@@ -39,18 +39,7 @@ class ControlPanel extends Model
 	 */
 	public function updateMagicParameters()
 	{
-		// Store the URL to this site
-		$db = $this->container->platform->getDbo();
-		$query = $db->getQuery(true)
-			->select('params')
-			->from($db->qn('#__extensions'))
-			->where($db->qn('element') . '=' . $db->q('com_docimport'))
-			->where($db->qn('type') . '=' . $db->q('component'));
-		$db->setQuery($query);
-		$rawparams = $db->loadResult();
-
-		$params = new JRegistry();
-		$params->loadString($rawparams, 'JSON');
+		$params = $this->container->params;
 
 		$siteURL_stored = $params->get('siteurl', '');
 		$siteURL_target = str_replace('/administrator', '', \JUri::base());
@@ -62,14 +51,7 @@ class ControlPanel extends Model
 		{
 			$params->set('siteurl', $siteURL_target);
 			$params->set('sitepath', $sitePath_target);
-
-			$query = $db->getQuery(true)
-				->update($db->qn('#__extensions'))
-				->set($db->qn('params') . '=' . $db->q($params->toString()))
-				->where($db->qn('element') . '=' . $db->q('com_docimport'))
-				->where($db->qn('type') . '=' . $db->q('component'));
-			$db->setQuery($query);
-			$db->execute();
+			$params->save();
 		}
 
 		return $this;
