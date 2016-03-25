@@ -33,7 +33,7 @@ defined('_JEXEC') or die();
 
 				<div class="docimport-category-description">
 					<div class="docimport-category-description-inner">
-						<?php echo $item->description ?>
+						<?php echo JHtml::_('content.prepare', $item->description) ?>
 					</div>
 				</div>
 

@@ -25,7 +25,7 @@ class DocimportViewCategory extends F0FViewHtml
 		if($index->docimport_article_id) {
 			$items = array();
 			if($this->item->process_plugins) {
-				$index->fulltext = JHTML::_('content.prepare',$index->fulltext);
+				$index->fulltext = JHtml::_('content.prepare',$index->fulltext);
 			}
 		} else {
 			$index = null;

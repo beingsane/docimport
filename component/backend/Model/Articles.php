@@ -94,7 +94,7 @@ class Articles extends DataModel
 		if (!empty($fltSearch))
 		{
 			$query->where(
-				$db->quoteName('a') . '.' . $db->quoteName('title') . ' LIKE ' . $db->quote('%' . $fltSearch . '%')
+				$db->quoteName('title') . ' LIKE ' . $db->quote('%' . $fltSearch . '%')
 			);
 		}
 
@@ -105,7 +105,7 @@ class Articles extends DataModel
 		if (is_numeric($fltCategory) && ($fltCategory > 0))
 		{
 			$query->where(
-				$db->quoteName('a') . '.' . $db->quoteName('docimport_category_id') . ' = ' . $db->quote($fltCategory)
+				$db->qn('docimport_category_id') . ' = ' . $db->q($fltCategory)
 			);
 		}
 

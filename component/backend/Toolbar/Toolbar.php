@@ -15,14 +15,12 @@ defined('_JEXEC') or die;
 
 class Toolbar extends \FOF30\Toolbar\Toolbar
 {
-	/**
-	 * Renders the toolbar for the component's Control Panel page
-	 *
-	 * @return  void
-	 */
-	public function onControlPanelsMain()
+	public function onCategoriesBrowse()
 	{
-		parent::onCpanelsBrowse();
+		parent::onBrowse();
+
+		JToolBarHelper::divider();
+		JToolBarHelper::preferences($this->container->componentName);
 	}
 
 	public function onArticlesBrowse()
@@ -49,6 +47,9 @@ class Toolbar extends \FOF30\Toolbar\Toolbar
 			JToolBarHelper::divider();
 			JToolBarHelper::deleteList();
 		}
+
+		JToolBarHelper::divider();
+		JToolBarHelper::preferences($this->container->componentName);
 
 		// A Check-In button is only added if there is a locked_on field in the table
 		try
