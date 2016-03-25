@@ -12,10 +12,4 @@ $symlink_folders = array(
 	'../buildfiles/phingext'					=> 'build/phingext',
 	'../buildfiles/tools'						=> 'build/tools',
 	'../buildfiles/epub'						=> 'build/epub',
-
-	# FOF
-	'../fof/fof' => 'component/fof',
-
-	# Akeeba Strapper
-	'../fof/strapper' => 'component/strapper',
 );
