@@ -26,7 +26,7 @@ class Xsl extends Model
 	{
 		// Get the category record
 		/** @var Categories $category */
-		$category = $this->container->factory->model('Categories');
+		$category = $this->container->factory->model('Categories')->tmpInstance();
 
 		try
 		{
@@ -262,7 +262,7 @@ HTACCESS;
 		// Get the category record
 		// Get the category record
 		/** @var Categories $category */
-		$category = $this->container->factory->model('Categories');
+		$category = $this->container->factory->model('Categories')->tmpInstance();
 
 		try
 		{
@@ -348,7 +348,7 @@ HTACCESS;
 				if ( !in_array($slug, $slugs))
 				{
 					/** @var Articles $articleModel */
-					$articleModel = $this->container->factory->model('Articles');
+					$articleModel = $this->container->factory->model('Articles')->tmpInstance();
 
 					try
 					{
@@ -384,7 +384,7 @@ HTACCESS;
 					$filedata = $this->_getHTMLFileData($filepath);
 
 					/** @var Articles $articleModel */
-					$articleModel = $this->container->factory->model('Articles');
+					$articleModel = $this->container->factory->model('Articles')->tmpInstance();
 					$articleModel->create([
 						'docimport_category_id' => $category_id,
 						'title'                 => $filedata->title,
@@ -428,7 +428,7 @@ HTACCESS;
 					$filedata = $this->_getHTMLFileData($filepath);
 
 					/** @var Articles $articleModel */
-					$articleModel = $this->container->factory->model('Articles');
+					$articleModel = $this->container->factory->model('Articles')->tmpInstance();
 
 					try
 					{
@@ -559,7 +559,7 @@ HTACCESS;
 				// Load the article
 
 				/** @var Articles $article */
-				$article = $this->container->factory->model('Articles');
+				$article = $this->container->factory->model('Articles')->tmpInstance();
 				$article->findOrFail($id);
 
 				// Replace links
@@ -671,7 +671,7 @@ HTACCESS;
 				if ( !array_key_exists($folder, $categories))
 				{
 					/** @var Categories $model */
-					$model = $this->container->factory->model('Categories');
+					$model = $this->container->factory->model('Categories')->tmpInstance();
 
 					$model->create([
 						'title'       => JText::sprintf('COM_DOCIMPORT_XSL_DEFAULT_TITLE', $folder),

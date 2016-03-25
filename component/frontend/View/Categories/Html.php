@@ -41,7 +41,7 @@ class Html extends BaseView
 		parent::onBeforeRead();
 
 		/** @var   Articles  $articles */
-		$articles = $this->container->factory->model('Articles')->setIgnoreRequest(true);
+		$articles = $this->container->factory->model('Articles')->tmpInstance();
 
 		// Look for an index article
 		try

@@ -311,7 +311,7 @@ function docimportParseRoute(&$segments)
 
 				// Load the category
 				/** @var \Akeeba\DocImport\Site\Model\Categories $category */
-				$category = FOF30\Container\Container::getInstance('com_docimport')->factory->model('Categories');
+				$category = FOF30\Container\Container::getInstance('com_docimport')->factory->model('Categories')->tmpInstance();
 				$category->slug($slug)->firstOrNew();
 
 				if (empty($category))
@@ -333,12 +333,12 @@ function docimportParseRoute(&$segments)
 
 				// Load the category
 				/** @var \Akeeba\DocImport\Site\Model\Categories $category */
-				$category = FOF30\Container\Container::getInstance('com_docimport')->factory->model('Categories');
+				$category = FOF30\Container\Container::getInstance('com_docimport')->factory->model('Categories')->tmpInstance();
 				$category->slug($slug_category)->firstOrNew();
 
 				// Load the article
 				/** @var \Akeeba\DocImport\Site\Model\Articles $article */
-				$article = FOF30\Container\Container::getInstance('com_docimport')->factory->model('Articles');
+				$article = FOF30\Container\Container::getInstance('com_docimport')->factory->model('Articles')->tmpInstance();
 				$article
 					->category($category->docimport_category_id)
 				    ->slug($slug_article)
@@ -363,15 +363,8 @@ function docimportParseRoute(&$segments)
 		$slug_article  = null;
 		$slug_category = null;
 
+		/** @var JRegistry $menuparams */
 		$menuparams = $menu->params;
-
-		if (!($menuparams instanceof JRegistry))
-		{
-			$x = new JRegistry();
-			$x->loadString($menuparams, 'INI');
-			$menuparams = $x;
-		}
-
 		$catid = $menuparams->get('catid', null);
 
 		if (($view == 'Categories') || ($view == 'categories'))
@@ -419,7 +412,7 @@ function docimportParseRoute(&$segments)
 		if (!is_null($slug_category))
 		{
 			/** @var \Akeeba\DocImport\Site\Model\Categories $categoriesModel */
-			$categoriesModel = FOF30\Container\Container::getInstance('com_docimport')->factory->model('Categories');
+			$categoriesModel = FOF30\Container\Container::getInstance('com_docimport')->factory->model('Categories')->tmpInstance();
 			$category        = $categoriesModel
 				->slug($slug_category)
 				->firstOrNew();
@@ -431,7 +424,7 @@ function docimportParseRoute(&$segments)
 			// Load the article
 
 			/** @var \Akeeba\DocImport\Site\Model\Articles $articlesModel */
-			$articlesModel = FOF30\Container\Container::getInstance('com_docimport')->factory->model('Articles');
+			$articlesModel = FOF30\Container\Container::getInstance('com_docimport')->factory->model('Articles')->tmpInstance();
 			$article       = $articlesModel
 			                   ->category((int) $catid)
 			                   ->slug($slug_article)
@@ -451,7 +444,7 @@ function docimportParseRoute(&$segments)
 		{
 			// Load the category
 			/** @var \Akeeba\DocImport\Site\Model\Categories $categoriesModel */
-			$categoriesModel = FOF30\Container\Container::getInstance('com_docimport')->factory->model('Categories');
+			$categoriesModel = FOF30\Container\Container::getInstance('com_docimport')->factory->model('Categories')->tmpInstance();
 			$category        = $categoriesModel->find($catid);
 
 			if (empty($category->docimport_category_id))

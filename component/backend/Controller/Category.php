@@ -21,7 +21,7 @@ class Category extends DataController
 		$messageType = null;
 
 		/** @var Xsl $model */
-		$model = $this->container->factory->model('Xsl');
+		$model = $this->container->factory->model('Xsl')->tmpInstance();
 		$id    = $this->input->getInt('id', 0);
 
 		try

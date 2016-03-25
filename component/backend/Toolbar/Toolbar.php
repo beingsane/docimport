@@ -7,6 +7,7 @@
 
 namespace Akeeba\DocImport\Admin\Toolbar;
 
+use Akeeba\DocImport\Admin\Model\Articles;
 use FOF30\Model\DataModel;
 use JToolBarHelper;
 use JText;
@@ -50,22 +51,5 @@ class Toolbar extends \FOF30\Toolbar\Toolbar
 
 		JToolBarHelper::divider();
 		JToolBarHelper::preferences($this->container->componentName);
-
-		// A Check-In button is only added if there is a locked_on field in the table
-		try
-		{
-			/** @var DataModel $model */
-			$model = $this->container->factory->model('Articles');
-
-			if ($model->hasField('locked_on') && $this->perms->edit)
-			{
-				JToolBarHelper::checkin();
-			}
-
-		}
-		catch (\Exception $e)
-		{
-			// Yeah. Let's not add the button if we can't load the model...
-		}
 	}
 }

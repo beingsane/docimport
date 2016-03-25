@@ -28,7 +28,7 @@ class Dispatcher extends \FOF30\Dispatcher\Dispatcher
 		}
 
 		/** @var \Akeeba\DocImport\Admin\Model\ControlPanel $model */
-		$model = $this->container->factory->model('ControlPanel');
+		$model = $this->container->factory->model('ControlPanel')->tmpInstance();
 
 		// Update the db structure if necessary (once per session at most)
 		$lastVersion = $this->container->session->get('magicParamsUpdateVersion', null, 'com_docimport');
