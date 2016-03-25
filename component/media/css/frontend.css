@@ -6,6 +6,7 @@
 
 /* Structure */
 
+.docimport { text-align: justify; }
 .docimport dl { margin-left: 2em; }
 .docimport dd { margin-left: 1em; }
 
@@ -47,7 +48,6 @@
 
 .docimport h2.title {
 	font-weight: bold;
-	text-shadow: 1px 1px 4px #ff9;
 }
 
 .docimport table tr,
@@ -69,64 +69,62 @@
 .docimport .important,
 .docimport .note,
 .docimport .tip {
+    color: black;
 	border: 2px solid black;
 	margin: 0.5em 1em !important;
-	padding: 2px !important;
-	border-radius: 0.6em;
+	padding: 0.3em 0.5em !important;
+	border-radius: 0.35em;
 	font-size: small;
 	max-width: none;
 }
 
-.docimport .warning img,
-.docimport .important img,
-.docimport .note img,
-.docimport .tip img {
-	padding: 0.2em 0.5em 0 0;
+.docimport .warning table > tbody > tr:nth-child(1) > td,
+.docimport .important table > tbody > tr:nth-child(1) > td,
+.docimport .note table > tbody > tr:nth-child(1) > td,
+.docimport .tip table > tbody > tr:nth-child(1) > td {
+    display: none;
 }
 
-.docimport .warning { background-color: #ffe0e0; border-color: #990000; }
-.docimport .important { background-color: #ffffe0; border-color: #999900; }
-.docimport .note { background-color: #e0ffe0; border-color: #009900; }
-.docimport .tip { background-color: #eeeeff; border-color: #000099; }
+.docimport .warning { background-color: #fcf8e3; border-color: #faebcc; }
+.docimport .important { background-color: #f2dede; border-color: #ebccd1; }
+.docimport .note { background-color: #dff0d8; border-color: #d6e9c6; }
+.docimport .tip { background-color: #d9edf7; border-color: #bce8f1; }
 
-.docimport .warning th { color: #660000; font-size: larger; }
-.docimport .important th { color: #666600; font-size: larger; }
-.docimport .note th { color: #006600; font-size: larger; }
-.docimport .tip th { color: #000066; font-size: larger; }
+.docimport .warning th { color: #8a6d3b; font-size: larger; }
+.docimport .important th { color: #a94442; font-size: larger; }
+.docimport .note th { color: #3c763d; font-size: larger; }
+.docimport .tip th { color: #31708f; font-size: larger; }
 
 /* Fixed width */
-
-.docimport pre.programlisting {
-	border: 1px solid #333333;
-	background-color: #f0f0f0;
-	font-family: "Courier New", "Liberation Mono", monospace;
-	color: #003300;
-	border-radius: 5px;
-	padding: 3px;
+.docimport code {
+    background: none;
+    border: none;
+    white-space: normal;
 }
 
 /* Document elements */
 .docimport .replaceable {
 	font-style: italic;
-	text-decoration: underline;
-}
-
-.docimport code {
-	font-family: "Courier New", "Liberation Mono", monospace;
-	font-size: small;
 }
 
 .docimport code.filename {
-	color: #333366;
+	color: #336633;
+	background: none;
+	border: none;
+}
+
+.docimport .mediaobject img {
+    border: 1px solid #cccccc;
+    border-radius: 0.3em;
+    padding: 1em;
 }
 
 .docimport .guimenu,
 .docimport .guisubmenu,
 .docimport .guilabel,
 .docimport .guibutton {
-	color: #336633;
+	color: #336;
 	font-weight: bold;
-	font-family: Arial, Helvetica, sans-serif;
 }
 
 .docimport .guilabel {
@@ -135,9 +133,10 @@
 
 .docimport .guibutton {
 	color: black;
-	border: 1px dashed #aaaaaa;
-	padding: 2px;
-	background: #f1f1f1;
+	border: 1px solid #cccccc;
+	padding: 0.1em 0.3em;
+	background: #fafafa;
+    border-radius: 0.3em;
 }
 
 .docimport dt .term {
@@ -145,6 +144,6 @@
 	color: #663333;
 }
 
-.docimport trademark {
+.docimport .trademark {
 	color: #336633;
 }
