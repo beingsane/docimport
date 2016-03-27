@@ -8,93 +8,43 @@
 	====================================================================================================
 	-->
 	
-	<fileset dir="${dirs.component}" id="component-core" expandsymboliclinks="true">
+	<fileset dir="${dirs.component}" id="component" expandsymboliclinks="true">
 		<include name="backend**" />
-		<include name="cli**" />
 		<include name="frontend**" />
-		<include name="fof**" />
-
-        <include name="strapper**" />
-        <exclude name="strapper/sources**" />
-
-		<include name="media/admonition**" />
-		<include name="media/css**" />
-		<include name="media/images**" />
-		<include name="media/js**" />
-		<include name="plugins**" />
+		<include name="media/**" />
 		<include name="translations**" />
-		
 		<include name="*.xml" />
 		<include name="*.php" />
 		<include name="LICENSE.txt" />
 		<include name="README.php" />
 	</fileset>
 
-	<!--
-	====================================================================================================
-	Tasks - General
-	====================================================================================================
-	-->
+	<fileset dir="${dirs.release}" id="package">
+		<include name="com_*.zip" />
+		<include name="file_*.zip" />
+		<include name="mod_*.zip" />
+		<include name="plg_*.zip" />
+		<include name="lib_*.zip" />
+		<include name="pkg_*.xml" />
+		<include name="*.txt" />
+		<include name="script.*.php" />
+	</fileset>
 
-	<target name="git" description="Makes only packages, not the documentation"
-			depends="new-release,setup-properties,component-package">
-	</target>
-
-	<target name="documentation" description="Creates the documentation packages"
-		depends="doc-j-pdf">
-	</target>		
-
-	<!--
-	====================================================================================================
-	Tasks - Joomla! packages
-	====================================================================================================
-	-->
-	
-	<target name="component-package" description="Component package build"
-		depends="new-release,setup-properties">
-			
-		<!-- Create the CORE package -->
-		<copy file="./templates/com_docimport.xml" tofile="${dirs.component}/docimport.xml" overwrite="true">
-			<filterchain id="standard-tokens">
-				<replacetokens begintoken="##" endtoken="##">
-					<token key="DATE" value="${build.date}" />
-					<token key="VERSION" value="${version}" />
-				</replacetokens>
-			</filterchain>
-		</copy>
-
-		<copy file="./templates/version.php" tofile="${dirs.component}/backend/version.php" overwrite="true">
-			<filterchain>
-				<replacetokens begintoken="##" endtoken="##">
-					<token key="DATE" value="${build.date}" />
-					<token key="VERSION" value="${version}" />
-				</replacetokens>
-			</filterchain>
-		</copy>
-
-		<zipme basedir="${dirs.component}" destfile="${dirs.release}/com_docimport-${version}.zip" includeemptydirs="true">
-			<fileset refid="component-core" />
-		</zipme>
-
-		<zipme basedir="${dirs.modules}" destfile="${dirs.release}/com_docimport-${version}.zip" includeemptydirs="true">
-			<fileset dir="${dirs.modules}">
-				<include name="**" />
-			</fileset>
-		</zipme>
-
-		<zipme basedir="${dirs.plugins}" prefix="plugins/" destfile="${dirs.release}/com_docimport-${version}.zip" includeemptydirs="true">
-			<fileset dir="${dirs.plugins}">
-				<include name="**" />
-			</fileset>
-		</zipme>
-	</target>
+	<fileset dir="${dirs.component}/cli" id="cli">
+		<include name="*.php" />
+		<include name="file_docimport.xml" />
+	</fileset>
 
 	<!--
 	====================================================================================================
 	Tasks - Documentation
 	====================================================================================================
 	-->
-	
+
+	<target name="documentation" description="Creates the documentation packages"
+		depends="doc-j-pdf">
+	</target>
+
 	<target name="doc-j-pdf" description="Documentation for Joomla! in PDF format">
 		<phingcall target="docbook-pdf">
 			<property name="docs.input" value="docimport-guide.xml" />
@@ -106,6 +56,12 @@
 			<property name="docs.input" value="docimport-guide.xml" />
 		</phingcall>
 	</target>
+
+	<!--
+	====================================================================================================
+	Tasks - Project management
+	====================================================================================================
+	-->
 
 	<target name="docsdeploy" depends="docsdeploy-docimport">
 		<echo>All DocImport documentation has been uploaded</echo>

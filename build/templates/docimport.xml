@@ -42,8 +42,10 @@
 		<files folder="backend">
 			<folder>assets</folder>
 			<folder>Controller</folder>
+			<folder>Dispatcher</folder>
 			<folder>Model</folder>
 			<folder>sql</folder>
+			<folder>Toolbar</folder>
 			<folder>View</folder>
 
 			<filename>access.xml</filename>
@@ -61,10 +63,5 @@
 	</administration>
 
 	<!-- Installation / uninstallation PHP scripts -->
-	<scriptfile>script.docimport.php</scriptfile>
-
-    <!-- Update servers -->
-    <updateservers>
-        <server type="extension" priority="1" name="Akeeba DocImport">http://cdn.akeebabackup.com/updates/docimport.xml</server>
-    </updateservers>
+	<scriptfile>script.com_docimport.php</scriptfile>
 </extension>

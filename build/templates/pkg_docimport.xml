@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.3.0" type="package" method="upgrade">
+    <name>Akeeba DocImport package</name>
+    <author>Nicholas K. Dionysopoulos</author>
+    <creationDate>##DATE##</creationDate>
+    <packagename>docimport</packagename>
+    <version>##VERSION##</version>
+    <url>https://www.akeebabackup.com</url>
+    <packager>Akeeba Ltd</packager>
+    <packagerurl>https://www.akeebabackup.com</packagerurl>
+    <copyright>Copyright (c)2011-2016 Nicholas K. Dionysopoulos</copyright>
+    <license>GNU GPL v3 or later</license>
+    <description>Akeeba DocImport installation package v.##VERSION##</description>
+
+    <!-- List of extensions to install -->
+    <files>
+        <!-- Component -->
+        <file type="component" id="com_docimport">com_docimport.zip</file>
+
+        <!-- CLI scripts -->
+        <file type="file" id="file_ats">file_docimport.zip</file>
+
+        <!-- Plugins -->
+        <file type="plugin" group="finder" id="docimport">plg_finder_docimport.zip</file>
+        <file type="plugin" group="search" id="docimport">plg_search_docimport.zip</file>
+
+    </files>
+
+    <!-- Installation script -->
+    <scriptfile>script.docimport.php</scriptfile>
+</extension>
