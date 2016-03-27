@@ -7,9 +7,8 @@
 /build/tools
 
 /component/docimport.xml
-/component/fof
-/component/strapper
 /component/backend/version.php
+/component/cli/*.xml
 
 /documentation/*.xml~
 
