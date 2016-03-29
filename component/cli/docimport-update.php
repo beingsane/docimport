@@ -1,8 +1,8 @@
 <?php
 /**
- *  @package DocImport3
- *  @copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
- *  @license GNU General Public License version 3, or later
+ * @package   DocImport3
+ * @copyright Copyright (c)2010-2016 Nicholas K. Dionysopoulos
+ * @license   GNU General Public License version 3, or later
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,81 +21,11 @@
  *
  *  Command-line script to schedule the documentation rebuild
  */
+
+use \Joomla\Registry\Registry;
+
 // Define ourselves as a parent file
 define('_JEXEC', 1);
-
-// Enable Akeeba Engine
-define('AKEEBAENGINE', 1);
-
-// Required by the CMS
-define('DS', DIRECTORY_SEPARATOR);
-
-$minphp = '5.3.4';
-if (version_compare(PHP_VERSION, $minphp, 'lt'))
-{
-	$curversion = PHP_VERSION;
-	$bindir = PHP_BINDIR;
-	echo <<< ENDWARNING
-================================================================================
-WARNING! Incompatible PHP version $curversion
-================================================================================
-
-This CRON script must be run using PHP version $minphp or later. Your server is
-currently using a much older version which would cause this script to crash. As
-a result we have aborted execution of the script. Please contact your host and
-ask them for the correct path to the PHP CLI binary for PHP $minphp or later, then
-edit your CRON job and replace your current path to PHP with the one your host
-gave you.
-
-For your information, the current PHP version information is as follows.
-
-PATH:    $bindir
-VERSION: $curversion
-
-Further clarifications:
-
-1. There is absolutely no possible way that you are receiving this warning in
-   error. We are using the PHP_VERSION constant to detect the PHP version you
-   are currently using. This is what PHP itself reports as its own version. It
-   simply cannot lie.
-
-2. Even though your *site* may be running in a higher PHP version that the one
-   reported above, your CRON scripts will most likely not be running under it.
-   This has to do with the fact that your site DOES NOT run under the command
-   line and there are different executable files (binaries) for the web and
-   command line versions of PHP.
-
-3. Please note that you MUST NOT ask us for support about this error. We cannot
-   possibly know the correct path to the PHP CLI binary as we have not set up
-   your server. Your host must know and give that information.
-
-4. The latest published versions of PHP can be found at http://www.php.net/
-   Any older version is considered insecure and must NOT be used on a live
-   server. If your server uses a much older version of PHP than that please
-   notify them that their servers are insecure and in need of an update.
-
-This script will now terminate. Goodbye.
-
-ENDWARNING;
-	die();
-}
-
-// Timezone fix; avoids errors printed out by PHP 5.3.3+ (thanks Yannick!)
-if (function_exists('date_default_timezone_get') && function_exists('date_default_timezone_set'))
-{
-	if (function_exists('error_reporting'))
-	{
-		$oldLevel = error_reporting(0);
-	}
-	$serverTimezone	 = @date_default_timezone_get();
-	if (empty($serverTimezone) || !is_string($serverTimezone))
-		$serverTimezone	 = 'UTC';
-	if (function_exists('error_reporting'))
-	{
-		error_reporting($oldLevel);
-	}
-	@date_default_timezone_set($serverTimezone);
-}
 
 // Load system defines
 if (file_exists(__DIR__ . '/defines.php'))
@@ -113,14 +43,7 @@ if (!defined('_JDEFINES'))
 }
 
 // Load the rest of the framework include files
-if (file_exists(JPATH_LIBRARIES . '/import.legacy.php'))
-{
-	require_once JPATH_LIBRARIES . '/import.legacy.php';
-}
-else
-{
-	require_once JPATH_LIBRARIES . '/import.php';
-}
+require_once JPATH_LIBRARIES . '/import.legacy.php';
 require_once JPATH_LIBRARIES . '/cms.php';
 
 // Load the JApplicationCli class
@@ -138,11 +61,11 @@ class AppDocupdate extends JApplicationCli
 	 * JApplicationCli didn't want to run on PHP CGI. I have my way of becoming
 	 * VERY convincing. Now obey your true master, you petty class!
 	 *
-	 * @param JInputCli $input
-	 * @param JRegistry $config
-	 * @param JDispatcher $dispatcher
+	 * @param   JInputCli         $input       Input object
+	 * @param   Registry          $config      Configuration for the CLI application object
+	 * @param   JEventDispatcher  $dispatcher  Events dispatcher, used to
 	 */
-	public function __construct(JInputCli $input = null, JRegistry $config = null, JDispatcher $dispatcher = null)
+	public function __construct(JInputCli $input = null, Registry $config = null, JEventDispatcher $dispatcher = null)
 	{
 		// Close the application if we are not executed from the command line, Akeeba style (allow for PHP CGI)
 		if (array_key_exists('REQUEST_METHOD', $_SERVER))
@@ -181,9 +104,9 @@ class AppDocupdate extends JApplicationCli
 							}
 						}
 					}
-					$query	 = ltrim($query);
-					$argv	 = explode(' ', $query);
-					$argc	 = count($argv);
+
+					$query = ltrim($query);
+					$argv  = explode(' ', $query);
 
 					$_SERVER['argv'] = $argv;
 				}
@@ -233,6 +156,8 @@ class AppDocupdate extends JApplicationCli
 
 	/**
 	 * The main entry point of the application
+	 *
+	 * @return  void
 	 */
 	public function execute()
 	{
@@ -249,14 +174,14 @@ class AppDocupdate extends JApplicationCli
 
 		// Get basic information
 		require_once JPATH_ADMINISTRATOR . '/components/com_docimport/version.php';
-		$version		 = DOCIMPORT_VERSION;
-		$date			 = DOCIMPORT_DATE;
-		$year			 = gmdate('Y');
-		$phpversion		 = PHP_VERSION;
-		$phpenvironment	 = PHP_SAPI;
-		$phpos			 = PHP_OS;
-		$memusage		 = $this->memUsage();
-		$start_time		 = time();
+		$version        = DOCIMPORT_VERSION;
+		$date           = DOCIMPORT_DATE;
+		$year           = gmdate('Y');
+		$phpversion     = PHP_VERSION;
+		$phpenvironment = PHP_SAPI;
+		$phpos          = PHP_OS;
+		$memusage       = $this->memUsage();
+		$start_time     = time();
 
 		echo <<<ENDBLOCK
 Akeeba DocImport³ CLI $version ($date)
@@ -275,6 +200,9 @@ Current memory usage: $memusage
 
 ENDBLOCK;
 
+		error_reporting(E_ALL);
+		ini_set('display_error', 1);
+
 		// Load Joomla! classes
 		JLoader::import('joomla.filesystem.folder');
 		JLoader::import('joomla.filesystem.file');
@@ -285,14 +213,15 @@ ENDBLOCK;
 		$jlang = JFactory::getLanguage();
 		$jlang->load('com_docimport', JPATH_ADMINISTRATOR, 'en-GB', true);
 
-		// Load F0F
-		require_once JPATH_LIBRARIES . '/f0f/include.php';
+		// Load FOF
+		require_once JPATH_LIBRARIES . '/fof30/include.php';
 
-		// Force-load the back-end Categories model (the front-end model doesn't work under CLI)
-		require_once JPATH_ADMINISTRATOR . '/components/com_docimport/models/categories.php';
+		// Get the component container
+		$container = \FOF30\Container\Container::getInstance('com_docimport', [], 'admin');
+		$container->factoryClass = '\\FOF30\\Factory\\SwitchFactory';
 
 		// Force the server root URL
-		$rootURL = $this->getOptionValue('siteurl', '');
+		$rootURL = $container->params->get('siteurl', '');
 
 		if (!empty($rootURL))
 		{
@@ -300,7 +229,7 @@ ENDBLOCK;
 			define('DOCIMPORT_SITEURL', $rootURL);
 		}
 
-		$rootPath = $this->getOptionValue('sitepath', '');
+		$rootPath = $container->params->get('sitepath', '');
 
 		if (!empty($rootPath))
 		{
@@ -309,44 +238,46 @@ ENDBLOCK;
 		}
 
 		// Scan for any missing categories
-		F0FModel::getTmpInstance('Xsl', 'DocimportModel', array('input' => array()))
-			->scanCategories();
+		/** @var \Akeeba\DocImport\Admin\Model\Xsl $xslModel */
+		$xslModel = $container->factory->model('Xsl')->tmpInstance();
+		$xslModel->scanCategories();
 
 		// List all categories
-		$categories = F0FModel::getTmpInstance('Categories', 'DocimportModel')
+		/** @var \Akeeba\DocImport\Admin\Model\Categories $categoriesModel */
+		$categoriesModel = $container->factory->model('Categories')->tmpInstance();
+
+		$categories = $categoriesModel
 			->limit(0)
 			->limitstart(0)
 			->enabled(1)
-			->getList();
+			->get();
 
+		/** @var \Akeeba\DocImport\Admin\Model\Categories $cat */
 		foreach ($categories as $cat)
 		{
 			$this->out("Processing \"$cat->title\"");
 
-			$model	 = F0FModel::getTmpInstance('Xsl', 'DocimportModel');
+			/** @var \Akeeba\DocImport\Admin\Model\Xsl $model */
+			$model = $xslModel->tmpInstance();
 
-			$this->out("\tProcessing XML to HTML...");
-
-			$status	 = $model->processXML($cat->docimport_category_id);
-
-			if ($status)
+			try
 			{
+				$this->out("\tProcessing XML to HTML...");
+				$model->processXML($cat->docimport_category_id);
+
 				$this->out("\tGenerating articles...");
-				$status = $model->processFiles($cat->docimport_category_id);
-			}
+				$model->processFiles($cat->docimport_category_id);
 
-			if ($status)
-			{
 				$this->out("\tSuccess!");
 			}
-			else
+			catch (\RuntimeException $e)
 			{
-				$this->out("\tFAILED: " . $model->getError());
+				$this->out("\tFAILED: " . $e->getMessage());
 			}
 		}
 
 		$this->out('');
-		$this->out('Documentation processing finished after approximately ' . $this->timeago($start_time, time(), '', false));
+		$this->out('Documentation processing finished after approximately ' . $this->timeAgo($start_time, time(), '', false));
 		$this->out('');
 		$this->out("Peak memory usage: " . $this->peakMemUsage());
 	}
@@ -354,15 +285,16 @@ ENDBLOCK;
 	/**
 	 * Returns the current memory usage
 	 *
-	 * @return string
+	 * @return  string
 	 */
 	private function memUsage()
 	{
 		if (function_exists('memory_get_usage'))
 		{
-			$size	 = memory_get_usage();
-			$unit	 = array('b', 'Kb', 'Mb', 'Gb', 'Tb', 'Pb');
-			return @round($size / pow(1024, ($i		 = floor(log($size, 1024)))), 2) . ' ' . $unit[$i];
+			$size = memory_get_usage();
+			$unit = array('b', 'Kb', 'Mb', 'Gb', 'Tb', 'Pb');
+
+			return @round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $unit[ $i ];
 		}
 		else
 		{
@@ -373,15 +305,16 @@ ENDBLOCK;
 	/**
 	 * Returns the peak memory usage
 	 *
-	 * @return string
+	 * @return  string
 	 */
 	private function peakMemUsage()
 	{
 		if (function_exists('memory_get_peak_usage'))
 		{
-			$size	 = memory_get_peak_usage();
-			$unit	 = array('b', 'Kb', 'Mb', 'Gb', 'Tb', 'Pb');
-			return @round($size / pow(1024, ($i		 = floor(log($size, 1024)))), 2) . ' ' . $unit[$i];
+			$size = memory_get_peak_usage();
+			$unit = array('b', 'Kb', 'Mb', 'Gb', 'Tb', 'Pb');
+
+			return @round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $unit[ $i ];
 		}
 		else
 		{
@@ -392,23 +325,23 @@ ENDBLOCK;
 	/**
 	 * Returns a fancy formatted time lapse code
 	 *
-	 * @param  $referencedate	int		Timestamp of the reference date/time
-	 * @param  $timepointer		int		Timestamp of the current date/time
-	 * @param  $measureby		string	One of s, m, h, d, or y (time unit)
-	 * @param  $autotext			bool
+	 * @param   int     $referenceDate Timestamp of the reference date/time
+	 * @param   int     $timePointer   Timestamp of the current date/time
+	 * @param   string  $measureBy     One of s, m, h, d, or y (time unit)
+	 * @param   boolean $autoText      Automatically add ago/from now
 	 *
 	 * @return  string
 	 */
-	private function timeago($referencedate = 0, $timepointer = '', $measureby = '', $autotext = true)
+	private function timeAgo($referenceDate = 0, $timePointer = null, $measureBy = '', $autoText = true)
 	{
-		if ($timepointer == '')
+		if (is_null($timePointer))
 		{
-			$timepointer = time();
+			$timePointer = time();
 		}
 
 		// Raw time difference
-		$Raw	 = $timepointer - $referencedate;
-		$Clean	 = abs($Raw);
+		$Raw   = $timePointer - $referenceDate;
+		$Clean = abs($Raw);
 
 		$calcNum = array(
 			array('s', 60),
@@ -419,34 +352,34 @@ ENDBLOCK;
 		);
 
 		$calc = array(
-			's'	 => array(1, 'second'),
-			'm'	 => array(60, 'minute'),
-			'h'	 => array(60 * 60, 'hour'),
-			'd'	 => array(60 * 60 * 24, 'day'),
-			'y'	 => array(60 * 60 * 24 * 365, 'year')
+			's' => array(1, 'second'),
+			'm' => array(60, 'minute'),
+			'h' => array(60 * 60, 'hour'),
+			'd' => array(60 * 60 * 24, 'day'),
+			'y' => array(60 * 60 * 24 * 365, 'year')
 		);
 
-		if ($measureby == '')
+		if ($measureBy == '')
 		{
 			$usemeasure = 's';
 
 			for ($i = 0; $i < count($calcNum); $i++)
 			{
-				if ($Clean <= $calcNum[$i][1])
+				if ($Clean <= $calcNum[ $i ][1])
 				{
-					$usemeasure	 = $calcNum[$i][0];
-					$i			 = count($calcNum);
+					$usemeasure = $calcNum[ $i ][0];
+					$i          = count($calcNum);
 				}
 			}
 		}
 		else
 		{
-			$usemeasure = $measureby;
+			$usemeasure = $measureBy;
 		}
 
-		$datedifference = floor($Clean / $calc[$usemeasure][0]);
+		$datedifference = floor($Clean / $calc[ $usemeasure ][0]);
 
-		if ($autotext == true && ($timepointer == time()))
+		if ($autoText == true && ($timePointer == time()))
 		{
 			if ($Raw < 0)
 			{
@@ -462,15 +395,15 @@ ENDBLOCK;
 			$prospect = '';
 		}
 
-		if ($referencedate != 0)
+		if ($referenceDate != 0)
 		{
 			if ($datedifference == 1)
 			{
-				return $datedifference . ' ' . $calc[$usemeasure][1] . ' ' . $prospect;
+				return $datedifference . ' ' . $calc[ $usemeasure ][1] . ' ' . $prospect;
 			}
 			else
 			{
-				return $datedifference . ' ' . $calc[$usemeasure][1] . 's ' . $prospect;
+				return $datedifference . ' ' . $calc[ $usemeasure ][1] . 's ' . $prospect;
 			}
 		}
 		else
@@ -478,44 +411,6 @@ ENDBLOCK;
 			return 'No input time referenced.';
 		}
 	}
-
-	private function loadComponentOptions()
-	{
-		$db = JFactory::getDbo();
-
-		$sql		 = $db->getQuery(true)
-			->select($db->qn('params'))
-			->from($db->qn('#__extensions'))
-			->where($db->qn('type') . " = " . $db->q('component'))
-			->where($db->qn('element') . " = " . $db->q('com_docimport'));
-		$db->setQuery($sql);
-		$config_ini	 = $db->loadResult();
-
-		$config_ini = json_decode($config_ini, true);
-		if (is_null($config_ini) || empty($config_ini))
-		{
-			$config_ini = array();
-		}
-		return $config_ini;
-	}
-
-	public function getOptionValue($key, $default)
-	{
-		static $config;
-		if (empty($config))
-		{
-			$config = $this->loadComponentOptions();
-		}
-
-		if (array_key_exists($key, $config))
-		{
-			return $config[$key];
-		}
-		else
-		{
-			return $default;
-		}
-	}
-
 }
+
 JApplicationCli::getInstance('AppDocupdate')->execute();

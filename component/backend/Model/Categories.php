@@ -9,7 +9,7 @@ namespace Akeeba\DocImport\Admin\Model;
 
 use FOF30\Container\Container;
 use FOF30\Model\DataModel;
-use JComponentHelper, JLoader, JFolder;
+use JLoader, JFolder;
 
 defined('_JEXEC') or die();
 
@@ -152,7 +152,7 @@ class Categories extends DataModel
 		// First get the configured root directory
 		JLoader::import('joomla.filesystem.folder');
 		JLoader::import('cms.component.helper');
-		$cparams        = JComponentHelper::getParams('com_docimport');
+		$cparams        = $this->container->params;
 		$configuredRoot = $cparams->get('mediaroot', 'com_docimport/books');
 		$configuredRoot = trim($configuredRoot, " \t\n\r/\\");
 		$configuredRoot = empty($configuredRoot) ? 'com_docimport/books' : $configuredRoot;

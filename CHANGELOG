@@ -1,3 +1,8 @@
+DocImport 2.0
+================================================================================
+~ Rewritten in FOF 3
+- Removed the pointless control panel page
+
 DocImport 1.1.1
 ================================================================================
 + UTF8MB4 support for our own database tables (requires Joomla! 3.5 and a PHP/MySQL environment with UTF8MB4 support)

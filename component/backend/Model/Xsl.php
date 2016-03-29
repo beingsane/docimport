@@ -8,7 +8,7 @@
 namespace Akeeba\DocImport\Admin\Model;
 
 use FOF30\Model\Model;
-use JText, JLoader, JFolder, JFile, JComponentHelper, JDate, JFactory, JApplicationHelper;
+use JText, JLoader, JFolder, JFile, JDate, JFactory, JApplicationHelper;
 use DOMDocument, XSLTProcessor;
 
 defined('_JEXEC') or die();
@@ -39,9 +39,8 @@ class Xsl extends Model
 
 		// Check if directories exist
 		JLoader::import('joomla.filesystem.folder');
-		JLoader::import('cms.component.helper');
 
-		$cparams        = JComponentHelper::getParams('com_docimport');
+		$cparams        = $this->container->params;
 		$configuredRoot = $cparams->get('mediaroot', 'com_docimport/books');
 		$configuredRoot = trim($configuredRoot, " \t\n\r/\\");
 		$configuredRoot = empty($configuredRoot) ? 'com_docimport/books' : $configuredRoot;
@@ -277,7 +276,7 @@ HTACCESS;
 		JLoader::import('joomla.filesystem.folder');
 		JLoader::import('cms.component.helper');
 
-		$cparams        = JComponentHelper::getParams('com_docimport');
+		$cparams        = $this->container->params;
 		$configuredRoot = $cparams->get('mediaroot', 'com_docimport/books');
 		$configuredRoot = trim($configuredRoot, " \t\n\r/\\");
 		$configuredRoot = empty($configuredRoot) ? 'com_docimport/books' : $configuredRoot;
@@ -635,7 +634,7 @@ HTACCESS;
 		// -- Configured root
 		JLoader::import('cms.component.helper');
 
-		$cparams        = JComponentHelper::getParams('com_docimport');
+		$cparams        = $this->container->params;
 		$configuredRoot = $cparams->get('mediaroot', 'com_docimport/books');
 		$configuredRoot = trim($configuredRoot, " \t\n\r/\\");
 		$configuredRoot = empty($configuredRoot) ? 'com_docimport/books' : $configuredRoot;
