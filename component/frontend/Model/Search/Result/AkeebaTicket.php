@@ -5,7 +5,7 @@
  *  @license GNU General Public License version 3, or later
  */
 
-namespace Akeeba\DocImport\Site\Model\Search\Results;
+namespace Akeeba\DocImport\Site\Model\Search\Result;
 
 // Protect from unauthorized access
 defined('_JEXEC') or die();
@@ -14,12 +14,24 @@ use JRoute;
 use ContentHelperRoute;
 
 /**
- * Search result class for Joomla! content articles
+ * Search result class for ATS posts
  */
-class Articles extends AbstractResult
+class AkeebaTicket extends AbstractResult
 {
-	/** @var  string  Article slug */
-	public $alias;
+	/** @var  string  Ticket slug */
+	public $slug;
+
+	/** @var  string  Post's full text */
+	public $fulltext;
+
+	/** @var  string  Article's created date */
+	public $created_on;
+
+	/** @var  string  Article's modified date */
+	public $modified_on;
+
+	/** @var  int  Post ID */
+	public $pid;
 
 	/** @var  int  Category ID */
 	public $catid;
@@ -28,25 +40,14 @@ class Articles extends AbstractResult
 	public $catname;
 
 	/** @var  string  Category slug */
-	public $catalias;
+	public $catslug;
 
-	/** @var  string  Article's intro text (before the Read More) */
-	public $introtext;
-
-	/** @var  string  Article's full text (after the Read More) */
-	public $fulltext;
-
-	/** @var  string  Article's language */
+	/** @var  string  Category's language */
 	public $language;
 
-	/** @var  string  Article's created date */
-	public $created;
-
-	/** @var  string  Article's modified date */
-	public $modified;
 
 	/**
-	 * Get the URL to access the article
+	 * Get the URL to access the post
 	 *
 	 * @return  string
 	 */
@@ -57,7 +58,7 @@ class Articles extends AbstractResult
 			require_once JPATH_SITE . '/components/com_content/helpers/route.php';
 		}
 
-		return JRoute::_(ContentHelperRoute::getArticleRoute($this->alias, $this->catid, $this->language));
+		return JRoute::_('index.php?option=com_ats&view=Ticket&id=' . $this->id);
 	}
 
 	/**

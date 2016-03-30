@@ -5,13 +5,13 @@
  *  @license GNU General Public License version 3, or later
  */
 
-namespace Akeeba\DocImport\Site\Model\Search\Results;
+namespace Akeeba\DocImport\Site\Model\Search\Result;
 
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
 /**
- * Search result class for Joomla! content articles
+ * Abstract search result class
  *
  * @property-read  string  link             The URL to the search result item
  * @property-read  string  catlink          The URL to the category where the article belongs
@@ -21,12 +21,12 @@ defined('_JEXEC') or die();
  * @property-read  string  youtubeExternal  Find an embedded YouTube video and return a direct link to YouTube's site
  * @property-read  string  synopsis         A synopsis of the article's text
  */
-abstract class AbstractResult
+abstract class AbstractResult implements ResultInterface
 {
-	/** @var  int  Article ID */
+	/** @var  int  Result item's ID */
 	public $id;
 
-	/** @var  string  Article title */
+	/** @var  string  Result item's title */
 	public $title;
 
 	/** @var  string  The name of the field which holds the HTML text */

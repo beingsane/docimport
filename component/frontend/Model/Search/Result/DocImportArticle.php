@@ -5,7 +5,7 @@
  *  @license GNU General Public License version 3, or later
  */
 
-namespace Akeeba\DocImport\Site\Model\Search\Results;
+namespace Akeeba\DocImport\Site\Model\Search\Result;
 
 // Protect from unauthorized access
 defined('_JEXEC') or die();
@@ -16,7 +16,7 @@ use ContentHelperRoute;
 /**
  * Search result class for DocImport content articles
  */
-class DocImportArticles extends AbstractResult
+class DocImportArticle extends AbstractResult
 {
 	/** @var  string  Article slug */
 	public $slug;
