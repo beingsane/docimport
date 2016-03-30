@@ -2,19 +2,19 @@
   "joomla": {
     "adapter": "Joomla",
     "result": "JoomlaArticle",
-    "config": "joomla",
+    "config": "jcat",
     "title": "COM_DOCIMPORT_SEARCH_SECTION_JOOMLA"
   },
   "docimport": {
     "adapter": "DocImport",
     "result": "DocImportArticle",
-    "config": "docimport",
+    "config": "dicat",
     "title": "COM_DOCIMPORT_SEARCH_SECTION_DOCIMPORT"
   },
   "ats": {
     "adapter": "AkeebaTickets",
     "result": "AkeebaTicket",
-    "config": "ats",
+    "config": "atscat",
     "title": "COM_DOCIMPORT_SEARCH_SECTION_ATS"
   }
 }

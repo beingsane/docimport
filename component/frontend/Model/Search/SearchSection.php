@@ -87,6 +87,12 @@ class SearchSection
 		foreach ($searchAreas as $area)
 		{
 			$areaCats = $this->categoriesConfiguration->getCategoriesFor($area, $this->section);
+
+			if (!is_array($areaCats))
+			{
+				continue;
+			}
+
 			$categories = array_merge($categories, $areaCats);
 		}
 

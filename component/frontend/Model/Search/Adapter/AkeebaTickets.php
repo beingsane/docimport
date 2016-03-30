@@ -13,9 +13,9 @@ defined('_JEXEC') or die();
 use JDatabaseQuery;
 
 /**
- * DocImport articles search adapter class
+ * Akeeba Ticket System posts search adapter class
  */
-abstract class DocImport extends AbstractAdapter
+class AkeebaTickets extends AbstractAdapter
 {
 	/** @var  string  The class for the result objects, must implement ResultInterface */
 	protected $resultClass = '\\Akeeba\\DocImport\\Site\\Model\\Search\\Result\\AkeebaTicket';

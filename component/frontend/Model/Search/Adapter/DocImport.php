@@ -15,7 +15,7 @@ use JDatabaseQuery;
 /**
  * DocImport articles search adapter class
  */
-abstract class DocImport extends AbstractAdapter
+class DocImport extends AbstractAdapter
 {
 	/** @var  string  The class for the result objects, must implement ResultInterface */
 	protected $resultClass = '\\Akeeba\\DocImport\\Site\\Model\\Search\\Result\\DocImportArticle';

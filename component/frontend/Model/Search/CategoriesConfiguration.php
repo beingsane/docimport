@@ -64,12 +64,15 @@ class CategoriesConfiguration
 
 		if (!is_null($section))
 		{
-			if (!isset($this->config[$searchArea][$section]))
+			$sectionMap = SearchSection::getMap($section);
+			$configSection = $sectionMap['config'];
+			
+			if (!isset($this->config[$searchArea][$configSection]))
 			{
 				throw new SearchSectionNotFound($section);
 			}
 
-			return $this->config[$searchArea][$section];
+			return $this->config[$searchArea][$configSection];
 		}
 
 		return $this->config[$searchArea];

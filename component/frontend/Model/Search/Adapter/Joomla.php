@@ -15,7 +15,7 @@ use JDatabaseQuery;
 /**
  * Joomla articles search adapter class
  */
-abstract class Joomla extends AbstractAdapter
+class Joomla extends AbstractAdapter
 {
 	/** @var  string  The class for the result objects, must implement ResultInterface */
 	protected $resultClass = '\\Akeeba\\DocImport\\Site\\Model\\Search\\Result\\JoomlaArticle';
