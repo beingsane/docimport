@@ -72,6 +72,29 @@ interface ResultInterface
 	public function getYouTubeIframe($class = 'flex-video', $attributeString = '');
 
 	/**
+	 * Look for an embedded YouTube video and returns the URL for its thumbnail in JPG format. The supported formats
+	 * which are available are:
+	 * - 0  			First auto-generated thumbnail frame
+	 * - 1  			Second auto-generated thumbnail frame
+	 * - 2  			Third auto-generated thumbnail frame
+	 * - 3  			Fourth auto-generated thumbnail frame
+	 * - default  		Default thumbnail (0.jpg or whatever you have uploaded, 120x90 px)
+	 * - hqdefault  	High quality version of default thumbnail (480x360 px)
+	 * - mqdefault  	Medium quality version of default thumbnail (320x180 px)
+	 * - sddefault  	Standard definition version of default thumbnail (640x480 px)
+	 * - maxresdefault  Maximum resolution version of default thumbnail (maximum video resolution, depends on your video)
+	 *
+	 * We use medium quality (320x180) by default which is more than enough to display previews in carousels.
+	 *
+	 * (per http://stackoverflow.com/questions/2068344/how-do-i-get-a-youtube-video-thumbnail-from-the-youtube-api)
+	 *
+	 * @param   string  $type  The thumbnail type. See above. Default: mqdefault
+	 *
+	 * @return  string
+	 */
+	public function getYouTubeThumbnail($type = 'mqdefault');
+
+	/**
 	 * Generates a synopsis from the article's full text
 	 *
 	 * @return string

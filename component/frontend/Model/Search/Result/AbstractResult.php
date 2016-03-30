@@ -19,6 +19,7 @@ defined('_JEXEC') or die();
  * @property-read  string  youtubeLink      Find an embedded YouTube video and return a link for embed
  * @property-read  string  youtubeIframe    Find an embedded YouTube video and return the embed IFRAME
  * @property-read  string  youtubeExternal  Find an embedded YouTube video and return a direct link to YouTube's site
+ * @property-read  string  youtubeThumbnail Find an embedded YouTube video and return the URL to its JPG thumbnail
  * @property-read  string  synopsis         A synopsis of the article's text
  */
 abstract class AbstractResult implements ResultInterface
@@ -54,7 +55,7 @@ abstract class AbstractResult implements ResultInterface
 	public function getYouTubeId()
 	{
 		// //www.youtube-nocookie.com/embed/c1i2sZA58ag?rel=0&cc_load_policy=1"
-		$pattern = '#www\.youtube(-nocookie)?\.com/embed/([a-zA-Z0-9]{1,})("|\?)#i';
+		$pattern = '#www\.(youtube|youtu\.be)(-nocookie)?\.com/embed/([a-zA-Z0-9_\-]{1,})("|\?)#i';
 		$hasMatch = preg_match($pattern, $this->fulltext, $matches);
 
 		if (!$hasMatch)
@@ -121,6 +122,39 @@ abstract class AbstractResult implements ResultInterface
 	}
 
 	/**
+	 * Look for an embedded YouTube video and returns the URL for its thumbnail in JPG format. The supported formats
+	 * which are available are:
+	 * - 0  			First auto-generated thumbnail frame
+	 * - 1  			Second auto-generated thumbnail frame
+	 * - 2  			Third auto-generated thumbnail frame
+	 * - 3  			Fourth auto-generated thumbnail frame
+	 * - default  		Default thumbnail (0.jpg or whatever you have uploaded, 120x90 px)
+	 * - hqdefault  	High quality version of default thumbnail (480x360 px)
+	 * - mqdefault  	Medium quality version of default thumbnail (320x180 px)
+	 * - sddefault  	Standard definition version of default thumbnail (640x480 px)
+	 * - maxresdefault  Maximum resolution version of default thumbnail (maximum video resolution, depends on your video)
+	 *
+	 * We use medium quality (320x180) by default which is more than enough to display previews in carousels.
+	 *
+	 * (per http://stackoverflow.com/questions/2068344/how-do-i-get-a-youtube-video-thumbnail-from-the-youtube-api)
+	 *
+	 * @param   string  $type  The thumbnail type. See above. Default: mqdefault
+	 *
+	 * @return  string
+	 */
+	public function getYouTubeThumbnail($type = 'mqdefault')
+	{
+		$id = $this->getYouTubeId();
+
+		if (!$id)
+		{
+			return '';
+		}
+
+		return '//img.youtube.com/vi/' . $id . '/' . $type . '.jpg';
+	}
+
+	/**
 	 * Generates a synopsis from the article's full text
 	 *
 	 * @return string
@@ -175,6 +209,10 @@ abstract class AbstractResult implements ResultInterface
 
 			case 'youtubeExternal':
 				return $this->getYouTubeExternal();
+				break;
+
+			case 'youtubeThumbnail':
+				return $this->getYouTubeThumbnail();
 				break;
 		}
 
