@@ -12,4 +12,8 @@ $symlink_folders = array(
 	'../buildfiles/phingext'					=> 'build/phingext',
 	'../buildfiles/tools'						=> 'build/tools',
 	'../buildfiles/epub'						=> 'build/epub',
+
+	# Component translation
+	'translations/component/backend/en-GB'		=> 'component/language/backend/en-GB',
+	'translations/component/frontend/en-GB'		=> 'component/language/frontend/en-GB',
 );

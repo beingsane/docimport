@@ -24,8 +24,8 @@
 		<filename>router.php</filename>
 	</files>
 
-	<languages folder="translations/frontend">
-		<language tag="en-GB">en-GB.com_docimport.ini</language>
+	<languages folder="language/frontend">
+		<language tag="en-GB">en-GB/en-GB.com_docimport.ini</language>
 	</languages>
 
 	<media destination="com_docimport" folder="media">
@@ -56,9 +56,9 @@
 			<filename>version.php</filename>
 		</files>
 
-		<languages folder="translations/backend">
-			<language tag="en-GB">en-GB.com_docimport.ini</language>
-			<language tag="en-GB">en-GB.com_docimport.sys.ini</language>
+		<languages folder="language/backend">
+			<language tag="en-GB">en-GB/en-GB.com_docimport.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_docimport.sys.ini</language>
 		</languages>
 	</administration>
 

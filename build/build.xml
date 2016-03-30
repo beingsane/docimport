@@ -12,7 +12,7 @@
 		<include name="backend**" />
 		<include name="frontend**" />
 		<include name="media/**" />
-		<include name="translations**" />
+		<include name="language**" />
 		<include name="*.xml" />
 		<include name="*.php" />
 		<include name="LICENSE.txt" />
