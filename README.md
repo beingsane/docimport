@@ -28,7 +28,7 @@ You will also need the following path structure inside a folder on your system
 
 * **docimport**		This repository
 * **buildfiles**	[Akeeba Build Tools](https://github.com/akeeba/buildfiles)
-* **fof**			[Framework on Framework 2.x](https://github.com/akeeba/fof/tree/fof-2.x)
+* **fof3**			[Framework on Framework 3.x](https://github.com/akeeba/fof)
 
 You will need to use the exact folder names specified here.
 
