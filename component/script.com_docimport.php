@@ -22,62 +22,13 @@
 defined('_JEXEC') or die();
 
 // Load FOF if not already loaded
-if (!defined('F0F_INCLUDED'))
+if (!defined('FOF30_INCLUDED') && !@include_once(JPATH_LIBRARIES . '/fof30/include.php'))
 {
-	$paths = array(
-		(defined('JPATH_LIBRARIES') ? JPATH_LIBRARIES : JPATH_ROOT . '/libraries') . '/f0f/include.php',
-		__DIR__ . '/fof/include.php',
-	);
-
-	foreach ($paths as $filePath)
-	{
-		if (!defined('F0F_INCLUDED') && file_exists($filePath))
-		{
-			@include_once $filePath;
-		}
-	}
+	throw new RuntimeException('This component requires FOF 3.0.');
 }
 
-// Pre-load the installer script class from our own copy of FOF
-if (!class_exists('F0FUtilsInstallscript', false))
+class Com_DocimportInstallerScript extends \FOF30\Utils\InstallScript
 {
-	@include_once __DIR__ . '/fof/utils/installscript/installscript.php';
-}
-
-// Pre-load the database schema installer class from our own copy of FOF
-if (!class_exists('F0FDatabaseInstaller', false))
-{
-	@include_once __DIR__ . '/fof/database/installer.php';
-}
-
-// Pre-load the update utility class from our own copy of FOF
-if (!class_exists('F0FUtilsUpdate', false))
-{
-	@include_once __DIR__ . '/fof/utils/update/update.php';
-}
-
-// Pre-load the cache cleaner utility class from our own copy of FOF
-if (!class_exists('F0FUtilsCacheCleaner', false))
-{
-	@include_once __DIR__ . '/fof/utils/cache/cleaner.php';
-}
-
-class Com_DocimportInstallerScript extends F0FUtilsInstallscript
-{
-	/**
-	 * The minimum PHP version required to install this extension
-	 *
-	 * @var   string
-	 */
-	protected $minimumPHPVersion = '5.3.4';
-
-	/**
-	 * The minimum Joomla! version required to install this extension
-	 *
-	 * @var   string
-	 */
-	protected $minimumJoomlaVersion = '3.2.2';
-
 	/**
 	 * The component's name
 	 *
@@ -93,34 +44,18 @@ class Com_DocimportInstallerScript extends F0FUtilsInstallscript
 	protected $componentTitle = 'DocImport<sup>3</sup>';
 
 	/**
-	 * The list of extra modules and plugins to install on component installation / update and remove on component
-	 * uninstallation.
+	 * The minimum PHP version required to install this extension
 	 *
-	 * @var   array
+	 * @var   string
 	 */
-	protected $installation_queue = array(
-		// modules => { (folder) => { (module) => { (position), (published) } }* }*
-		'modules' => array(
-			'admin' => array(
-				//'foobar' => array('cpanel', 1)
-			),
-			'site' => array(
-				//'foobar' => array('left', 0),
-			)
-		),
-		// plugins => { (folder) => { (element) => (published) }* }*
-		'plugins' => array(
-			'search' => array(
-				'docimport'					=> 1,
-			),
-            'sh404sefextplugins' => array(
-                'com_docimport'             => 1
-            ),
-			'finder' => array(
-				'docimport'					=> 1,
-			),
-		)
-	);
+	protected $minimumPHPVersion = '5.4.0';
+
+	/**
+	 * The minimum Joomla! version required to install this extension
+	 *
+	 * @var   string
+	 */
+	protected $minimumJoomlaVersion = '3.4.0';
 
 	/**
 	 * Obsolete files and folders to remove from both paid and free releases. This is used when you refactor code and
@@ -156,15 +91,14 @@ class Com_DocimportInstallerScript extends F0FUtilsInstallscript
 		)
 	);
 
-	/**
-	 * A list of scripts to be copied to the "cli" directory of the site
-	 *
-	 * @var   array
-	 */
-	protected $cliScriptFiles = array(
-		'docimport-update.php',
-		'docimport-upgrade.php',
-	);
+	public function postflight($type, $parent)
+	{
+		// Remove the update sites for this component on installation.
+		$this->removeObsoleteUpdateSites($parent);
+
+		// Call the parent method
+		parent::postflight($type, $parent);
+	}
 
 	/**
 	 * Renders the post-installation message
@@ -179,25 +113,21 @@ class Com_DocimportInstallerScript extends F0FUtilsInstallscript
 			You can download translation files <a href="http://akeeba-cdn.s3-website-eu-west-1.amazonaws.com/language/docimport/">directly from our CDN page</a>.
 		</div>
 		<img src="../media/com_docimport/images/docimport-48.png" width="48" height="48" alt="Akeeba DocImport" align="left" />
-		<h2 style="font-size: 14pt; font-weight: black; padding: 0; margin: 0 0 0.5em;">&nbsp;Welcome to Akeeba DocImport!</h2>
+		<h2 style="font-size: 14pt; font-weight: bold; padding: 0; margin: 0 0 0.5em;">&nbsp;Welcome to Akeeba DocImport!</h2>
 		<span>
 			The easiest way to provide up-to-date documentation
 		</span>
-
 		<?php
-		parent::renderPostInstallation($status, $fofInstallationStatus, $strapperInstallationStatus, $parent);
 	}
 
 	protected function renderPostUninstallation($status, $parent)
 	{
 ?>
 <h2 style="font-size: 14pt; font-weight: black; padding: 0; margin: 0 0 0.5em;">&nbsp;Akeeba DocImport Uninstallation</h2>
-<p>We are sorry that you decided to uninstall Akeeba DocImport. Please let us know why by using the Contact Us form on our site. We appreciate your feedback; it helps us develop better software!</p>
+<p>We are sorry that you decided to uninstall Akeeba DocImport.</p>
 
 <?php
-		parent::renderPostUninstallation($status, $parent);
 	}
-
 
 	/**
 	 * The PowerAdmin extension makes menu items disappear. People assume it's our fault. JSN PowerAdmin authors don't
@@ -251,6 +181,60 @@ class Com_DocimportInstallerScript extends F0FUtilsInstallscript
 
 HTML;
 
+	}
+
+	/**
+	 * Removes obsolete update sites created for the component (we are no longer providing update; also, we are now
+	 * using the "package" extension type).
+	 *
+	 * @param   JInstallerAdapterComponent  $parent  The parent installer
+	 */
+	protected function removeObsoleteUpdateSites($parent)
+	{
+		$db = $parent->getParent()->getDbo();
+
+		$query = $db->getQuery(true)
+					->select($db->qn('extension_id'))
+					->from($db->qn('#__extensions'))
+					->where($db->qn('type') . ' = ' . $db->q('component'))
+					->where($db->qn('name') . ' = ' . $db->q($this->componentName));
+		$db->setQuery($query);
+		$extensionId = $db->loadResult();
+
+		if (!$extensionId)
+		{
+			return;
+		}
+
+		$query = $db->getQuery(true)
+					->select($db->qn('update_site_id'))
+					->from($db->qn('#__update_sites_extensions'))
+					->where($db->qn('extension_id') . ' = ' . $db->q($extensionId));
+		$db->setQuery($query);
+
+		$ids = $db->loadColumn(0);
+
+		if (!is_array($ids) && empty($ids))
+		{
+			return;
+		}
+
+		foreach ($ids as $id)
+		{
+			$query = $db->getQuery(true)
+						->delete($db->qn('#__update_sites'))
+						->where($db->qn('update_site_id') . ' = ' . $db->q($id));
+			$db->setQuery($query);
+
+			try
+			{
+				$db->execute();
+			}
+			catch (\Exception $e)
+			{
+				// Do not fail in this case
+			}
+		}
 	}
 
 }
