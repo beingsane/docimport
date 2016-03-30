@@ -24,7 +24,7 @@ class Search extends Model
 	 *
 	 * @var  array
 	 */
-	public $searchResults = null;
+	public $searchResults = [];
 
 	public function produceSearchResults()
 	{

@@ -71,6 +71,12 @@ function docimportBuildRoute(&$query)
 			}
 			break;
 
+		case 'search':
+		case 'Search':
+			$view = 'Search';
+			$task = 'main';
+			break;
+
 		default:
 			$view = 'Categories';
 			$task = 'browse';
@@ -107,6 +113,40 @@ function docimportBuildRoute(&$query)
 					$mView = isset($menu->query['view']) ? $menu->query['view'] : 'Categories';
 					// No, we have to find another root
 					if (!in_array($menu, ['categories', 'Categories']))
+					{
+						$Itemid = null;
+					}
+				}
+			}
+
+			break;
+
+		case 'Search':
+		case 'search':
+			// Find a suitable Itemid
+			$menu   = DocimportRouterHelper::findMenu($qoptions);
+			$Itemid = empty($menu) ? null : $menu->id;
+
+			if (empty($Itemid))
+			{
+				$qoptions['view'] = strtolower($qoptions['view']);
+				$menu   = DocimportRouterHelper::findMenu($qoptions);
+				$Itemid = empty($menu) ? null : $menu->id;
+			}
+
+			if (!empty($Itemid))
+			{
+				// Joomla! will let the menu item naming work its magic
+				$query['Itemid'] = $Itemid;
+			}
+			else
+			{
+				if ($queryItemid)
+				{
+					$menu  = $menus->getItem($queryItemid);
+					$mView = isset($menu->query['view']) ? $menu->query['view'] : 'Search';
+					// No, we have to find another root
+					if (!in_array($menu, ['search', 'Search']))
 					{
 						$Itemid = null;
 					}
@@ -386,6 +426,11 @@ function docimportParseRoute(&$segments)
 					break;
 			}
 		}
+		elseif (($view == 'Search') || ($view == 'search'))
+		{
+			$query['view'] = 'Search';
+			$view          = 'Search';
+		}
 		elseif (empty($view) || count($segments))
 		{
 			switch (count($segments))
@@ -440,7 +485,7 @@ function docimportParseRoute(&$segments)
 				$query['id'] = $article->docimport_article_id;
 			}
 		}
-		elseif (!in_array($view, ['categories', 'Categories']))
+		elseif (!in_array($view, ['categories', 'Categories', 'search', 'Search']))
 		{
 			// Load the category
 			/** @var \Akeeba\DocImport\Site\Model\Categories $categoriesModel */
@@ -456,6 +501,10 @@ function docimportParseRoute(&$segments)
 				$query['view'] = 'Category';
 				$query['id']   = $catid;
 			}
+		}
+		elseif (in_array($view, ['search', 'Search']))
+		{
+			$query['view'] = 'Search';
 		}
 		else
 		{

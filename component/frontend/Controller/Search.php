@@ -17,7 +17,7 @@ class Search extends Controller
 	public function main()
 	{
 		// Get query string parameters
-		$search       = $this->input->getString('q', '');
+		$search       = $this->input->getString('search', '');
 		$supportAreas = $this->input->get('areas', [], 'array');
 		$limit        = $this->input->getInt('limit', '10');
 		$limitStart   = $this->input->getInt('limitstart', '0');

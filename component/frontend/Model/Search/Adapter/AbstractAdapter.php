@@ -66,7 +66,7 @@ abstract class AbstractAdapter implements AdapterInterface
 		$ret = [];
 
 		// We need to be told which categories to search in
-		if (empty($categories))
+		if (empty($this->categories))
 		{
 			return $ret;
 		}
@@ -105,7 +105,7 @@ abstract class AbstractAdapter implements AdapterInterface
 	public function count($search)
 	{
 		// We need to be told which categories to search in
-		if (empty($categories))
+		if (empty($this->categories))
 		{
 			return 0;
 		}
