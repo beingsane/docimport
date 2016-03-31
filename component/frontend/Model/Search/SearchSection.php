@@ -103,6 +103,12 @@ class SearchSection
 		$this->adapter = new $adapterClass($container, $categories);
 	}
 
+	public function reset()
+	{
+		$this->cachedItems = null;
+		$this->cachedCount = null;
+	}
+
 	/**
 	 * Get the search result items
 	 *
@@ -114,7 +120,12 @@ class SearchSection
 	 */
 	public function getItems($query, $limitStart = 0, $limit = 10)
 	{
-		$this->cachedItems = $this->adapter->search($query, $limitStart, $limit);
+		if (is_null($this->cachedItems))
+		{
+			$this->cachedItems = $this->adapter->search($query, $limitStart, $limit);
+		}
+
+		return $this->cachedItems;
 	}
 
 	/**
@@ -126,7 +137,12 @@ class SearchSection
 	 */
 	public function getCount($query)
 	{
-		$this->cachedItems = $this->adapter->count($query);
+		if (is_null($this->cachedCount))
+		{
+			$this->cachedCount = $this->adapter->count($query);
+		}
+
+		return $this->cachedCount;
 	}
 
 	/**
