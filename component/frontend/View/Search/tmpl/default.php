@@ -79,49 +79,52 @@ JHtml::_('formbehavior.chosen', 'select.fancySelect')
 $tabs   = array_keys($this->items);
 $active = $tabs[1];
 ?>
+<div class="row col-xs-12 form">
+	<div class="panel-group" id="dius-results-accordion" role="tablist" aria-multiselectable="true">
+	<?php foreach ($this->items as $section => $data):
+		$ariaExpanded = ($section == $active) ? 'true' : 'false';
+		$collapseClass = ($section == $active) ? 'collapse in' : 'collapse';
+	?>
 
-<div class="panel-group" id="dius-results-accordion" role="tablist" aria-multiselectable="true">
-<?php foreach ($this->items as $section => $data):
-	$ariaExpanded = ($section == $active) ? 'true' : 'false';
-	$collapseClass = ($section == $active) ? 'collapse in' : 'collapse';
-?>
-
-	<div class="panel panel-default">
-		<div class="panel-heading" role="tab" id="dius-results-slide-<?php echo $section ?>-head">
-			<h4 class="panel-title">
-				<a role="button" data-toggle="collapse" data-parent="#dius-results-accordion"
-				   href="#dius-results-slide-<?php echo $section ?>"
-				   aria-expanded="<?php echo $ariaExpanded ?>"
-				   aria-controls="dius-results-slide-<?php echo $section ?>"
-				>
-					<?php echo JText::_('COM_DOCIMPORT_SEARCH_SECTION_' . $section) ?>
-				</a>
-			</h4>
-		</div>
-		<div id="dius-results-slide-<?php echo $section ?>"
-			 class="panel-collapse <?php echo $collapseClass ?>"
-			 role="tabpanel"
-			 aria-labelledby="dius-results-slide-<?php echo $section ?>-head"
-		>
-			<div class="panel-body">
-				<?php
-				// Render the section using template sectionName, e.g. joomla
-				try
-				{
-					echo $this->loadAnyTemplate('site:com_docimport/Search/' . $section, $data);
-				}
-				catch (Exception $e)
-				{
-					echo $e->getMessage(); die;
-				}
-				?>
+		<div class="panel panel-default">
+			<div class="panel-heading" role="tab" id="dius-results-slide-<?php echo $section ?>-head">
+				<h4 class="panel-title">
+					<a role="button" data-toggle="collapse" data-parent="#dius-results-accordion"
+					   href="#dius-results-slide-<?php echo $section ?>"
+					   aria-expanded="<?php echo $ariaExpanded ?>"
+					   aria-controls="dius-results-slide-<?php echo $section ?>"
+					>
+						<?php echo JText::_('COM_DOCIMPORT_SEARCH_SECTION_' . $section) ?>
+					</a>
+				</h4>
+			</div>
+			<div id="dius-results-slide-<?php echo $section ?>"
+				 class="panel-collapse <?php echo $collapseClass ?>"
+				 role="tabpanel"
+				 aria-labelledby="dius-results-slide-<?php echo $section ?>-head"
+			>
+				<div class="panel-body">
+					<?php
+					// Render the section using template sectionName, e.g. joomla
+					try
+					{
+						echo $this->loadAnyTemplate('site:com_docimport/Search/' . $section, $data);
+					}
+					catch (Exception $e)
+					{
+						echo $e->getMessage(); die;
+					}
+					?>
+				</div>
 			</div>
 		</div>
+	<?php endforeach; ?>
 	</div>
-<?php endforeach; ?>
 </div>
 
-<div class="pagination">
-	<p class="counter pull-right"> <?php echo $this->pagination->getPagesCounter(); ?> </p>
-	<?php echo $this->pagination->getPagesLinks(); ?>
+<div class="row col-xs-12 form">
+	<div class="pagination">
+		<p class="counter pull-right"> <?php echo $this->pagination->getPagesCounter(); ?> </p>
+		<?php echo $this->pagination->getPagesLinks(); ?>
+	</div>
 </div>
