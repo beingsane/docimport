@@ -34,6 +34,9 @@ abstract class AbstractResult implements ResultInterface
 	/** @var  string  The name of the field which holds the HTML text */
 	public $textFieldName = 'fulltext';
 
+	/** @var  int  Maximum length (in characters) for the synopsis displayed in search results */
+	public $synopsisMaxLength = 300;
+
 	/**
 	 * Get the URL to access the item
 	 *
@@ -176,12 +179,12 @@ abstract class AbstractResult implements ResultInterface
 	{
 		$stripedText = strip_tags($this->{$this->textFieldName});
 
-		if (strlen($stripedText) < 150)
+		if (strlen($stripedText) < $this->synopsisMaxLength)
 		{
 			return $stripedText;
 		}
 
-		return substr($stripedText, 0, 150) . '&hellip;';
+		return substr($stripedText, 0, $this->synopsisMaxLength) . '&hellip;';
 	}
 
 	/**
