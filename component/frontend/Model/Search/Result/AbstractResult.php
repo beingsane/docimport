@@ -117,7 +117,7 @@ abstract class AbstractResult implements ResultInterface
 			return '';
 		}
 
-		return '//www.youtube-nookie.com/embed/' . $id . '?rel=0&cc_load_policy=1&modestbranding=1';
+		return '//www.youtube-nocookie.com/embed/' . $id . '?rel=0&cc_load_policy=1&modestbranding=1';
 	}
 
 	/**
