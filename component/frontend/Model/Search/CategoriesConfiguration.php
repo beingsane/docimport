@@ -66,7 +66,7 @@ class CategoriesConfiguration
 		{
 			$sectionMap = SearchSection::getMap($section);
 			$configSection = $sectionMap['config'];
-			
+
 			if (!isset($this->config[$searchArea][$configSection]))
 			{
 				throw new SearchSectionNotFound($section);
@@ -86,6 +86,27 @@ class CategoriesConfiguration
 	public function getAllAreas()
 	{
 		return array_keys($this->config);
+	}
+
+	/**
+	 * Returns the titles of all search areas in a format usable by JHtmlSelect::options
+	 *
+	 * @return  array  Format: [ ['text' => 'Title 1', 'value' => 'slug1'], ... ]
+	 */
+	public function getAllAreaTitles()
+	{
+		$ret = [];
+
+		foreach ($this->config as $slug => $item)
+		{
+			$title = isset($item['title']) ? $item['title'] : $slug;
+			$ret[] = [
+				'text' => $title,
+				'value' => $slug
+			];
+		}
+
+		return $ret;
 	}
 
 	/**

@@ -22,6 +22,12 @@ class Search extends Controller
 		$limit        = $this->input->getInt('limit', '10');
 		$limitStart   = $this->input->getInt('limitstart', '0');
 
+		// If a search is made make sure there's a CSRF token (prevents abuse)
+		if (!empty($search))
+		{
+			$this->csrfProtection();
+		}
+
 		// Make sure the limit is between 5 and 100
 		$limit = max($limit, 5);
 		$limit = min($limit, 100);

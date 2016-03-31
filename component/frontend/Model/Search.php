@@ -26,6 +26,40 @@ class Search extends Model
 	 */
 	public $searchResults = [];
 
+	/**
+	 * The cached support areas configuration for this model
+	 *
+	 * @var  CategoriesConfiguration
+	 */
+	private $categoriesConfiguration = null;
+
+	/**
+	 * Returns the cached support areas configuration for this model, creating it if it doesn't exist
+	 *
+	 * @return  CategoriesConfiguration
+	 */
+	public function getCategoriesConfiguration()
+	{
+		if (is_null($this->categoriesConfiguration))
+		{
+			$this->categoriesConfiguration = new CategoriesConfiguration($this->container);
+		}
+
+		return $this->categoriesConfiguration;
+	}
+
+	/**
+	 * Run the search and save the results array in $this->searchResutls. The results array is in the following format:
+	 * [
+	 * 		"sectionName" => [
+	 * 			"items" => ResultInterface[],
+	 * 			"count" => integer
+	 * 		],
+	 * 		...
+	 * ]
+	 *
+	 * @return  void
+	 */
 	public function produceSearchResults()
 	{
 		$query      = $this->getState('search', '', 'string');
@@ -35,7 +69,7 @@ class Search extends Model
 
 		$this->searchResults = [];
 
-		$catConfig    = new CategoriesConfiguration($this->container);
+		$catConfig    = $this->getCategoriesConfiguration();
 		$sectionNames = SearchSection::getSections();
 
 		foreach ($sectionNames as $sectionName)
