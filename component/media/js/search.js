@@ -60,3 +60,50 @@ akeeba.DocImport.Search.sectionsChange = function ()
 
     }(akeeba.jQuery));
 };
+
+akeeba.DocImport.Search.rememberTabs = function () {
+    (function ($) {
+        $(document).find('h4.panel-title a[data-toggle="collapse"]').on('click', function (e) {
+            // Store the selected tab href in localstorage
+            window.localStorage.setItem('accordion-href', $(e.target).attr('href'));
+        });
+
+        var activateSlide = function (href) {
+            var $el = $('h4.panel-title a[data-toggle="collapse"]a[href*=' + href + ']');
+            $el.click();
+        };
+
+        var hasSlide = function (href) {
+            return $('h4.panel-title a[data-toggle="collapse"]a[href*=' + href + ']').length;
+        };
+
+        if (localStorage.getItem('accordion-href')) {
+            // When moving from accordion area to a different view
+            if (!hasSlide(localStorage.getItem('accordion-href')))
+            {
+                localStorage.removeItem('accordion-href');
+                return true;
+            }
+
+            // Clean default slides
+            $('h4.panel-title a[data-toggle="collapse"]').parent().removeClass('active');
+            var slideHref = localStorage.getItem('accordion-href');
+
+            // Add active attribute for selected tab indicated by url
+            activateSlide(slideHref);
+
+            // Check whether internal tab is selected (in format <slideName>-<id>)
+            var seperatorIndex = slideHref.indexOf('-');
+
+            if (seperatorIndex !== -1)
+            {
+                var singular = slideHref.substring(0, seperatorIndex);
+                var plural = singular + "s";
+
+                activateSlide(plural);
+            }
+        }
+    }(akeeba.jQuery));
+};
+
+setTimeout(akeeba.DocImport.Search.rememberTabs, 100);
