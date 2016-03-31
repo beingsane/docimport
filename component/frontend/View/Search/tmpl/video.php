@@ -22,4 +22,29 @@ if (empty($items)):
 </div>
 <?php return; endif; ?>
 
-TODO – SHOW RESULTS
+<?php foreach($items as $item): ?>
+	<div class="dius-result dius-result-video">
+		<div class="xs-hide col-sm-6 col-md-8">
+			<h5 class="dius-result-title dius-result-title-video">
+				<a href="<?php echo $item->link ?>" rel="nofollow" target="_blank">
+					<?php echo $item->title ?>
+				</a>
+			</h5>
+			<div class="dius-result-category dius-result-category-video">
+				<span class="glyphicon glyphicon-book"></span>
+				<a href="<?php echo $item->catlink ?>" rel="nofollow" target="_blank">
+					<?php echo $item->catname ?>
+				</a>
+			</div>
+			<div class="dius-result-synopsis dius-result-synopsis-video">
+				<?php echo $item->introtext ?>
+			</div>
+		</div>
+		<div class="xs-hide col-sm-6 col-md-4">
+			<a href="<?php echo $item->link ?>" rel="nofollow" target="_blank">
+				<img src="<?php echo $item->youtubeThumbnail ?>" class="image-responsive">
+			</a>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+<?php endforeach; ?>
