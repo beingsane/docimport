@@ -41,9 +41,9 @@ if (empty($items)):
 			</div>
 		</div>
 		<div class="xs-hide col-sm-6 col-md-4">
-			<a href="<?php echo $item->link ?>" rel="nofollow" target="_blank">
-				<img src="<?php echo $item->youtubeThumbnail ?>" class="image-responsive">
-			</a>
+			<div class="embed-responsive embed-responsive-16by9">
+				<?php echo $item->getYouTubeIframe('embed-responsive-item') ?>
+			</div>
 		</div>
 		<div class="clearfix"></div>
 	</div>
