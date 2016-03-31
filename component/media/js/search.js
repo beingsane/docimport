@@ -34,18 +34,27 @@ akeeba.DocImport.Search.sectionsChange = function ()
         var selections = element.val();
 
         element.children().each(function(name, val){
-            if (selections.indexOf(val.value) >= 0)
+            if (selections != null)
             {
-                forDisplay.push(val.text);
+                if (selections.indexOf(val.value) >= 0)
+                {
+                    forDisplay.push(val.text);
+                }
             }
         });
 
-        if (selections.indexOf('*') != -1)
+        if (selections != null)
         {
-            forDisplay = [];
+            if (selections.indexOf('*') != -1)
+            {
+                forDisplay = [akeeba.DocImport.Search.labelAllSections];
+            }
         }
 
-        console.debug(forDisplay);
+        if (!forDisplay.length)
+        {
+            forDisplay = [akeeba.DocImport.Search.labelAllSections];
+        }
 
         $('#dius-searching-areas').html(forDisplay.join(', '));
 
