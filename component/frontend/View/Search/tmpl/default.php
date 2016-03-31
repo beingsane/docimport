@@ -20,7 +20,10 @@ JHtml::_('formbehavior.chosen', 'select.fancySelect')
 <form action="<?php echo $submitUrl ?>" method="POST" id="dius-form">
 	<div id="dius-searchform" class="row col-xs-12">
 		<div class="input-group">
-			<input type="text" class="form-control" id="dius-search" name="search" placeholder="<?php echo JText::_('COM_DOCIMPORT_SEARCH_LBL_SEARCHSUPPORT') ?>">
+			<input type="text" class="form-control" id="dius-search" name="search"
+				   placeholder="<?php echo JText::_('COM_DOCIMPORT_SEARCH_LBL_SEARCHSUPPORT') ?>"
+				   value="<?php echo htmlentities($this->search); ?>"
+			>
 			<span class="input-group-btn">
 				<button class="btn btn-primary" type="submit">
 					<span class="glyphicon glyphicon-search"></span>
