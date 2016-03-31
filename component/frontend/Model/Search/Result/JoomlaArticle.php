@@ -57,7 +57,7 @@ class JoomlaArticle extends AbstractResult
 			require_once JPATH_SITE . '/components/com_content/helpers/route.php';
 		}
 
-		return JRoute::_(ContentHelperRoute::getArticleRoute($this->alias, $this->catid, $this->language));
+		return JRoute::_(ContentHelperRoute::getArticleRoute($this->id, $this->catid, $this->language));
 	}
 
 	/**
