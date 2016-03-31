@@ -27,6 +27,9 @@ class Html extends BaseView
 	/** @var   array  Search results */
 	public $items = null;
 
+	/** @var   int  Results offset */
+	public $limitStart = 0;
+
 	/** @var   JPagination  Pagination for search results */
 	public $pagination;
 
@@ -75,6 +78,7 @@ JS;
 		$this->items       = $model->searchResults;
 		$this->pagination  = $model->getPagination();
 		$this->search      = $model->getState('search', '', 'string');
+		$this->limitStart  = $model->getState('start', 0, 'int');
 		$this->areas       = $model->getState('areas', [], 'array');
 		$this->areaOptions = array_map(function ($area) {
 			return JHtml::_('select.option', $area['value'], $area['text']);

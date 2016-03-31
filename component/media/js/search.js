@@ -69,6 +69,14 @@ akeeba.DocImport.Search.rememberTabs = function () {
         });
 
         var activateSlide = function (href) {
+            var $target = $(href);
+
+            // Is it already active?
+            if ($target.hasClass('in'))
+            {
+                return;
+            }
+
             var $el = $('h4.panel-title a[data-toggle="collapse"]a[href*=' + href + ']');
             $el.click();
         };

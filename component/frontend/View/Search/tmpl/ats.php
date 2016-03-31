@@ -23,19 +23,19 @@ if (empty($items)):
 <?php return; endif; ?>
 
 <?php foreach($items as $item): ?>
-	<div class="dius-result dius-result-docimport">
-		<h5 class="dius-result-title dius-result-title-docimport">
+	<div class="dius-result dius-result-ats">
+		<h5 class="dius-result-title dius-result-title-ats">
 			<a href="<?php echo $item->link ?>" rel="nofollow" target="_blank">
 				<?php echo $item->title ?>
 			</a>
 		</h5>
-		<div class="dius-result-category dius-result-category-docimport">
+		<div class="dius-result-category dius-result-category-ats">
 			<span class="glyphicon glyphicon-book"></span>
 			<a href="<?php echo $item->catlink ?>" rel="nofollow" target="_blank">
 				<?php echo $item->catname ?>
 			</a>
 		</div>
-		<div class="dius-result-synopsis dius-result-synopsis-docimport">
+		<div class="dius-result-synopsis dius-result-synopsis-ats">
 			<?php echo $item->synopsis ?>
 		</div>
 	</div>

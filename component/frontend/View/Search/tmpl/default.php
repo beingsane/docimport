@@ -74,14 +74,43 @@ JHtml::_('formbehavior.chosen', 'select.fancySelect')
 
 <?php if (empty($this->search)) return; ?>
 
-<?php
-// TODO Read default active tab from component configuration
-$tabs   = array_keys($this->items);
-$active = $tabs[1];
+<?php if (!$this->pagination->pagesTotal): ?>
+
+<div class="row col-xs-12">
+	<div class="alert alert-danger">
+		<?php echo JText::_('COM_DOCIMPORT_SEARCH_ERR_NOTHINGFOUND'); ?>
+	</div>
+</div>
+
+<?php else:
+// Get a smart active slider
+$active = 'docimport';
+
+if ($this->items['ats']['count'] && ($this->items['ats']['count'] >= $this->limitStart))
+{
+	$active = 'ats';
+}
+
+if ($this->items['video']['count'] && ($this->items['video']['count'] >= $this->limitStart))
+{
+	$active = 'video';
+}
 ?>
 <div class="row col-xs-12 form">
 	<div class="panel-group" id="dius-results-accordion" role="tablist" aria-multiselectable="true">
 	<?php foreach ($this->items as $section => $data):
+		// Skip over sections with no results
+		if (!$data['count'])
+		{
+			continue;
+		}
+
+		// Skip over sections with less result pages than the current page
+		if ($this->limitStart > $data['count'])
+		{
+			continue;
+		}
+
 		$ariaExpanded = ($section == $active) ? 'true' : 'false';
 		$collapseClass = ($section == $active) ? 'collapse in' : 'collapse';
 	?>
@@ -128,3 +157,5 @@ $active = $tabs[1];
 		<?php echo $this->pagination->getPagesLinks(); ?>
 	</div>
 </div>
+
+<?php endif; ?>

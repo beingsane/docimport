@@ -70,7 +70,6 @@ abstract class AbstractResult implements ResultInterface
 	 */
 	public function getYouTubeId()
 	{
-		// //www.youtube-nocookie.com/embed/c1i2sZA58ag?rel=0&cc_load_policy=1"
 		$pattern = '#www\.(youtube|youtu\.be)(-nocookie)?\.com/embed/([a-zA-Z0-9_\-]{1,})("|\?)#i';
 		$hasMatch = preg_match($pattern, $this->fulltext, $matches);
 
@@ -79,7 +78,12 @@ abstract class AbstractResult implements ResultInterface
 			return '';
 		}
 
-		return $matches[2];
+		if ($matches[2] != '-nocookie')
+		{
+			return $matches[2];
+		}
+
+		return $matches[3];
 	}
 
 	/**
