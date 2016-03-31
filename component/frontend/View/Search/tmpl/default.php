@@ -68,6 +68,40 @@ JHtml::_('formbehavior.chosen', 'select.fancySelect')
 
 <?php if (empty($this->search)) return; ?>
 
+<?php
+// TODO Read default active tab from component configuration
+$tabs   = array_keys($this->items);
+$active = $tabs[1];
+
+// Start a tabbed interface
+echo JHtml::_('bootstrap.startTabSet', 'docimport-unisearch-tabs', ['active' => 'docimport-unisearch-tab-' . $active]);
+
+// Loop all sections
+foreach ($this->items as $section => $data)
+{
+	// Start a section tab
+	echo JHtml::_('bootstrap.addTab', 'docimport-unisearch-tabs',
+		'docimport-unisearch-tab-' . $section,
+		addslashes(JText::_('COM_DOCIMPORT_SEARCH_SECTION_' . $section))
+	);
+
+	// Render the section using template sectionName, e.g. joomla
+	try
+	{
+		echo $this->loadAnyTemplate('site:com_docimport/Search/' . $section, $data);
+	}
+	catch (Exception $e)
+	{
+		echo $e->getMessage(); die;
+	}
+
+	// End the section tab
+	echo JHtml::_('bootstrap.endTab');
+}
+
+echo JHtml::_('bootstrap.endTabSet');
+?>
+
 <div class="pagination">
 	<p class="counter pull-right"> <?php echo $this->pagination->getPagesCounter(); ?> </p>
 	<?php echo $this->pagination->getPagesLinks(); ?>
