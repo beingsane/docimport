@@ -64,7 +64,7 @@ class Search extends Model
 	{
 		$query      = $this->getState('search', '', 'string');
 		$areas      = $this->getState('areas', [], 'array');
-		$limitStart = $this->getState('limitStart', 0, 'int');
+		$limitStart = $this->getState('start', 0, 'int');
 		$limit      = $this->getState('limit', 10, 'int');
 
 		$this->searchResults = [];
@@ -93,7 +93,7 @@ class Search extends Model
 	 */
 	public function getPagination($prefix = '', $app = null)
 	{
-		$limitStart = $this->getState('limitStart', 0, 'int');
+		$limitStart = $this->getState('start', 0, 'int');
 		$limit      = $this->getState('limit', 10, 'int');
 
 		// Find the maximum number of items
@@ -105,5 +105,29 @@ class Search extends Model
 		}
 
 		return new \JPagination($maxCount, $limitStart, $limit, $prefix, $app);
+	}
+
+	/**
+	 * Method to set model state variables
+	 *
+	 * @param   string $property The name of the property.
+	 * @param   mixed  $value    The value of the property to set or null.
+	 *
+	 * @return  mixed  The previous value of the property or null if not set.
+	 */
+	public function setState($property, $value = null)
+	{
+		if ($this->_savestate)
+		{
+			$key = $this->getHash() . $property;
+			\JFactory::getApplication()->setUserState($key, $value);
+		}
+
+		if (is_null($this->state))
+		{
+			$this->state = new \stdClass();
+		}
+
+		return $this->state->$property = $value;
 	}
 }
