@@ -32,10 +32,12 @@
 					   label="COM_DOCIMPORT_CONFIG_SEARCHAREAS_TITLE_LABEL"
 					   size="30"
 					   type="text" />
+
 				<field name="slug"
 					   label="COM_DOCIMPORT_CONFIG_SEARCHAREAS_SLUG_LABEL"
 					   size="30"
 					   type="text" />
+
 				<field
 						name="jcat"
 						type="category"
@@ -45,6 +47,7 @@
 						default=""
 						label="COM_DOCIMPORT_CONFIG_SEARCHAREAS_JCAT_LABEL"
 				/>
+
 				<field
 						name="dicat"
 						type="sql"
@@ -55,6 +58,7 @@
 						key_field="id"
 						value_field="title"
 				/>
+
 				<field
 						name="atscat"
 						type="category"
@@ -64,6 +68,16 @@
 						default=""
 						label="COM_DOCIMPORT_CONFIG_SEARCHAREAS_ATSCAT_LABEL"
 				/>
+		</field>
+
+		<field name="force_menuid"
+			   type="Menuitem"
+			   published="1"
+			   label="COM_DOCIMPORT_CONFIG_FORCEMENU_LABEL"
+			   description="COM_DOCIMPORT_CONFIG_FORCEMENU_DESC"
+			   default=""
+		>
+			<option value="">––––</option>
 		</field>
 	</fieldset>
 

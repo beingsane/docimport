@@ -48,16 +48,27 @@ class JoomlaArticle extends AbstractResult
 	/**
 	 * Get the URL to access the article
 	 *
+	 * @param   int  $Itemid  Because Joomla! can't find the menu item on its own when you do not use a Categories / Blog layout. ARGH!
+	 *
 	 * @return  string
 	 */
-	public function getLink()
+	public function getLink($Itemid = null)
 	{
 		if (!class_exists('ContentHelperRoute'))
 		{
 			require_once JPATH_SITE . '/components/com_content/helpers/route.php';
 		}
 
-		return JRoute::_(ContentHelperRoute::getArticleRoute($this->id, $this->catid, $this->language));
+		$link = ContentHelperRoute::getArticleRoute($this->id, $this->catid, $this->language);
+
+		if (!empty($Itemid))
+		{
+			$jLink = new \JUri($link);
+			$jLink->setVar('Itemid', $Itemid);
+			$link = $jLink->toString();
+		}
+
+		return JRoute::_($link);
 	}
 
 	/**

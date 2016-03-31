@@ -10,6 +10,9 @@ defined('_JEXEC') or die();
 
 /** @var  \Akeeba\DocImport\Site\Model\Search\Result\JoomlaArticle[]  $items */
 /** @var  int $count */
+/** @var \Akeeba\DocImport\Site\View\Search\Html $this */
+
+$Itemid = $this->getContainer()->params->get('force_menuid', null);
 
 if (empty($items)):
 ?>
@@ -26,7 +29,7 @@ if (empty($items)):
 	<div class="dius-result dius-result-video">
 		<div class="xs-hide col-sm-6 col-md-8">
 			<h5 class="dius-result-title dius-result-title-video">
-				<a href="<?php echo $item->link ?>" rel="nofollow" target="_blank">
+				<a href="<?php echo $item->getLink($Itemid) ?>" rel="nofollow" target="_blank">
 					<?php echo $item->title ?>
 				</a>
 			</h5>
