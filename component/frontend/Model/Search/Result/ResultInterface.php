@@ -41,6 +41,13 @@ interface ResultInterface
 	public function getCategoryLink();
 
 	/**
+	 * Get the URL to access a preview of the item. Defaults to item URL + tmpl=component
+	 *
+	 * @return  string
+	 */
+	public function getPreviewLink();
+
+	/**
 	 * Look for an embedded YouTube video and return its ID
 	 *
 	 * @return  string

@@ -15,6 +15,7 @@ defined('_JEXEC') or die();
  *
  * @property-read  string  link             The URL to the search result item
  * @property-read  string  catlink          The URL to the category where the article belongs
+ * @property-read  string  previewLink      The URL to preview the search result item
  * @property-read  string  youtubeId        Find an embedded YouTube video and return its ID
  * @property-read  string  youtubeLink      Find an embedded YouTube video and return a link for embed
  * @property-read  string  youtubeIframe    Find an embedded YouTube video and return the embed IFRAME
@@ -46,6 +47,18 @@ abstract class AbstractResult implements ResultInterface
 	 * @return  string
 	 */
 	abstract public function getCategoryLink();
+
+	/**
+	 * Get the URL to access a preview of the item. Defaults to item URL + tmpl=component
+	 *
+	 * @return  string
+	 */
+	public function getPreviewLink()
+	{
+		$jLink = new \JUri($this->getLink());
+		$jLink->setVar('tmpl', 'component');
+		return $jLink->toString();
+	}
 
 	/**
 	 * Look for an embedded YouTube video and return its ID
@@ -185,6 +198,10 @@ abstract class AbstractResult implements ResultInterface
 		{
 			case 'link':
 				return $this->getLink();
+				break;
+
+			case 'previewLink':
+				return $this->getPreviewLink();
 				break;
 
 			case 'catlink':
