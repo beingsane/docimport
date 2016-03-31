@@ -68,4 +68,7 @@ JHtml::_('formbehavior.chosen', 'select.fancySelect')
 
 <?php if (empty($this->search)) return; ?>
 
-<?php echo $this->pagination->getListFooter(); ?>
+<div class="pagination">
+	<p class="counter pull-right"> <?php echo $this->pagination->getPagesCounter(); ?> </p>
+	<?php echo $this->pagination->getPagesLinks(); ?>
+</div>
