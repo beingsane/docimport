@@ -22,4 +22,21 @@ if (empty($items)):
 </div>
 <?php return; endif; ?>
 
-TODO – SHOW RESULTS
+<?php foreach($items as $item): ?>
+<div class="dius-result dius-result-docimport">
+	<h5 class="dius-result-title dius-result-title-docimport">
+		<a href="<?php echo $item->link ?>" rel="nofollow" target="_blank">
+			<?php echo $item->title ?>
+		</a>
+	</h5>
+	<div class="dius-result-category dius-result-category-docimport">
+		<span class="glyphicon glyphicon-book"></span>
+		<a href="<?php echo $item->catlink ?>" rel="nofollow" target="_blank">
+			<?php echo $item->cattitle ?>
+		</a>
+	</div>
+	<div class="dius-result-synopsis dius-result-synopsis-docimport">
+		<?php echo $item->synopsis ?>
+	</div>
+</div>
+<?php endforeach; ?>

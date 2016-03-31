@@ -45,20 +45,26 @@ JHtml::_('formbehavior.chosen', 'select.fancySelect')
 		</div>
 		<div id="dius-searchutils-collapsible">
 			<div class="row col-xs-12 form">
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<div class="form-group">
-							<label for="dius-searchutils-areas">
-								<?php echo JText::_('COM_DOCIMPORT_SEARCH_LBL_SECTIONS'); ?>
-							</label>
-							<?php echo JHtml::_('select.genericlist', $this->areaOptions, 'areas', [
-								'multiple' => 'multiple',
-								'class' => 'fancySelect form-control',
-								'onchange' => 'akeeba.DocImport.Search.sectionsChange(this)'
-							], 'value', 'text', $this->areas, 'dius-searchutils-areas') ?>
+
+				<div class="panel-group" id="dius-searchutils-groupcontainer">
+
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div class="form-group">
+								<label for="dius-searchutils-areas">
+									<?php echo JText::_('COM_DOCIMPORT_SEARCH_LBL_SECTIONS'); ?>
+								</label>
+								<?php echo JHtml::_('select.genericlist', $this->areaOptions, 'areas', [
+									'multiple' => 'multiple',
+									'class' => 'fancySelect form-control',
+									'onchange' => 'akeeba.DocImport.Search.sectionsChange(this)'
+								], 'value', 'text', $this->areas, 'dius-searchutils-areas') ?>
+							</div>
 						</div>
 					</div>
+
 				</div>
+
 			</div>
 		</div>
 	</div>
@@ -72,35 +78,48 @@ JHtml::_('formbehavior.chosen', 'select.fancySelect')
 // TODO Read default active tab from component configuration
 $tabs   = array_keys($this->items);
 $active = $tabs[1];
-
-// Start a tabbed interface
-echo JHtml::_('bootstrap.startTabSet', 'docimport-unisearch-tabs', ['active' => 'docimport-unisearch-tab-' . $active]);
-
-// Loop all sections
-foreach ($this->items as $section => $data)
-{
-	// Start a section tab
-	echo JHtml::_('bootstrap.addTab', 'docimport-unisearch-tabs',
-		'docimport-unisearch-tab-' . $section,
-		addslashes(JText::_('COM_DOCIMPORT_SEARCH_SECTION_' . $section))
-	);
-
-	// Render the section using template sectionName, e.g. joomla
-	try
-	{
-		echo $this->loadAnyTemplate('site:com_docimport/Search/' . $section, $data);
-	}
-	catch (Exception $e)
-	{
-		echo $e->getMessage(); die;
-	}
-
-	// End the section tab
-	echo JHtml::_('bootstrap.endTab');
-}
-
-echo JHtml::_('bootstrap.endTabSet');
 ?>
+
+<div class="panel-group" id="dius-results-accordion" role="tablist" aria-multiselectable="true">
+<?php foreach ($this->items as $section => $data):
+	$ariaExpanded = ($section == $active) ? 'true' : 'false';
+	$collapseClass = ($section == $active) ? 'collapse in' : 'collapse';
+?>
+
+	<div class="panel panel-default">
+		<div class="panel-heading" role="tab" id="dius-results-slide-<?php echo $section ?>-head">
+			<h4 class="panel-title">
+				<a role="button" data-toggle="collapse" data-parent="#dius-results-accordion"
+				   href="#dius-results-slide-<?php echo $section ?>"
+				   aria-expanded="<?php echo $ariaExpanded ?>"
+				   aria-controls="dius-results-slide-<?php echo $section ?>"
+				>
+					<?php echo JText::_('COM_DOCIMPORT_SEARCH_SECTION_' . $section) ?>
+				</a>
+			</h4>
+		</div>
+		<div id="dius-results-slide-<?php echo $section ?>"
+			 class="panel-collapse <?php echo $collapseClass ?>"
+			 role="tabpanel"
+			 aria-labelledby="dius-results-slide-<?php echo $section ?>-head"
+		>
+			<div class="panel-body">
+				<?php
+				// Render the section using template sectionName, e.g. joomla
+				try
+				{
+					echo $this->loadAnyTemplate('site:com_docimport/Search/' . $section, $data);
+				}
+				catch (Exception $e)
+				{
+					echo $e->getMessage(); die;
+				}
+				?>
+			</div>
+		</div>
+	</div>
+<?php endforeach; ?>
+</div>
 
 <div class="pagination">
 	<p class="counter pull-right"> <?php echo $this->pagination->getPagesCounter(); ?> </p>
