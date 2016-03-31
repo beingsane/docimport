@@ -47,9 +47,6 @@ class Joomla extends AbstractAdapter
 		}, $this->categories);
 		$categories = array_unique($categories);
 
-		// Get the column collation for searches
-		$collation = $db->hasUTF8mb4Support() ? 'utf8mb4_unicode_ci' : 'utf8_general_ci';
-
 		// Search the content table
 		$query = $db->getQuery(true)
 					->select([
@@ -72,12 +69,12 @@ class Joomla extends AbstractAdapter
 					->where($db->qn('a.access') . ' IN(' . implode(',', $accessLevels) . ')')
 					->where($db->qn('a.catid') . ' IN(' . implode(',', $categories) . ')')
 					->where('(' .
-						$db->qn('a.title') . ' LIKE ' . $db->q("%$search%") . ' COLLATE ' . $collation .
-						' OR ' . $db->qn('a.introtext') . ' LIKE ' . $db->q("%$search%") . ' COLLATE ' . $collation .
-						' OR ' . $db->qn('a.fulltext') . ' LIKE ' . $db->q("%$search%") . ' COLLATE ' . $collation .
-						' OR ' . $db->qn('c.title') . ' LIKE ' . $db->q("%$search%") . ' COLLATE ' . $collation .
-						' OR ' . $db->qn('c.description') . ' LIKE ' . $db->q("%$search%") . ' COLLATE ' . $collation
-						. ')');
+						$db->qn('a.title') . ' LIKE ' . $db->q("%$search%") .
+						' OR ' . $db->qn('a.introtext') . ' LIKE ' . $db->q("%$search%") .
+						' OR ' . $db->qn('a.fulltext') . ' LIKE ' . $db->q("%$search%") .
+						' OR ' . $db->qn('c.title') . ' LIKE ' . $db->q("%$search%") .
+						' OR ' . $db->qn('c.description') . ' LIKE ' . $db->q("%$search%") .
+						')');
 
 		// Filter query by language
 		$this->filterByLanguage($query);
