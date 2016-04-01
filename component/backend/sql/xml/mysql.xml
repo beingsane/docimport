@@ -64,5 +64,35 @@ CREATE TABLE `#__docimport_categories` (
 ) ENGINE=MyISAM DEFAULT COLLATE utf8_general_ci;
             ]]></query>
         </action>
+
+        <!-- CORE HACK because we can't do proper articles search w/out a fulltext index :( -->
+        <action table="#__content" canfail="1">
+            <condition type="index" value="#__idx_content_search_introtext" operator="not" />
+            <query><![CDATA[
+ALTER TABLE #__content ENGINE=MyISAM;
+            ]]></query>
+            <query><![CDATA[
+ALTER TABLE #__content ADD FULLTEXT INDEX `#__idx_content_search_introtext` (`introtext`);
+            ]]></query>
+            <query><![CDATA[
+ALTER TABLE #__content ADD FULLTEXT INDEX `#__idx_content_search_fulltext` (`fulltext`);
+            ]]></query>
+            <query><![CDATA[
+ALTER TABLE #__content ADD FULLTEXT INDEX `#__idx_content_search_title` (`title`);
+            ]]></query>
+        </action>
+
+        <action table="__categories" canfail="1">
+            <condition type="index" value="#__idx_categories_search_description" operator="not" />
+            <query><![CDATA[
+ALTER TABLE #__categories ENGINE=MyISAM;
+            ]]></query>
+            <query><![CDATA[
+ALTER TABLE #__categories ADD FULLTEXT INDEX `#__idx_categories_search_title` (`title`);
+            ]]></query>
+            <query><![CDATA[
+ALTER TABLE #__categories ADD FULLTEXT INDEX `#__idx_categories_search_description` (`description`);
+            ]]></query>
+        </action>
     </sql>
 </schema>

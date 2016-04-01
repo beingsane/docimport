@@ -1,6 +1,6 @@
 {
   "video": {
-    "adapter": "Joomla",
+    "adapter": "JoomlaFulltext",
     "result": "JoomlaArticle",
     "config": "jcat",
     "title": "COM_DOCIMPORT_SEARCH_SECTION_JOOMLA"
