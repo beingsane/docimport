@@ -10,6 +10,9 @@ defined('_JEXEC') or die();
 
 /** @var \Akeeba\DocImport\Site\View\Search\Html $this */
 
+// Incoming params from module
+$troubleshooter_links = $this->input->get('troubleshooter_links', 'array', array(), 2);
+
 // Get the submission URL
 $returnUrl = base64_encode(JUri::current());
 $submitUrl = JRoute::_('index.php?option=com_docimport&view=Search');
@@ -73,7 +76,25 @@ $submitUrl = JRoute::_('index.php?option=com_docimport&view=Search');
 				<div class="clearfix"></div>
 			</div>
 			<div id="dius-troubleshoot-links">
+			<?php if ($troubleshooter_links):?>
+				<ul class="pull-left">
+				<?php
+					for ($i = 0; $i < count($troubleshooter_links); $i += 2):
+						list($text, $link) = explode('|', $troubleshooter_links[$i]);
+				?>
+						<li><a href="<?php echo $link ?>"><?php echo $text?></a></li>
+					<?php endfor;?>
+				</ul>
 
+				<ul class="pull-right">
+				<?php
+					for ($i = 1; $i < count($troubleshooter_links); $i += 2):
+						list($text, $link) = explode('|', $troubleshooter_links[$i]);
+				?>
+						<li><a href="<?php echo $link ?>"><?php echo $text?></a></li>
+					<?php endfor;?>
+				</ul>
+			<?php endif;?>
 			</div>
 		</div>
 

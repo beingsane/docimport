@@ -19,4 +19,16 @@
     <language tag="en-GB">en-GB/en-GB.mod_docimport_search.sys.ini</language>
   </languages>
 
+  <config>
+    <fields name="params">
+
+      <fieldset name="basic">
+
+        <field name="troubleshooter_links" type="textarea" rows="10" class="input-xxlarge"
+               label="MOD_DOCIMPORT_SEARCH_TROUBLESHOOTER_LINKS_LBL" description="MOD_DOCIMPORT_SEARCH_TROUBLESHOOTER_LINKS_DESC"/>
+
+      </fieldset>
+
+    </fields>
+  </config>
 </extension>
