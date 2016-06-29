@@ -11,7 +11,7 @@ defined('_JEXEC') or die();
 /** @var \Akeeba\DocImport\Site\View\Search\Html $this */
 
 // Incoming params from module
-$troubleshooter_links = $this->input->get('troubleshooter_links', 'array', array(), 2);
+$troubleshooter_links = $this->input->get('troubleshooter_links', array(), 'array', 2);
 
 // Get the submission URL
 $returnUrl = base64_encode(JUri::current());
