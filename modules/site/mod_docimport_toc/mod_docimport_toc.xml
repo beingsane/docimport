@@ -23,7 +23,10 @@
     <fields name="params">
 
       <fieldset name="basic">
-
+        <field name="catid" type="sql" default="0" required="true"
+               label="MOD_DOCIMPORT_TOC_CATEGORY_LABEL" description="MOD_DOCIMPORT_TOC_CATEGORY_DESC"
+               query="SELECT `docimport_category_id` as `id`, `title` FROM `#__docimport_categories` ORDER BY `ordering`,`title` ASC"
+               key_field="id" value_field="title" />
       </fieldset>
 
     </fields>
