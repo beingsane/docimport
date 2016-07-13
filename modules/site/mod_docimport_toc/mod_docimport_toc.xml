@@ -11,6 +11,8 @@
 	<description>MOD_DOCIMPORT_TOC_DESCRIPTION</description>
 
 	<files>
+    <folder>assets</folder>
+    <folder>tmpl</folder>
 		<filename module="mod_docimport_toc">mod_docimport_toc.php</filename>
   </files>
 
