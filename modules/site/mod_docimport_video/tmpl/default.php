@@ -18,25 +18,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Protect from unauthorized access
 defined('_JEXEC') or die();
 
-if (!defined('FOF30_INCLUDED') && !@include_once(JPATH_LIBRARIES . '/fof30/include.php'))
-{
-	throw new RuntimeException('FOF 3.0 is not installed', 500);
-}
-
-$categories = $params->get('catid', 0);
-
-if (!$categories)
-{
-	return;
-}
-
-require_once __DIR__.'/helper.php';
-
-$articles        = ModDocimportVideoHelper::getArticles($categories);
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
-
-// Load the layout file
-require_once JModuleHelper::getLayoutPath($module->module);
+echo 123;
