@@ -18,4 +18,66 @@
     <language tag="en-GB">en-GB/en-GB.mod_docimport_video.ini</language>
     <language tag="en-GB">en-GB/en-GB.mod_docimport_video.sys.ini</language>
   </languages>
+
+  <config>
+    <fields name="params">
+      <fieldset name="basic">
+        <field
+          name="catid"
+          type="category"
+          label="JCATEGORY"
+          description="MOD_LATEST_NEWS_FIELD_CATEGORY_DESC"
+          extension="com_content"
+          multiple="true"
+          size="10"
+          default=""
+        >
+          <option value="">JOPTION_ALL_CATEGORIES</option>
+        </field>
+      </fieldset>
+
+      <fieldset name="advanced">
+        <field
+          name="layout"
+          type="modulelayout"
+          label="JFIELD_ALT_LAYOUT_LABEL"
+          description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+        />
+
+        <field
+          name="moduleclass_sfx"
+          type="textarea" rows="3"
+          label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+          description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+        />
+
+        <field
+          name="cache"
+          type="list"
+          label="COM_MODULES_FIELD_CACHING_LABEL"
+          description="COM_MODULES_FIELD_CACHING_DESC"
+          default="1"
+        >
+          <option value="1">JGLOBAL_USE_GLOBAL</option>
+          <option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+        </field>
+
+        <field
+          name="cache_time"
+          type="text"
+          label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+          description="COM_MODULES_FIELD_CACHE_TIME_DESC"
+          default="900"
+        />
+
+        <field
+          name="cachemode"
+          type="hidden"
+          default="static"
+        >
+          <option value="static"></option>
+        </field>
+      </fieldset>
+    </fields>
+  </config>
 </extension>
