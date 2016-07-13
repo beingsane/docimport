@@ -22,7 +22,7 @@
 defined('_JEXEC') or die();
 
 ?>
-<div class="docimport">
+<div class="docimport <?php echo $moduleclass_sfx; ?>">
 	<div class="mod_docimport_toc">
 		<?php echo $toc;?>
 	</div>
