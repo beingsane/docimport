@@ -39,4 +39,4 @@ $articles        = ModDocimportVideoHelper::getArticles($categories);
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 
 // Load the layout file
-require_once JModuleHelper::getLayoutPath($module->module);
+require_once JModuleHelper::getLayoutPath($module->module, $params->get('layout', 'default'));

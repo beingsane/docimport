@@ -11,6 +11,7 @@
 	<description>MOD_DOCIMPORT_VIDEO_DESCRIPTION</description>
 
 	<files>
+    <folder>tmpl</folder>
 		<filename module="mod_docimport_video">mod_docimport_video.php</filename>
   </files>
 

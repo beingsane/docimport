@@ -19,5 +19,20 @@
  */
 
 defined('_JEXEC') or die();
-
-echo 123;
+?>
+<div class="mod_docimport_video row <?php echo $moduleclass_sfx ?>">
+	<div style="overflow: scroll">
+	<?php foreach ($articles as $article):?>
+		<div class="mod_docimport_video_item">
+			<div>
+				<a href="<?php echo $article->getLink(); ?>">
+					<img src="<?php echo $article->getYouTubeThumbnail()?>" />
+				</a>
+			</div>
+			<a href="<?php echo $article->getLink(); ?>">
+				<?php echo $article->title ?>
+			</a>
+		</div>
+	<?php endforeach; ?>
+	</div>
+</div>
