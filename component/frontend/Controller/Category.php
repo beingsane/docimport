@@ -21,29 +21,16 @@ class Category extends DataController
 		$this->getModel()->filter_order('ordering')->filter_order_Dir('ASC')->limit(0)->limitstart(0);
 	}
 
-	public function onBeforeRead()
-	{
-		$id = $this->input->getInt('id', 0);
-
-		if ($id === 0)
-		{
-			$menu       = \JMenu::getInstance('site')->getActive();
-			$menuparams = $menu->params;
-
-			if (!($menuparams instanceof \JRegistry))
-			{
-				$x = new \JRegistry();
-				$x->loadString($menuparams, 'JSON');
-				$menuparams = $x;
-			}
-
-			$id = $menuparams->get('catid', 0);
-			$this->input->set('id', $id);
-		}
-	}
-
 	protected function getCrudTask()
 	{
+		$id = $this->input->getInt('id', 0);
+		$catid = $this->input->getInt('catid', 0);
+
+		if (!$id && $catid)
+		{
+			$this->input->set('id', $catid);
+		}
+
 		$task = parent::getCrudTask();
 
 		if ($task == 'edit')
