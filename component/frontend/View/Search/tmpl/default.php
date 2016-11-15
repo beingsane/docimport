@@ -78,24 +78,20 @@ JHtml::_('formbehavior.chosen', 'select.fancySelect')
 
 		<div id="dius-troubleshoot-links">
 			<div class="col-lg-6 col-md-12">
-				<ul>
-					<?php
-					for ($i = 0; $i < count($this->troubleshooterLinks); $i += 2):
-						list($text, $link) = explode('|', $this->troubleshooterLinks[$i]);
-						?>
-						<li><a href="<?php echo $link ?>"><?php echo $text?></a></li>
-					<?php endfor;?>
-				</ul>
+				<?php
+				for ($i = 0; $i < count($this->troubleshooterLinks); $i += 2):
+					list($text, $link) = explode('|', $this->troubleshooterLinks[$i]);
+					?>
+					<a href="<?php echo $link ?>"><?php echo $text?></a>
+				<?php endfor;?>
 			</div>
 			<div class="col-lg-6 col-md-12">
-				<ul>
-					<?php
-					for ($i = 1; $i < count($this->troubleshooterLinks); $i += 2):
-						list($text, $link) = explode('|', $this->troubleshooterLinks[$i]);
-						?>
-						<li><a href="<?php echo $link ?>"><?php echo $text?></a></li>
-					<?php endfor;?>
-				</ul>
+				<?php
+				for ($i = 1; $i < count($this->troubleshooterLinks); $i += 2):
+					list($text, $link) = explode('|', $this->troubleshooterLinks[$i]);
+					?>
+					<a href="<?php echo $link ?>"><?php echo $text?></a>
+				<?php endfor;?>
 			</div>
 		</div>
 
