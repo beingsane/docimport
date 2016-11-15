@@ -44,4 +44,15 @@ class Article extends DataController
 		return in_array($article->category->access, $views);
 	}
 
+	protected function getCrudTask()
+	{
+		$task = parent::getCrudTask();
+
+		if ($task == 'edit')
+		{
+			$task = 'read';
+		}
+
+		return $task;
+	}
 }

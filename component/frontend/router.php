@@ -395,121 +395,121 @@ function docimportParseRoute(&$segments)
 
 				break;
 		}
+
+		return $query;
+	}
+
+	// A menu item is defined
+	$view          = $menu->query['view'];
+	$slug_article  = null;
+	$slug_category = null;
+
+	/** @var JRegistry $menuparams */
+	$menuparams = $menu->params;
+	$catid = $menuparams->get('catid', null);
+
+	if (($view == 'Categories') || ($view == 'categories'))
+	{
+		switch (count($segments))
+		{
+			case 1:
+				// Category view
+				$query['view'] = 'Category';
+				$view          = 'Category';
+				$slug_category = array_pop($segments);
+				break;
+
+			case 2:
+				// Article view
+				$query['view'] = 'Article';
+				$view          = 'Article';
+				$slug_article  = array_pop($segments);
+				$slug_category = array_pop($segments);
+				break;
+		}
+	}
+	elseif (($view == 'Search') || ($view == 'search'))
+	{
+		$query['view'] = 'Search';
+		$view          = 'Search';
+	}
+	elseif (empty($view) || count($segments))
+	{
+		switch (count($segments))
+		{
+			case 0:
+				// Category view
+				$query['view'] = 'Category';
+				$view          = 'Category';
+				break;
+
+			case 1:
+				// Article view
+				$query['view'] = 'Article';
+				$view          = 'Article';
+				break;
+		}
 	}
 	else
 	{
-		// A menu item is defined
-		$view          = $menu->query['view'];
-		$slug_article  = null;
-		$slug_category = null;
+		$query['view'] = 'Article';
+	}
 
-		/** @var JRegistry $menuparams */
-		$menuparams = $menu->params;
-		$catid = $menuparams->get('catid', null);
+	if (!is_null($slug_category))
+	{
+		/** @var \Akeeba\DocImport\Site\Model\Categories $categoriesModel */
+		$categoriesModel = FOF30\Container\Container::getInstance('com_docimport')->factory->model('Categories')->tmpInstance();
+		$category        = $categoriesModel
+			->slug($slug_category)
+			->firstOrNew();
+		$catid = $category->getId();
+	}
 
-		if (($view == 'Categories') || ($view == 'categories'))
+	if (!is_null($slug_article))
+	{
+		// Load the article
+
+		/** @var \Akeeba\DocImport\Site\Model\Articles $articlesModel */
+		$articlesModel = FOF30\Container\Container::getInstance('com_docimport')->factory->model('Articles')->tmpInstance();
+		$article       = $articlesModel
+			->category((int) $catid)
+			->slug($slug_article)
+			->firstOrNew();
+
+		if (empty($article->docimport_article_id))
 		{
-			switch (count($segments))
-			{
-				case 1:
-					// Category view
-					$query['view'] = 'Category';
-					$view          = 'Category';
-					$slug_category = array_pop($segments);
-					break;
-
-				case 2:
-					// Article view
-					$query['view'] = 'Article';
-					$view          = 'Article';
-					$slug_article  = array_pop($segments);
-					break;
-			}
-		}
-		elseif (($view == 'Search') || ($view == 'search'))
-		{
-			$query['view'] = 'Search';
-			$view          = 'Search';
-		}
-		elseif (empty($view) || count($segments))
-		{
-			switch (count($segments))
-			{
-				case 0:
-					// Category view
-					$query['view'] = 'Category';
-					$view          = 'Category';
-					break;
-
-				case 1:
-					// Article view
-					$query['view'] = 'Article';
-					$view          = 'Article';
-					$slug_article  = array_pop($segments);
-					break;
-			}
+			$query['view'] = 'Category';
+			$query['id']   = $catid;
 		}
 		else
 		{
-			$query['view'] = 'Article';
+			$query['id'] = $article->docimport_article_id;
 		}
+	}
+	elseif (!in_array($view, ['categories', 'Categories', 'search', 'Search']))
+	{
+		// Load the category
+		/** @var \Akeeba\DocImport\Site\Model\Categories $categoriesModel */
+		$categoriesModel = FOF30\Container\Container::getInstance('com_docimport')->factory->model('Categories')->tmpInstance();
+		$category        = $categoriesModel->find($catid);
 
-		if (!is_null($slug_category))
-		{
-			/** @var \Akeeba\DocImport\Site\Model\Categories $categoriesModel */
-			$categoriesModel = FOF30\Container\Container::getInstance('com_docimport')->factory->model('Categories')->tmpInstance();
-			$category        = $categoriesModel
-				->slug($slug_category)
-				->firstOrNew();
-			$catid = $category->getId();
-		}
-
-		if (!is_null($slug_article))
-		{
-			// Load the article
-
-			/** @var \Akeeba\DocImport\Site\Model\Articles $articlesModel */
-			$articlesModel = FOF30\Container\Container::getInstance('com_docimport')->factory->model('Articles')->tmpInstance();
-			$article       = $articlesModel
-			                   ->category((int) $catid)
-			                   ->slug($slug_article)
-			                   ->firstOrNew();
-
-			if (empty($article->docimport_article_id))
-			{
-				$query['view'] = 'Category';
-				$query['id']   = $catid;
-			}
-			else
-			{
-				$query['id'] = $article->docimport_article_id;
-			}
-		}
-		elseif (!in_array($view, ['categories', 'Categories', 'search', 'Search']))
-		{
-			// Load the category
-			/** @var \Akeeba\DocImport\Site\Model\Categories $categoriesModel */
-			$categoriesModel = FOF30\Container\Container::getInstance('com_docimport')->factory->model('Categories')->tmpInstance();
-			$category        = $categoriesModel->find($catid);
-
-			if (empty($category->docimport_category_id))
-			{
-				$query['view'] = 'Categories';
-			}
-			else
-			{
-				$query['view'] = 'Category';
-				$query['id']   = $catid;
-			}
-		}
-		elseif (in_array($view, ['search', 'Search']))
-		{
-			$query['view'] = 'Search';
-		}
-		else
+		if (empty($category->docimport_category_id))
 		{
 			$query['view'] = 'Categories';
 		}
+		else
+		{
+			$query['view'] = 'Category';
+			$query['id']   = $catid;
+		}
+	}
+	elseif (in_array($view, ['search', 'Search']))
+	{
+		$query['view'] = 'Search';
+	}
+	else
+	{
+		$query['view'] = 'Categories';
 	}
 
 	return $query;
