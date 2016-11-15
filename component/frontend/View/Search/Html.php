@@ -36,6 +36,12 @@ class Html extends BaseView
 	/** @var   string  The search query */
 	public $search;
 
+	/** @var   string  The header text to display above the search box. Set by the docimport_search module. */
+	public $headerText;
+
+	/** @var   string  The quick troubleshooter links to display below the search box. Set by the docimport_search module. */
+	public $troubleshooterLinks;
+
 	protected function onBeforeMain()
 	{
 		/**
@@ -83,5 +89,12 @@ JS;
 		$this->areaOptions = array_map(function ($area) {
 			return JHtml::_('select.option', $area['value'], $area['text']);
 		}, $allAreas);
+
+		// Push search parameters from the module configuration
+		if ($this->container->offsetExists('_search_params'))
+		{
+			$this->headerText = $this->container->_search_params['headerText'];
+			$this->troubleshooterLinks = $this->container->_search_params['troubleshooterLinks'];
+		}
 	}
 }

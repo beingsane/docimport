@@ -17,6 +17,10 @@ $submitUrl = JRoute::_('index.php?option=com_docimport&view=Search');
 JHtml::_('formbehavior.chosen', 'select.fancySelect')
 ?>
 
+<?php if ($this->headerText): ?>
+	<h3><?php echo $this->headerText ?></h3>
+<?php endif; ?>
+
 <form action="<?php echo $submitUrl ?>" method="POST" id="dius-form">
 	<div id="dius-searchform" class="row col-xs-12">
 		<div class="input-group">
@@ -43,6 +47,7 @@ JHtml::_('formbehavior.chosen', 'select.fancySelect')
 				</a>
 			</span>
 		</div>
+
 		<div id="dius-searchutils-collapsible">
 			<div class="row col-xs-12 form">
 
@@ -67,6 +72,35 @@ JHtml::_('formbehavior.chosen', 'select.fancySelect')
 
 			</div>
 		</div>
+
+		<?php if ($this->troubleshooterLinks):?>
+		<div class="clearfix"></div>
+
+		<div id="dius-troubleshoot-links">
+			<div class="col-lg-6 col-md-12">
+				<ul>
+					<?php
+					for ($i = 0; $i < count($this->troubleshooterLinks); $i += 2):
+						list($text, $link) = explode('|', $this->troubleshooterLinks[$i]);
+						?>
+						<li><a href="<?php echo $link ?>"><?php echo $text?></a></li>
+					<?php endfor;?>
+				</ul>
+			</div>
+			<div class="col-lg-6 col-md-12">
+				<ul>
+					<?php
+					for ($i = 1; $i < count($this->troubleshooterLinks); $i += 2):
+						list($text, $link) = explode('|', $this->troubleshooterLinks[$i]);
+						?>
+						<li><a href="<?php echo $link ?>"><?php echo $text?></a></li>
+					<?php endfor;?>
+				</ul>
+			</div>
+		</div>
+
+		<div class="clearfix"></div>
+		<?php endif;?>
 	</div>
 
 	<input type="hidden" name="<?php echo JSession::getFormToken() ?>" value="1" />
