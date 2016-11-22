@@ -57,6 +57,19 @@ class CategoriesConfiguration
 	 */
 	public function getCategoriesFor($searchArea, $section = null)
 	{
+		if ($searchArea == '*')
+		{
+			$result = [];
+
+			foreach (array_keys($this->config) as $area)
+			{
+				$moreResults = $this->getCategoriesFor($area, $section);
+				$result = array_merge($result, $moreResults);
+			}
+
+			return $result;
+		}
+
 		if (!isset($this->config[$searchArea]))
 		{
 			throw new SearchAreaNotFound($searchArea);
