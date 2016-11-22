@@ -16,7 +16,7 @@ class Dispatcher extends \FOF30\Dispatcher\Dispatcher
 
 	public function onBeforeDispatch()
 	{
-		if (!\JFactory::getUser()->authorise('core.manage', 'com_docimport'))
+		if (!$this->container->platform->authorise('core.manage', 'com_docimport'))
 		{
 			throw new \RuntimeException(\JText::_('JERROR_ALERTNOAUTHOR'), 404);
 		}
