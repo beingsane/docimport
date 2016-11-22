@@ -141,15 +141,26 @@ function docimportBuildRoute(&$query)
 			}
 			else
 			{
-				if ($queryItemid)
+				if (!empty($Itemid))
 				{
-					$menu  = $menus->getItem($queryItemid);
-					$mView = isset($menu->query['view']) ? $menu->query['view'] : 'Search';
-					// No, we have to find another root
-					if (!in_array($menu, ['search', 'Search']))
-					{
-						$Itemid = null;
-					}
+					// Push the Itemid and category alias
+					$query['Itemid'] = $Itemid;
+				}
+				else
+				{
+					// Push the browser layout and category alias
+					$segments[] = 'Search';
+				}
+			}
+
+			if (empty($Itemid) && !empty($queryItemid))
+			{
+				$menu  = $menus->getItem($queryItemid);
+				$mView = isset($menu->query['view']) ? $menu->query['view'] : 'Search';
+				// No, we have to find another root
+				if (!in_array($menu, ['search', 'Search']))
+				{
+					$Itemid = null;
 				}
 			}
 
@@ -338,9 +349,15 @@ function docimportParseRoute(&$segments)
 		switch (count($segments))
 		{
 			case 1:
-				// Categories view
+				// Categories or Search view
 				$query['view'] = 'Categories';
-				array_pop($segments); // Remove the "categories" thingy
+				$slug = array_pop($segments); // Remove the "categories" thingy
+
+				if (strtolower($slug) == 'search')
+				{
+					$query['view'] = 'Search';
+				}
+
 				break;
 
 			case 2:
