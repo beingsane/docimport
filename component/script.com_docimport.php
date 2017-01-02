@@ -1,7 +1,7 @@
 <?php
 /**
  *  @package	docimport
- *  @copyright	Copyright (c)2010-2016 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ *  @copyright	Copyright (c)2011-2017 Nicholas K. Dionysopoulos / AkeebaBackup.com
  *  @license	GNU GPLv3 <http://www.gnu.org/licenses/gpl.html> or later
  *
  *  This program is free software: you can redistribute it and/or modify
