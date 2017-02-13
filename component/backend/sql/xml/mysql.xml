@@ -82,16 +82,16 @@ ALTER TABLE #__content ADD FULLTEXT INDEX `#__idx_content_search_title` (`title`
             ]]></query>
         </action>
 
-        <action table="__categories" canfail="1">
+        <action table="#__categories" canfail="1">
             <condition type="index" value="#__idx_categories_search_description" operator="not" />
             <query><![CDATA[
 ALTER TABLE #__categories ENGINE=MyISAM;
             ]]></query>
             <query><![CDATA[
-ALTER TABLE #__categories ADD FULLTEXT INDEX `#__idx_categories_search_title` (`title`);
+ALTER TABLE #__categories ADD FULLTEXT INDEX `#__idx_categories_search_description` (`description`);
             ]]></query>
             <query><![CDATA[
-ALTER TABLE #__categories ADD FULLTEXT INDEX `#__idx_categories_search_description` (`description`);
+ALTER TABLE #__categories ADD FULLTEXT INDEX `#__idx_categories_search_title` (`title`);
             ]]></query>
         </action>
     </sql>
